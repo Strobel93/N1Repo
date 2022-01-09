@@ -1,0 +1,249 @@
+########################################################################################################################
+#Git & Github (Gitlab alternative?)
+#Todo:
+    #Udemy/Youtube
+    #Schauen VS + Pycharm Git und Github
+    #https://www.atlassian.com/de/git/tutorials/setting-up-a-repository
+    #Git commands in python datei auf desktop und arbetislaptop verdichten und aufnehmen
+    #Github repo die zusafa von hier wenn fertig ist hochladen
+########################################################################################################################
+#Git
+################################################
+#Terminal Status:
+    git status
+    git branch
+    git log (optional mit filename)
+    git blame readme.md (show editors history)
+    git remote -v (show remote connections (origin)
+    git tag (show tags)
+    git tag 1.1.3 (erzeugung versionierungsistorie bezeichnung)
+    git tag 0.59 957fbc92b123030c389bf8b4b874522bdf2db72c (alten commit taggen)
+
+#Alias (config befehl schreibt in gitconifg datei): ermöglichen kurzschreibweisen
+    $ git config --global alias.co checkout
+    $ git config --global alias.br branch
+    --> git co (entspricht git checkout)
+    --> git br (git branch...)
+
+#config
+    git config --global user.name 'username'
+    git config --global user.email 'mail'
+
+#neues Git repo für vorhandes Projekt erstellen:
+    cd /path/to/code
+    git init \
+    git add . \
+    git commit
+
+#Clone: create local copy (clone creates and configures remote connection named "origin")
+    git clone https://github.com/Strobel93/FirstRepoTest.git directory_name (optional)
+    git clone -branch only_branch_x https://github.com/Strobel93/FirstRepoTest.git (nur x branch klonen statt master)
+
+ #add: add files to queue to be commited lated (select updates,new files, those are not committed yet)
+    git add readme.md
+    git add . (everything, danger danger)
+
+#remove: opposite of add, remove file of git project
+    git rm readme.md
+    undo rm:
+        git reset HEAD
+        git checkout . (checkout wechsel dropped alle noch nicht committeten schritte)
+
+#commit: adds files to queue and creates new verison + log (staging,no queue no commit, only git (local))
+    git commit -m "first ever commit -m Message"
+    git commit --amend (letzten commit ändern, statt WIEDER einen neuen zu erzeugen, wenn vergessen was zu git add)
+
+diff: compare branches
+    git:
+        git diff (all differences to git)
+        git diff README.md (changes only for file)
+        git diff 957fbc92b123030c389bf8b4b874522bdf2db72c ce489262a1ee34340440e55a0b99ea6918e19e7a (compare 2 commits)
+        git diff branch1 branch2
+        git diff branch1 branch2 ./path/to/file.txt (compare only file of 2 branches)
+    -github:
+        git diff master origin/master (compare local with remote master,origin again alias for connection to github)
+
+branching:
+    swiching:
+        git checkout master (move to master branch, drops existing uncommitted changes made in current branch)
+        git switch master (same as checkout, change branch, better history, checkout many features, switch 1)
+    creation:
+        git checkout -b new_branch (make backup/copy of (master) branch, before an overwrite for example)
+        git switch -c new_branch (both create new branch of current branch ur own)
+        git checkout -b new_branch existing_branch (create copy of certain branch without being in it)
+    delete:
+        git branch -d branch_to_delete (only works if branch is merged with main, force it with capital -D, danger danger)
+        git push origin --delete branch_to_delete
+        git push origin :branch_to_delete
+
+revert:(rückgängig machen des letzten commits, neue falsche Version bleibt erhalten)
+        go back to previous:
+            git revert HEAD (revert Head = revert current branch ur own, set back to previous commit)
+        go back N versions: (go back n commits, without committing, make new commit)
+            git revert Head
+            git revert V69
+            git revert V68
+            git commit -m "new commit"
+
+reset: unstage files from commit + change set branch back to status/commit x
+    unstage:
+        git reset (unstage everything)
+        git reset HEAD readme.md (unstage file and remove from queue of next commit)
+    rückgängig machen: (aufpassen, zurücksetzen vs rückgäng machem, reset gefährlich wenn andere daran arbeiten,entfertn commits)
+        git reset --hard (letzten Commit, danger danger)
+        git reset --hard~2 (letzten 2 Commits, danger danger)
+        git reset --hard old_commit_id (danger dange)
+
+restore:
+    git restore readme.md (overwrites local readme with git readme last commited)
+
+
+
+
+stash: (save uncommited changes when having to check out, without changing git itself)
+      git stash (save)
+      git stash pop (get changes to continue working with them)
+
+################################################
+#Github
+################################################
+Remote: additional command after git to make it a github command
+    - create connection: either by cloning or connecting to a github repo
+        - git remote add origin https://github.com/Strobel93/FirstRepoTest.git (configure origin connection to github repo)
+        - git clone https://github.com/Strobel93/FirstRepoTest.git directory_name (optional)
+
+Fetch: pulls remote repo without overwriting local copy (comparing local with remote repo)
+    git fetch origin (alles)
+    git fetch origin feature_branch (nur branch master)
+    Umgang:
+        V1: git checkout main (switch to main branch)
+            git merge origin/main (current branch ur on, becomes updated main branch of repo, fetch + merge = pull)
+        V2: git checkout feature_branch (move to fetched branch)
+            git checkout -b local_feature_branch (ausgehen von fb local version erzeugen)
+
+push:(github) pushes changes to the remote repository (works without -f if ur branch is ancestor the one u push)
+    git push origin master (git push remote branchname (origin from clone, master the default))
+    git push origin different_branch (push funktioniert nur zu branch auf dem man auch ist? (checkout/status)
+    git push origin new_branch (creates new branch if it doesnt exist in remote yet)
+
+pull: update local copy with new commits from the remote repository (pull = fetch + merge)
+    git pull origin master (sicherheitscheck --> already up to date)
+
+checkout:
+    git fetch -all
+    git checkout origin/branch_to_check
+
+merge: combining different branches, always merged into the current branch ur on, targetbranch remains unchanged, new commit
+    git checkout master (change to branch we want to update, here merge new feature into master)
+    git fetch (be sure that both branches are the most recent ones)
+    git merge sidebranch (merge changes of sidebranch into master branch (current))
+    git branch -d sidebranch (delete old sidebranch after merge)
+    git merge --abort (conflict/error --> merge abbrechen wenn probleme)
+    merge types:
+        Fast Forward Merge: Feature branch is originating from branch its merging back into (master is direct ancestor)
+        3-Way-Merge: Master has been further developed since feature has been created based of older master
+        conflict dividers:
+            <<<<<<<<
+            Content of file with conflict of branch1
+            ========
+            Content of file with conflict of branch2
+            >>>>>>>>
+            Solution: File now has both contents + dividers =  edit file to what should actually be kept (delet duplicates/diviers/...)
+
+################################################
+#General:
+################################################
+Git: Local Version Control System
+Github: Website that hosts your git repositories
+Head: current branch/commit
+Detached Head: head is in state detached,new changes are not connected to project, need to checkout/switch (no current branch/commit)
+Branch: independent developement line (forking) (diverging/parralel development of different features)
+Repository: Directory/Storage of the project
+Pull Request: when feature (fully developed) branch will be merged into main
+                    messages other devs about merge (also working on main, different features)
+                    allows feedback, discussion and review before it gets merged into main
+#Connections/Authentification with remote Repo:
+    - SSH (secure shell): one time connection to repo for local pc
+    - HTTPS: push pull based connection, requiring logins
+-Fork: projektabspaltung
+    -Github öffentliches Projekt --> Fork --> nimmt Projekt und erzeugt dieses als eigenes Repo in Profil
+
+#gitignore
+    - file that contains other files that should be ignored (no log, commit,..)
+    - file containing file list that are most likely not part of the projekt (different for each user)
+    - example: ignore all .txt files
+        #iginore all txts
+        *.txt
+
+        #Ignore everything in folder bin
+        bin/
+
+        #ignore user specific files
+        userfile.md
+ Editor:
+    - .MD = Markdown, universal textfile
+    - Quote: >Quote
+    - double dash -- = end of command line, rest are arguments/parameters
+    - Comments
+        <!-- Comment -->
+    - Header
+        #Largest Header
+        ##Smaller Header
+        ###Even Smaller Header
+
+Merge vs Rebase: (differ in resulting tree structure of rep history (ancenstry of branches))
+    Merge: created a single (quick) feature, merge them back to master
+    Rebase: other dev made changes, added feature from diff branch to master --> pull these and rebase (get current version of master)
+    General:
+        Merge creates a new commit (node in history tree), which is good for others to understand
+
+
+#Branching
+    Main Branch = Hauptprojekt (Produktivsystem), weitere Branches für Tests/Versionen vor Merge mit Main Branch
+    Übersicht/größe Versionierung Main Branch, da nicht so viele Versionen + Tests mit unstabilen Versionen nicht in Main
+    Modularisierte Entwicklung, weniger versionierung --> Branch weichen im Normafall nicht MASSIVE ab, weil zu Main werden soll
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
