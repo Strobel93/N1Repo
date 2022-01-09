@@ -125,6 +125,7 @@ push:(github) pushes changes to the remote repository (works without -f if ur br
     git push origin master (git push remote branchname (origin from clone, master the default))
     git push origin different_branch (push funktioniert nur zu branch auf dem man auch ist? (checkout/status)
     git push origin new_branch (creates new branch if it doesnt exist in remote yet)
+    Pass: personal access token (generate in settings-dev settings and use as password instead of github acc pw)
 
 pull: update local copy with new commits from the remote repository (pull = fetch + merge)
     git pull origin master (sicherheitscheck --> already up to date)
