@@ -5,6 +5,7 @@
     Github Extension runterladen
     Unten rechts Projektmappe, Teamexplorer, oben Home/Verbindungen
     Git Tab
+    Differences to Github only recognized when commited to the local Git
 
 #Neues Repository:
     Aus bestehendem VS Projekt: Git - Repository erstellen - Erstellen und Pushen
