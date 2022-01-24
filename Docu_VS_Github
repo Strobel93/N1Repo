@@ -1,6 +1,11 @@
 ########################################################################################################################
 #VS Github:
 ########################################################################################################################
+#Generell:
+    Github Extension runterladen
+    Unten rechts Projektmappe, Teamexplorer, oben Home/Verbindungen
+    Git Tab
+
 #Neues Repository:
     Aus bestehendem VS Projekt: Git - Repository erstellen - Erstellen und Pushen
     Komplett neues Repository Erstellen: Datei - Neu - Repository
@@ -10,6 +15,7 @@
     Speicherort (https link): https://github.com/Strobel93/FirstRepoTest.git
 
 #GIT Tab:
-    Push, Pull, Clone, Sync, new Branch
-    Rechtsklick - Bereitstellen (Stage) --> Push
+    Push, Pull, Clone, Sync
+    Rechtsklick - Bereitstellen (Stage) - Kommetar -Push Settings (only staged) - Push
+
 
