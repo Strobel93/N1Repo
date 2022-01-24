@@ -1,0 +1,14 @@
+########################################################################################################################
+#VS Github:
+########################################################################################################################
+#Neues Repository:
+    Aus bestehendem VS Projekt: Git - Repository erstellen - Erstellen und Pushen
+    Komplett neues Repository Erstellen: Datei - Neu - Repository
+
+#Repo öffnen: clone
+    Repository durchsuchen Button
+    Speicherort (https link): https://github.com/Strobel93/FirstRepoTest.git
+
+#GIT Tab:
+    Push, Pull, Clone, Sync
+
