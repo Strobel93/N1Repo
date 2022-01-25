@@ -2,16 +2,17 @@
 #Pycharm Github:
 ########################################################################################################################
 #Generell:
-    Git Tab
+    Git/VCS(Versioncontrol) Tab - there additional Github Tab
     Rechtsklick - GIT - Add,Push,...
     Markieren (Checkfeld) im linken Fenster was commited/pushed werden soll
+    Chosing Branch/Creating new one
 
 #Neues Repository:
+    bestehendes Projekt :GIT/VCS Tab -  Create git Repository
 
 #Repo öffnen: clone
      URL: https://github.com/Strobel93/FirstRepoTest.git
      Github Tab
 
-#GIT Tab:
 
 
