@@ -5,7 +5,6 @@
     Git/VCS(Versioncontrol) Tab - there additional Github Tab
     Rechtsklick - GIT - Add,Push,...
     Markieren (Checkfeld) im linken Fenster was commited/pushed werden soll
-    Chosing Branch/Creating new one
 
 #Neues Repository:
     bestehendes Projekt :GIT/VCS Tab -  Create git Repository
@@ -14,5 +13,8 @@
      URL: https://github.com/Strobel93/FirstRepoTest.git
      Github Tab
 
+#Branching:
+    Unten Rechts: Branchselection - change Branch/create new/...
+    GIT/VCS Tab - Branches
 
 
