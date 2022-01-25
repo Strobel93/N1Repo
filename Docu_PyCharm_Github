@@ -4,11 +4,13 @@
 #Generell:
     Git Tab
     Rechtsklick - GIT - Add,Push,...
+    Markieren (Checkfeld) im linken Fenster was commited/pushed werden soll
 
 #Neues Repository:
 
 #Repo öffnen: clone
-     https://github.com/Strobel93/FirstRepoTest.git
+     URL: https://github.com/Strobel93/FirstRepoTest.git
+     Github Tab
 
 #GIT Tab:
 
