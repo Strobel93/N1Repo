@@ -3,6 +3,7 @@
 ########################################################################################################################
 #Generell:
     Git/VCS(Versioncontrol) Tab - there additional Github Tab
+    Git Datei --> Rechtsklick Datei --> Run
     Rechtsklick - GIT - Add,Push,...
     Markieren (Checkfeld) im linken Fenster was commited/pushed werden soll
 
