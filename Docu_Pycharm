@@ -4,15 +4,35 @@
 ##################
 #Shortcuts
 ##################
+#Keybinding:
+    - File - Settings - Keymap
+        - Top left dropdown --> current running version (can download different in "Plugins"
+        - Reset/Delete/Change between Keymapsettings in dropdown 
+        - Set new shortcuts for example: run... --> F5 --> creates new element in dropdown
+        
 -Marking:
     - shift + up/down = mark whole lines
     - double control + hold control + up/down = edit line at this point
+    
+-Search:
+    - Search for Files
+        - SHIFT SHIFT
+        - CTRL + Shift + N
+    - Path of current File:
+        - Hover over File Tab
+        - Crosshair Symbol oberhalb Projektexplorer, öffnet aktuellen Dateipfad
+        - Rechts daneben: Collapse all
+        
+-Running Files:
+    - Button greyed out: Rightclick Tab/File -> run once
+    - Run File:
+        - default: alt + shift + f10
+        - custom keymap: F5
 
 ################
 #Pip
 ################
 #V1:
     - Settings -> Project:Github --> Python interpreter
-#V2:
     -
 
