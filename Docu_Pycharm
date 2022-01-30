@@ -4,6 +4,9 @@
 ##################
 #Shortcuts
 ##################
+#Interpreter
+    - Unten rechts --> Python Interpreter verwendet/wechseln
+
 #Keybinding:
     - File - Settings - Keymap
         - Top left dropdown --> current running version (can download different in "Plugins"
@@ -30,9 +33,10 @@
         - custom keymap: F5
 
 ################
-#Pip
+#Packages
 ################
-#V1:
+#Install:
     - Settings -> Project:Github --> Python interpreter
-    -
+    - unten in "Terminal" Tab wechseln --> pip install package
+    - Warning lightling pupl when importing missing package
 
