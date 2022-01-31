@@ -4,6 +4,9 @@
 ##################
 #Shortcuts
 ##################
+#General:
+    #Shift + EC = Hide Execution window
+    
 #Interpreter
     - Unten rechts --> Python Interpreter verwendet/wechseln
 
