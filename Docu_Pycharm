@@ -40,6 +40,7 @@
 ################
 #Install:
     - Settings -> Project:Github --> Python interpreter
+    - hover over -> tooltip menu --> install Package 
     - unten in "Terminal" Tab wechseln --> pip install package
     - Warning lightling pupl when importing missing package
 
