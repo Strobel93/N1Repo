@@ -5,7 +5,10 @@
 #Shortcuts
 ##################
 #General:
-    #Shift + EC = Hide Execution window
+    # Hide Execution window = Shift + EC 
+    # Settings = Alt + Ctrl + S  
+    # Comment/Uncomment = Ctrol + / (Division Numpad)
+    # Hide Code Folding = Settings - Fold -  disable show code folding outline
     
 #Interpreter
     - Unten rechts --> Python Interpreter verwendet/wechseln
