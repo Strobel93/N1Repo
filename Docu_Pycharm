@@ -9,6 +9,8 @@
     # Settings = Alt + Ctrl + S  
     # Comment/Uncomment = Ctrol + / (Division Numpad)
     # Hide Code Folding = Settings - Fold -  disable show code folding outline
+    # Switch Tabs: Alt + Right/Left Key
+    # Close current Tab: CTRL + F4 --> change to ctrl + w
     
 #Interpreter
     - Unten rechts --> Python Interpreter verwendet/wechseln
