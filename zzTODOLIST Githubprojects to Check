@@ -3,12 +3,13 @@
 https://github.com/search?l=Python&o=desc&p=21&q=python&s=stars&type=Repositories
 ########################################################################################################################
 #Generell:
-    https://github.com/scrapy/scrapy
-    https://github.com/python-telegram-bot/python-telegram-bot
     https://github.com/sammchardy/python-binance
     https://github.com/home-assistant/core
     https://github.com/donnemartin/system-design-primer
     https://github.com/faif/python-patterns
+    https://github.com/rasbt/python_reference
+    https://github.com/practical-tutorials/project-based-learning#python
+    https://github.com/vinta/awesome-python
 
 #Data Analysis:
     https://github.com/numpy/numpy
@@ -17,4 +18,5 @@ https://github.com/search?l=Python&o=desc&p=21&q=python&s=stars&type=Repositorie
     https://github.com/scikit-learn/scikit-learn
     https://github.com/TheAlgorithms/Python.git
     https://github.com/ageitgey/face_recognition
+    https://github.com/tensorflow/tensorflow
 
