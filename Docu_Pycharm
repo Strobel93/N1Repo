@@ -13,6 +13,7 @@
     # Close current Tab: CTRL + F4 --> change to ctrl + w
     # Find and replace: CTRL + R
     # hover over function --> shows preview and source file
+    # new python file : ctrl + n (added via keymap, python file)
     
 #Interpreter
     - Unten rechts --> Python Interpreter verwendet/wechseln
