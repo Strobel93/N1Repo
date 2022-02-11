@@ -15,6 +15,7 @@
     # hover over function --> shows preview and source file
     # new python file : ctrl + n (added via keymap, python file)
     # open welcomescreen instead of last project: settings --> startup (appearance)
+    # Undo/Redo: CTRL + Z, CTRL + Shift + Z 
     
 #Interpreter
     - Unten rechts --> Python Interpreter verwendet/wechseln
