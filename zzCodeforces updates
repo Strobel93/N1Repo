@@ -1,145 +1,120 @@
+import re
 ################################################################
-# 20 A: BerOS file system
+# 21 A:
 # Input:
-    # filepath with N forward slahes /
+    # String
 # Output:
-    # remove dupliacte forward strings
+    # Legit Mail?
+    # 16Chars_name@12host_name.domain
 ################################################################
+# Input
+string_check = '16Chars_name@12host_name.domain'
+
+# Get Index of separators: @ and .
+at_index = string_check.index('@')
+dot_index = string_check.index('.')
+
+# Create substrings that need to be checked for content
+sub_at_string = string_check[:at_index]
+sub_dot_string = string_check[at_index + 1:dot_index]
+sub_dom_string = string_check[dot_index + 1:]
+all_subs = [sub_dom_string, sub_dot_string, sub_dom_string]
+
+# Check if in between these separators there are only legit values
+# for sub in all_subs:
+#     if re.fullmatch('[A-Za-z0-9_]+', sub):
+#         print(sub, ' is valid')
+#     else:
+#         print(sub, ' not')
+#
+# # check all in one go
+# if re.fullmatch('[A-Za-z0-9_]+@[A-Za-z0-9_]+.[A-Za-z0-9_]+', string_check):
+#     print(string_check, ' is valid')
+# else:
+#     print(string_check, ' not')
+
+################################################################
+# 21 B:
 # Input:
-file_path = '//usr///local//nginx/sbin'
-
+    # 2x straights equations (Ax+b)
 # Output:
-# V1:
-recreation = [x for x, y in zip(file_path, file_path[1:]+'/') if x != y]
-recreation = ''.join(recreation)
-
-# V2:
-new = ' '
-for x in file_path:
-    if new[-1] != x:
-        new += x
-new = new[1:]
-
-# print(recreation)
-# print(new)
+    # do they have an intersection
 ################################################################
-# 20 B: Equation Ax^2 + Bx + C = 0
+# Input
+straight_1 = [5, 2]
+straight_2 = [1, 3]
+
+# Output
+# Calculate x by solving equation of s1 = s2
+x = straight_1[0]-straight_2[0]
+b = (straight_2[1]-straight_1[1]) / x
+x = 1
+
+# print(straight_1[0]*b + straight_1[1])
+# print(straight_2[0]*b + straight_2[1])
+
+
+################################################################
+# 21 C: Stripe 2
 # Input:
-    # A, B, C values
+    # n Integers positive/negative
 # Output:
-    # possible x values
+    # amount of ways to seperate them in sets of 3 with equal value
 ################################################################
-import math
-# Input: 2,3
-a, b, c = 1, -5, 6
+# Input: [1+2, 3, 3]
+int_set = [1, 2, 3, 3]
 
 # Output:
-# Midnight Formula
-def midnight(a: int, b: int, c: int):
-    """Midnight Forumlar application"""
-    x = ((-1 * b) + math.sqrt((b**2) - 4 * a * c)) / (2 * a)
-    y = ((-1 * b) - math.sqrt((b**2) - 4 * a * c)) / (2 * a)
-    print(x, y)
+# Get all possible combinations of seperator indexes and check for each if all sums are equal
+index_list = []
+# for every Index
+for x, _ in enumerate(int_set):
+    # check every possible other position
+    # on at least index + 1
+    # not index beyond length
+    for y, _ in enumerate(int_set):
+        if y + 1 < len(int_set) and x != y + 1:
+            # Position duplicates --> 1 3 == 3 1 --> prevent
+            ordered = sorted([x, y + 1])
+            # no duplicates and no leading zeros
+            if ordered[0] != 0 and ordered not in index_list:
+                index_list.append(ordered)
+
+# for x in index_list:
+#     print(x, int_set)
+#     print(sum(int_set[:x[0]]))
+#     print(sum(int_set[x[0]:x[1]]))
+#     print(sum(int_set[x[1]:]))
+#     print('')
 
 
-# midnight(a, b, c)
-
-################################################################
-# 20 C: Dijkstra
-# Input:
-    # Points: Start + End + Weight
-# Output:
-    # Shortest path from 1 to Last
-################################################################
-# Input: 1, 4, 3, 5
-dots = [
-          [1, 2, 2]
-        , [2, 5, 5]
-        , [2, 3, 4]
-        , [1, 4, 1]
-        , [4, 3, 3]
-        , [3, 5, 1]
-        ]
-
-# Simple recursion reaching the end
-path = []
-
-def recur_simple(current, end, path_walked, previous_step):
-    # Base Case: current = end
-    if current == end:
-        return path_walked
-
-    # go to the next level
+def recur_test(input_list, current_index=1, current_index2 = 2, indexes_list=[]):
+    # Base Case: current index is at last position, no more valid results
+    if current_index + 1 == len(input_list):
+        return indexes_list
+    # trigger recursion with moving indexes
     else:
-        # Add start of first execution
-        if current not in path_walked:
-            path_walked.append(current)
+        # Add current Entry
+        indexes_list.append([current_index, current_index2])
 
-        # Get all available paths, sort by lowest weight and this and exclude previous step
-        current_paths = [x for x in dots if x[0] == current and x[1] != previous_step]
-        current_paths.sort(key=lambda x: x[2])
-        path_walked.append(current_paths[0][1])
-        new_current = current_paths[0][1]
-        return recur_simple(new_current, end, path_walked, current)
-# Test
-# solution = recur_simple(1, 5, path, 1)
-# print(solution)
+        # Change index depending on current indexes
+        # Move secondary index +1
+        if current_index2 + 1 != len(input_list):
+            current_index2 += 1
 
+        # Reset secondary index and move primary + 1
+        else:
+            current_index += 1
+            current_index2 = current_index + 1
 
-
-
-# Dijkstar:
-    # intialise all points distinance to infinity
-    # go to closest unvisited point to start
-    # weigh all points connected to current closest unvisited with total weight
-    # add to current point to visited list
-    # reevalue closest unvisited point to start (back to step 2)
-# Point, Weight (initial infite), visited flag
-history = [[i+1, 999, False] for i in range(5)]
+        return recur_test(input_list, current_index, current_index2, indexes_list)
 
 
-def recur_dijkstra(current, tracker):
-    current_index = current - 1
-    unvisited = [x for x in tracker if x[2] is False]
-
-    # Base Case: all points visited
-    if not unvisited:
-        return tracker
-
-    # go to the next level
-    else:
-        # first iteration, set weight 0 since its the begin
-        if len(unvisited) == len(tracker):
-            tracker[current_index][1] = 0
-
-        # Get all available paths from current value
-        current_paths = [x for x in dots if x[0] == current]
-
-        # For all available connections, update their total weight if it is less than current
-        # Total weight = weight to current position + weight to visit
-        for visit in current_paths:
-            if tracker[visit[1]-1][1] > tracker[current_index][1] + visit[2]:
-                # update weight on index
-                tracker[visit[1]-1][1] = tracker[current_index][1] + visit[2]
-
-
-        # Visited Flag for current position
-        tracker[current_index][2] = True
-
-        # Restart Recursion with Point of the lowest weight that has not been visited yet
-        unvisited.sort(key=lambda x: x[1])
-        new_current = unvisited[0][0]
-
-        return recur_dijkstra(new_current, tracker)
-
-
-result = recur_dijkstra(1, history)
-start = [x for x in result if x[1] == 0]
-print('Start', start[0][0])
-for x in result:
-    print('Point:                 ', x[0])
-    print('min Distance to start: ', x[1])
-    print('')
-
-
-
+recur_test_result = recur_test(int_set)
+# print('Recur')
+# for x in recur_test_result:
+#     print(x, int_set)
+#     print(sum(int_set[:x[0]]))
+#     print(sum(int_set[x[0]:x[1]]))
+#     print(sum(int_set[x[1]:]))
+#     print('')
