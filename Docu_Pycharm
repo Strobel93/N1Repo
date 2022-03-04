@@ -6,6 +6,7 @@
 ##################
 #General:
     # Hide Execution window = Shift + EC 
+    # Rename File: Shift + F6 
     # Settings = Alt + Ctrl + S  
     # Comment/Uncomment = Ctrol + / (Division Numpad)
     # Hide Code Folding = Settings - Fold -  disable show code folding outline
