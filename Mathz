@@ -1,13 +1,73 @@
-Kombinatorik:
+###############################################
+#Kombinatorik:
+###############################################
+  ############################
   # Anzahl Permutationen:
-    # Mit zurücklegen:  AnzahlAuswahlOptionen ^ Durchläufe                             --> ( durch zurücklegen bleiben immer alle Optionen offen)
+  ############################
+    # Mit zurücklegen:  AnzahlAuswahlOptionen ^ Durchläufe                             
+      --> ( durch zurücklegen bleiben immer alle Optionen offen)
       #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4^3 = 64 Permutationen
-    # Ohne Zurücklegen: AnzahlAuswahlOptionen * (Auswahl-1) .. * (Auswahl- Durchläufe) --> ( aktuell auswahl aus Pool entfernen)
+      
+    # Ohne Zurücklegen: AnzahlAuswahlOptionen * (Auswahl-1) .. * (Auswahl- Durchläufe) 
+      --> ( aktuell auswahl aus Pool entfernen)
       #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4 * 3 * 2 = 24 Permutationen
+      
+  ############################   
   # Einzel Wahrscheinlichkeit:
-    # Mit Zurücklegen: Einzelwahrscheinlichkeiten der einzelnen Optionen aufmultipliziert  --> aufeinanderfolgende unabhängige % das option X eintritt 
+  ############################
+    # Mit Zurücklegen: Einzelwahrscheinlichkeiten der einzelnen Optionen aufmultipliziert  --> aufeinanderfolgende gleichbleibender % der optionen X  
       # BSP: 3x ziehen (ABA)--> 0.5 * 0.5 * 0.5        = 1/8
-             Permutationen ABA: 2 * 2 * 2 = 8 --> 8/64 = 1/8
+             Alle Permutationen ABA: 2 * 2 * 2 = 8 --> 8/64 = 1/8
+             
     # Ohne Zurücklegen: Einzelwahrscheinlichkeiten aufmultiplizieren, aber wahrscheinlichkeiten an neuen pool anpassen --> auswahlpool ändert sich, % für X ändert sich
       # BSP: 3x ziehen (ABA)  --> 0.5 * 2/3 * 0.5        = 0,16
-             Permutation ABA: --> 2 * 2 * 0 = 4 --> 24/4 = 0,16
+             Alle Permutation ABA: --> 2 * 2 * 0 = 4 --> 24/4 = 0,16
+             
+###############################################
+#Bedingte Wahrscheinlichkeit (naiv Bayes):
+###############################################
+# Wahrscheinlichkeit von A, wenn B gegeben ist: Verhältnis aus Gesamtwahrscheinlichkeit das "A" UND "B" (Gleichzeit, A ∩ B, A + B) Eintritt zu das B eintritt
+  # https://databraineo.com/ask-the-doc/was-ist-der-naive-bayes-algorithmus/
+  # Abhängig vom Status A (pos/neg) lässt sich ableiten ob B (pos,B1) Eintritt oder B NICHT Eintritt (neg,Gegenwahrscheinlichkeit ergibt B2) 
+  # Verhältnis aus Wahrscheinlichkeit für: True Positive / (True Positive + False Positve)
+  # Verhältnis aus von allen Eintritten von B zu den Eintritten in denen A und B gleichzeitig passieren
+  # B allein ist wahrscheinlicher, da sich B zusammenstellt aus (B1+B2, beide gültig als Eintrittsmöglickeit für "B"):
+  
+P(A∪B) = Wahrscheinlichkeit das A UND ODER B eintreffen
+P(A | B) = Wahrscheinlichkeit das Bedingung A Eintritt wenn B als Vorraussetzung gilt/B Wahrscheinlichkeit der Fall ist
+P(B | A) = Wahrscheinlichkeit das Bedingung B Eintritt wenn A als Vorraussetzung gilt/A Wahrscheinlichkeit der Fall ist	
+
+P(A | B) = P(A ∩ B) /
+           P(B)  
+        
+        = P(B | A) * P(A) /
+          P(B)
+          
+        = P(B | A) * P(A) /
+        ( P(B | A) * P(A) ) + P(B |¬A) * P(¬A) 
+          
+             
+###############################################
+#Logarithmus (siehe Desktop):
+###############################################     
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
