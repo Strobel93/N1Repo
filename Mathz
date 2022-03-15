@@ -1,0 +1,13 @@
+Kombinatorik:
+  # Anzahl Permutationen:
+    # Mit zurücklegen:  AnzahlAuswahlOptionen ^ Durchläufe                             --> ( durch zurücklegen bleiben immer alle Optionen offen)
+      #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4^3 = 64 Permutationen
+    # Ohne Zurücklegen: AnzahlAuswahlOptionen * (Auswahl-1) .. * (Auswahl- Durchläufe) --> ( aktuell auswahl aus Pool entfernen)
+      #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4 * 3 * 2 = 24 Permutationen
+  # Einzel Wahrscheinlichkeit:
+    # Mit Zurücklegen: Einzelwahrscheinlichkeiten der einzelnen Optionen aufmultipliziert  --> aufeinanderfolgende unabhängige % das option X eintritt 
+      # BSP: 3x ziehen (ABA)--> 0.5 * 0.5 * 0.5        = 1/8
+             Permutationen ABA: 2 * 2 * 2 = 8 --> 8/64 = 1/8
+    # Ohne Zurücklegen: Einzelwahrscheinlichkeiten aufmultiplizieren, aber wahrscheinlichkeiten an neuen pool anpassen --> auswahlpool ändert sich, % für X ändert sich
+      # BSP: 3x ziehen (ABA)  --> 0.5 * 2/3 * 0.5        = 0,16
+             Permutation ABA: --> 2 * 2 * 0 = 4 --> 24/4 = 0,16
