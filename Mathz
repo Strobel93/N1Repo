@@ -1,4 +1,56 @@
 ###############################################
+#Logik Gates:
+###############################################
+  AND = A und B
+  OR  = A und B, A, B
+  XOR = A oder B, nicht beide
+
+###############################################
+#Correlation: 
+###############################################
+# wie stark sind die Werte von einander abhängig, zusammenhang der Werteentwicklung (gegenseitiger Einfluss)
+# Werte schwanken zwischen (1,0,-1) 
+  -->  1,-1 = starke postiive/negative correlation/verhältnis/schwankung, 0 = keine correlation
+	--> -1 --> eine nimmt zu die andere ab, +1 beide wachsen
+                     
+###############################################  
+#Correctness(Realität Vorhersage): 
+###############################################
+	#True Positive :true, also labeled true
+	#False Positive:false,but labeled true
+	#False negative:false,also labaled false
+	#True Negative :true, but labeled false      
+ 
+###############################################
+#Logarithmus (siehe Desktop):
+###############################################     
+LOG(a)B = x 
+  --> Logarithmus von B zur Basis a is x (a hoch x? gibt B)
+  --> LN(a) = E (eleursche Zahl) als Basis
+
+###############################################
+# Graphentheorie:
+###############################################
+# Vektorlänge:
+  --> √(a^2 + b^2 + c^3)
+# Distanz zwischen 2 Punkten:
+  --> √((x2-x1)^2 + (y2-y1)^2)
+# Ableitung: 
+  --> gibt Steigung des Graphen zum jeweiligen Zeitpunkt/Koordinate an
+  --> f(x)=2x^2+5x+5  --> f'(x)=4x+5
+# Partielle Ableitung:
+  --> alle variablen aus einer werden als Konstanten betrachtet und fallen weg
+  --> f(x,y)=2x^ 3 +y^2    --> f'x(x,y)=6x  --> f'y(x,y)= 2y
+# Gradient:
+  --> Gradient einer Funktion ist ein Vektor gebildet aus den einzelnen partiellen Ableitungen der Funktion 
+      --> f(x,y)=2x^ 3 +y^2  --> Vektor: [6x/2y] --> BSP Punkt: (2,1) --> [6*2/2*1] --> [12/1]
+      --> Funktion wächst für Vektor [12/1] am schnellsten für Punkt (1,1)
+      --> Grafik/Funktion: Fläche mit Tiefpunkt/Hochpunkt, steigt also in versch. Richtungen unter. Stark
+
+
+
+
+###############################################
 #Kombinatorik:
 ###############################################
   ############################
@@ -46,28 +98,118 @@ P(A | B) = P(A ∩ B) /
         = P(B | A) * P(A) /
         ( P(B | A) * P(A) ) + P(B |¬A) * P(¬A) 
           
-             
 ###############################################
-#Logarithmus (siehe Desktop):
-###############################################     
+#Simple Lineare Regression:
+###############################################
+# Vorhersage eines Attributes basierend auf einem anderen Attribute mit dem es in Beziehung (dependent on) steht durch eine Geradenfunktion
+  -->  (Glücklichkeitslevel~Menge an Geld )
+  y = βx + α + e
+		y = vorherzusages Attribute 
+		x = Konstante, Basisattribut
+		β = regressionskoeffizient, wie ist das Verhältnis/Abhängigkeit von x und y zueinander bei Änderungen
+		α = erwartete Y wert für X = 0
+		e = Error estimate, variation
+			--> α/β = konstanten
+      
+###############################################
+#Multiple Regression:
+###############################################
+# vorhersage eines Attributes anhand von mehreren davon abhängenden Attributen 
+  --> (Glücklichkeitslevel~Geld,Freizeit,. )             
+	y = β1*x1 + β2*x2 + β3*x3 +  α + e
+		β = regressionskoeffizienten, zur jeweiligen Konstanten
+		x = Konstanten, Basisattribute          
              
+   
+###############################################
+# Math Terms:
+###############################################
+# Null-Hypothesis: Unterschied/Abweichung der Ergebnisse der Testgruppe/Subsets zum ganzen Dataset
+# P-Value:  Sagt aus wie wahrscheinlich NULL-Hypothesis ist
+# Bernoulli-Verteilung: Zufallsexperiment bei dem es nur 2 mögliche Ausgänge gibt (z.B. Münzwurf)
+
+    
+    
+    
+###############################################
+# Bewertungskennzahlen (ML,..):
+###############################################
+# Kennzahlname:
+    # Formel
+    # Bedeutung
+  
+
+    
+# Durchschnitt/Aritmetische Mittel:
+    # AV = Gesamtsumme / Anzahl
+    
+# Median:
+    # Index = Floor(Anzahl / 2)
+    # Wert in der Mitte einer sortierten Menge an Daten 
+
+# Mean Squarred Error (MSE)
+    #
+    #
+    
+# Binomialkoeffizient:
+    # (n) = n!/ (k! * (n-k)!)
+    # auf wieviele Arten kann man k Objekte aus n objekten auswählen (ohne Reihenfolge/zurücklegen) n über k
              
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
+# Varianz:
+    # Varianz = ((x1-avg)^2-(x2-avg)^2...)/n     n = Gesamtanzahl der Elemente
+    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Konkrete Werte
+    # Quadrieren um negative Werte zu entfernen --> Werte können höher/niedriger sein als AVG -->sonst gleichen fälschlicherweise aus 
+      
+#Standardabweichung:          
+    # Standardabweichung =  √(Varianz)
+    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Wert für Kategorisierung der einzelnen Werte in Abhänigkeit zur Standardabweichung
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
              
              
