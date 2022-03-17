@@ -47,9 +47,6 @@ LOG(a)B = x
       --> Funktion wächst für Vektor [12/1] am schnellsten für Punkt (1,1)
       --> Grafik/Funktion: Fläche mit Tiefpunkt/Hochpunkt, steigt also in versch. Richtungen unter. Stark
 
-
-
-
 ###############################################
 #Kombinatorik:
 ###############################################
@@ -98,6 +95,10 @@ P(A | B) = P(A ∩ B) /
         = P(B | A) * P(A) /
         ( P(B | A) * P(A) ) + P(B |¬A) * P(¬A) 
           
+	= (Wahrscheinlichkeit für B mit A als Vorraussetzung * Wahrscheinlichkeit von A) /
+	  (Wahrscheinlichkeit für B mit A als Vorraussetzung * Wahrscheinlichkeit für A mit B als Vorraussetzung * 
+	
+	
 ###############################################
 #Simple Lineare Regression:
 ###############################################
