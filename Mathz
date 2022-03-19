@@ -128,7 +128,11 @@ P(A | B) = P(A ∩ B) /
 # Null-Hypothesis: Unterschied/Abweichung der Ergebnisse der Testgruppe/Subsets zum ganzen Dataset
 # P-Value:  Sagt aus wie wahrscheinlich NULL-Hypothesis ist
 # Bernoulli-Verteilung: Zufallsexperiment bei dem es nur 2 mögliche Ausgänge gibt (z.B. Münzwurf)
-
+# Messniveaus/Skalenniveau:
+     # Nominal:     Gleich/Ungleich,Kategorisierung ( Telefonnummer, Land)
+     # Ordinal:     Größer/Kleiner (Militärrang, Windstärke)
+     # Intervall:   Messbare Rangordnung/Skala ohne natürlich Nullpunkt (Temperator, Kalender)
+     # Verhältnis:  Absolut messbare Gleichheit/Verhältnis (Länge, Gewicht)
     
     
     
@@ -148,6 +152,10 @@ P(A | B) = P(A ∩ B) /
     # Index = Floor(Anzahl / 2)
     # Wert in der Mitte einer sortierten Menge an Daten 
 
+# Modalwert:
+    # Häufigkeits/Vorkommen der einzelnen Werte in Liste (Counter)    
+  
+
 # Mean Squarred Error (MSE)
     #
     #
@@ -157,15 +165,38 @@ P(A | B) = P(A ∩ B) /
     # auf wieviele Arten kann man k Objekte aus n objekten auswählen (ohne Reihenfolge/zurücklegen) n über k
              
 # Varianz:
-    # Varianz = ((x1-avg)^2-(x2-avg)^2...)/n     n = Gesamtanzahl der Elemente
-    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Konkrete Werte
+    # Varianz = ((x1-avg)^2-(x2-avg)^2...)/n-1     n = Gesamtanzahl der Elemente
+    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Konkrete Werte --> Bewertung Mittelwert
     # Quadrieren um negative Werte zu entfernen --> Werte können höher/niedriger sein als AVG -->sonst gleichen fälschlicherweise aus 
       
 #Standardabweichung:          
     # Standardabweichung =  √(Varianz)
     # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Wert für Kategorisierung der einzelnen Werte in Abhänigkeit zur Standardabweichung
-    
-    
+    # In Varianze wurde quadriert um negative werte auszumerzen, hier wird die √ um die Varianz ins WIEDER ZURÜCK selbe Verhältnis wie die Messwerte selbst zu setzen
+    # Standardabweichungswert = repräsentationsgröße (avg?) Abweichung der Messwerte vom Durchschnitt 
+
+#Variantsbreite:
+   # Min/Max Differenz aller Werte zum Durchschnitt (Ausreißeranalyse)
+   # Min/Max(x-avg)
+   
+# Quartile/Perzentile:
+   # Kategorisierung der Daten basierend auf individuellen Bereichen --> Anteil der Datensätze 
+   # größer/kleiner Wert X, wobei Wert X abgeleitet wird aus Median, halber Median, AVG, ... oder im Bereich +- dieser Kennzahl 
+   # laufende Prozentsätze 10%, top 20%, top 30%, ... 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
   
   
   
