@@ -1,8 +1,8 @@
 ###############################################
 #Logik Gates:
 ###############################################
-  AND = A und B
-  OR  = A und B, A, B
+  AND = A und B 		= A ∩ B
+  OR  = A und B, A, B		= A ∪ B
   XOR = A oder B, nicht beide
 
 ###############################################
@@ -51,6 +51,15 @@ LOG(a)B = x
 #Kombinatorik:
 ###############################################
   ############################
+  # Generell:
+  ############################
+  Gegenwahrscheinlichkeit: Nicht eintreten von A ist P(¯A)= 1-A
+  A ∪ B ist die Summe beider Einzenwahrscheinlichkeitne A+B
+  A ∩ B ist die Multplikation beider Einzenwahrscheinlichkeitne A * B (min 1x kleiner 1, deshalb unwahrscheinlicher)
+  Zurücklegen/Nicht Zurücklegen: Pool an Kombinationen für Gesamtauswahlpool und oder Gewünschter Auswahl ändert sich mit jedem Zug
+  Reihenfolge Egal/Nicht Egal: Egal = Wahrscheinlichkeit = Summe aller Optionen/Gesamtpool, Nicht egal: Anzahl dieser Option/Gesamtpool
+  
+  ############################
   # Anzahl Permutationen:
   ############################
     # Mit zurücklegen:  AnzahlAuswahlOptionen ^ Durchläufe                             
@@ -61,6 +70,11 @@ LOG(a)B = x
       --> ( aktuell auswahl aus Pool entfernen)
       #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4 * 3 * 2 = 24 Permutationen
       
+    # Kombinationsregel: ohne zurücklegen, reihenfolge egal (Lotto), n über k, r zufällige objekte aus n möglichkeiten = N Kombinationen
+     (n über k)
+      (n) = n! /				49! /
+      (k)   k! * (n-r)!				(6! * (49-6)!)
+    
   ############################   
   # Einzel Wahrscheinlichkeit:
   ############################
@@ -69,9 +83,11 @@ LOG(a)B = x
              Alle Permutationen ABA: 2 * 2 * 2 = 8 --> 8/64 = 1/8
              
     # Ohne Zurücklegen: Einzelwahrscheinlichkeiten aufmultiplizieren, aber wahrscheinlichkeiten an neuen pool anpassen --> auswahlpool ändert sich, % für X ändert sich
-      # BSP: 3x ziehen (ABA)  --> 0.5 * 2/3 * 0.5        = 0,16
+      # BSP1: 3x ziehen (ABA)  --> 0.5 * 2/3 * 0.5        = 0,16
              Alle Permutation ABA: --> 2 * 2 * 0 = 4 --> 24/4 = 0,16
-             
+      # BSP2: Lotto 6 aus 49 --> (6/49) * (5/48) * (4/47) * (3/46) * (2/45) = (1/44)
+      	     Pool verändert sich sowohl für die Auswahl von Gesamtpool als auch von der Anzahl der gewünschten Optionen 
+	     
 ###############################################
 #Bedingte Wahrscheinlichkeit (naiv Bayes):
 ###############################################
@@ -85,7 +101,8 @@ LOG(a)B = x
 P(A∪B) = Wahrscheinlichkeit das A UND ODER B eintreffen
 P(A | B) = Wahrscheinlichkeit das Bedingung A Eintritt wenn B als Vorraussetzung gilt/B Wahrscheinlichkeit der Fall ist
 P(B | A) = Wahrscheinlichkeit das Bedingung B Eintritt wenn A als Vorraussetzung gilt/A Wahrscheinlichkeit der Fall ist	
-
+	--> P(B | A) = Verhältnis aus allen B die noch eintreten können wenn A als vorraussetzung gilt, zu allen B
+	
 P(A | B) = P(A ∩ B) /
            P(B)  
         
@@ -97,7 +114,13 @@ P(A | B) = P(A ∩ B) /
           
 	= (Wahrscheinlichkeit für B mit A als Vorraussetzung * Wahrscheinlichkeit von A) /
 	  (Wahrscheinlichkeit für B mit A als Vorraussetzung * Wahrscheinlichkeit für A mit B als Vorraussetzung * 
-	
+
+#Herleitung: Vorraussetztung, Gleichsetzen
+P(A ∩ B) = P(B∣A)P(A)
+P(A ∩ B) = P(A∣B)P(B)
+
+P(A∣B)P(B) = P(B∣A)P(A)
+P(A∣B) = P(B∣A)P(A)/P(B
 	
 ###############################################
 #Simple Lineare Regression:
