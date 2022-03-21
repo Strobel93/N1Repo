@@ -1,0 +1,19 @@
+#######################################################################
+# Machine Learning
+#######################################################################
+  # Definition: mathematic/algorithmic models to find structures and patterns in data
+    --> Supervised ML: for training the input is known and the output already known 
+        --> classification: categorisierung data in SPECIFIC GIVEN categorys
+        --> regression    : erzeugung einer Regressionsgeraden um ein Attribut anhand der correlation anderer Attribute vorherzusagen
+    --> Unsupervis ML: for the training the input is known, output is unknown
+        --> clustering    : grouping data together based in similarities (without given target categories)
+        --> Association   : find correlation between different features
+        --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
+        
+        
+####################################
+# Sci-Kit
+####################################       
+X_train, X_test, y_train, y_test = train_test_split(a, b ,test_size=0.25, random_state=0)
+
+  
