@@ -58,10 +58,17 @@ LOG(a)B = x
   A ∩ B ist die Multplikation beider Einzenwahrscheinlichkeitne A * B (min 1x kleiner 1, deshalb unwahrscheinlicher)
   Zurücklegen/Nicht Zurücklegen: Pool an Kombinationen für Gesamtauswahlpool und oder Gewünschter Auswahl ändert sich mit jedem Zug
   Reihenfolge Egal/Nicht Egal: Egal = Wahrscheinlichkeit = Summe aller Optionen/Gesamtpool, Nicht egal: Anzahl dieser Option/Gesamtpool
+  Wahrscheinlich für Fall Y < X: Summe aller Permutationsmöglichkeiten für jeden Wert kleiner X  / Aller Permutationen
+
   
   ############################
   # Anzahl Permutationen:
   ############################
+    #Permutationsmöglichkeiten/Anzahl unterschiedl. Reihenfolgen: 
+  	# N unterschiedliche/einzigartige objekte: 						Anzahl = !K
+	# Mit Mehrfachauftreten(mult. der fakult. des Anz-Vorkommens der einz. optionen):	Anzahl = !K / k1 * k2   
+		--> Chance der Einzelwahrscheinlichkeit * Anzahl Permutationen = Reihenfolge Egal --> * weil (selbe) wahrscheinlichkeit addiert wird 
+		
     # Mit zurücklegen:  AnzahlAuswahlOptionen ^ Durchläufe                             
       --> ( durch zurücklegen bleiben immer alle Optionen offen)
       #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4^3 = 64 Permutationen
