@@ -22,7 +22,7 @@
 	#True Negative :true, but labeled false      
  
 ###############################################
-#Logarithmus (siehe Desktop):
+#Logarithmus:
 ###############################################     
 LOG(a)B = x 
   --> Logarithmus von B zur Basis a is x (a hoch x? gibt B)
