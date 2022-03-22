@@ -1,7 +1,8 @@
 #######################################################################
 # Machine Learning
 #######################################################################
-  # Definition: mathematic/algorithmic models to find structures and patterns in data
+# Definition: 
+    # mathematic/algorithmic models to find structures and patterns in data
     --> Supervised ML: for training the input is known and the output already known 
         --> classification: categorisierung data in SPECIFIC GIVEN categorys
         --> regression    : erzeugung einer Regressionsgeraden um ein Attribut anhand der correlation anderer Attribute vorherzusagen
@@ -9,11 +10,96 @@
         --> clustering    : grouping data together based in similarities (without given target categories)
         --> Association   : find correlation between different features
         --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
-        
-        
+# General:    
+    # Feature engineering: turning string data into numerical data format for analysis purpose  
+      
+# Model Choice:
+      # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
+      # Overfitting (Model is biased): too adapted to training data ( deals well with training data, terrible with different datasets)
+      # Underfitting (Model has high result variance): too simple solution for too complex data (lack of accucary)        
 ####################################
 # Sci-Kit
-####################################       
-X_train, X_test, y_train, y_test = train_test_split(a, b ,test_size=0.25, random_state=0)
+#################################### 
+# Imports
+  from sklearn.model_selection import train_test_split
+  from sklearn.learning_curve import validation_curve
+  from sklearn.grid_search import GridSearchCV
+  
+# Tests
+  # split data into train and test data   
+      X_train, X_test, y_train, y_test = train_test_split(a, b ,test_size=0.25, random_state=0)
+  
+  # Validate the Model (acc score for, in good case different permutations of train test split)
+      # Crossvalidation (do multiplate scores with): change train and test split data to the other one, change splitsize, shuffle data (first 20%, 21-40%,..)
+      # depending on goal: take solution with best result, best cost-effectiveness 
+        compare_model_score_with_prediction =  accuracy_score(labed_data_from_train_test_split, predicted_data) (1 = good, 0 baaad)
+        cross_val_func = cross_val_score(Model, unsplit_x_data, unsplit_y_data)
+        train_score, val_score = validation_curve(Modelname_from_Import(), unsplit_x_data, unsplit_y_data)
+        training_size, train_lc, val_lc = learning_curve(Modelname_from_Import(), unsplit_x_data, unsplit_y_data)
+        grid_model = GridSearchCV(Modelname_from_Import(), predifined_dict_with_paramters) --> grid_model.fit(x,y)
+        
+  # Feature engineering:
+        # each row n new columns, each column represents the value, 1 = true, 0 false, all rows with same value have 1 in the same col
+          column_names_for_name_zero_one_array_OR_DF_contruction = vectorizer.get_feature_names()
+        # Pipeline: merge different features of the folling into the model alreay
+          model = make_pipeline(Imputer(strategy='mean'),PolynomialFeatures(degree=3),Linearregression())
+          model.fit(x,y)     model.predict(x2)
+        
+        # for few text columns, with low distinct: converts to N columns for N distinct values, only a single 1 for each row
+          vectorizer = DictVectorizer(sparse=False, dtype=int)
+          vectorizer.fit_transform(data)
+          
+        
+        # count word occurences in strings, create column for each word, 1 for each word in string
+          vectorizer = CountVectorizer()
+          x = vectorizer.fit_transform(string_list)
+          data_in_tabular_form = x.toarray()
+          
+        # derive additional columns from existing ones for comparison, analysis,... (number different exponentials of values, ^1,^2,^3)
+          poly = PolynomialFeatures(degree=3)
+          poly.fit_transform(values_from_column)
+          
+        # NaN values to mean,min,max,..:
+          impute = Imputer(strategy='mean')
+          impute.fit_transform(data_array)
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
 
   
