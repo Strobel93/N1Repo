@@ -1,10 +1,24 @@
 ###############################################
-#Logik Gates:
+# Math Symbols:
 ###############################################
-  AND = A und B 		= A ∩ B
-  OR  = A und B, A, B		= A ∪ B
+# Logicgates
+  A ∩ B = AND/Intersect = A und B 		
+  A ∪ B = OR/Union  = A und B, A, B		
   XOR = A oder B, nicht beide
 
+# Algebra:
+    _
+    x, ¬ x = Negation
+    | x | = Absolute value (positive values)
+    f (x) = function mapping (maps the value of x to function f (x))
+    (a,b) = open interval    (a,b) = {x | a < x < b
+    [a,b] = closed interval  [a,b] = {x | a ≤ x ≤ b}
+    ∆ = Delta  	∆t = t1 - t0
+    ∑ = Sigma ∑ xi= x1+x2+...+xn  (sum of all values in range)
+    ∀ = for all
+    ∃, ∄ = there exists, there does not exist
+    ∝ = proportional to/correlation between 2 variables x = 2y
+    α --> 0,∞  = variable goes towards 0/infinity 
 ###############################################
 #Correlation: 
 ###############################################
@@ -46,7 +60,8 @@ LOG(a)B = x
       --> f(x,y)=2x^ 3 +y^2  --> Vektor: [6x/2y] --> BSP Punkt: (2,1) --> [6*2/2*1] --> [12/1]
       --> Funktion wächst für Vektor [12/1] am schnellsten für Punkt (1,1)
       --> Grafik/Funktion: Fläche mit Tiefpunkt/Hochpunkt, steigt also in versch. Richtungen unter. Stark
-
+# Lineare Funktion (Gerade):
+  --> y = ax+b (a = steigung, b = Schnittpunkt mit y-Achse (bei x = 0))
 ###############################################
 #Kombinatorik:
 ###############################################
@@ -166,7 +181,8 @@ P(A∣B) = P(B∣A)P(A)/P(B
 # Discrete Data: can take certain values (dice, number of,..)
 # Continous Data: can take ANY values (time, height, weight,... theres infinty of numbers between 0 and 1)
 # Normalverteilung (Gausverteilung):großteil Daten befindet um Mittelwert (umgekerte Parabelform, symetrisch mit Median im Zentrum/Spitze)
-    
+# Koeffizient: Konstante (Steigung) mit der variable multipliziert wird (5x)
+ 
 ###############################################
 # Bewertungskennzahlen (ML,..):
 ###############################################
