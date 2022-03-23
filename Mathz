@@ -165,7 +165,7 @@ P(A∣B) = P(B∣A)P(A)/P(B
      # Verhältnis:  Absolut messbare Gleichheit/Verhältnis (Länge, Gewicht)
 # Discrete Data: can take certain values (dice, number of,..)
 # Continous Data: can take ANY values (time, height, weight,... theres infinty of numbers between 0 and 1)
-# Normalverteilung (Gausverteilung):großteil Daten befindet (umgekerte Parabelform, symetrisch mit Median im Zentrum/Spitze)
+# Normalverteilung (Gausverteilung):großteil Daten befindet um Mittelwert (umgekerte Parabelform, symetrisch mit Median im Zentrum/Spitze)
     
 ###############################################
 # Bewertungskennzahlen (ML,..):
