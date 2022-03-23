@@ -163,8 +163,9 @@ P(A∣B) = P(B∣A)P(A)/P(B
      # Ordinal:     Größer/Kleiner (Militärrang, Windstärke)
      # Intervall:   Messbare Rangordnung/Skala ohne natürlich Nullpunkt (Temperator, Kalender)
      # Verhältnis:  Absolut messbare Gleichheit/Verhältnis (Länge, Gewicht)
-    
-    
+# Discrete Data: can take certain values (dice, number of,..)
+# Continous Data: can take ANY values (time, height, weight,... theres infinty of numbers between 0 and 1)
+
     
 ###############################################
 # Bewertungskennzahlen (ML,..):
