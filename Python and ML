@@ -5,7 +5,7 @@
     # mathematic/algorithmic models to find structures and patterns in data
     --> Supervised ML: for training the input is known and the output already known 
         --> classification: categorisierung data in SPECIFIC GIVEN categorys
-        --> regression    : erzeugung einer Regressionsgeraden um ein Attribut anhand der correlation anderer Attribute vorherzusagen
+        --> regression    : predict values of dependent column Y given independent column X based on correlation of X,Y (example in form of a straight)
     --> Unsupervis ML: for the training the input is known, output is unknown
         --> clustering    : grouping data together based in similarities (without given target categories)
         --> Association   : find correlation between different features
@@ -20,12 +20,9 @@
 ####################################
 # Sci-Kit
 #################################### 
-# Imports
-  from sklearn.model_selection import train_test_split
-  from sklearn.learning_curve import validation_curve
-  from sklearn.grid_search import GridSearchCV
-  
-# Tests
+##########################  
+# Tests and Validation
+##########################
   # split data into train and test data   
       X_train, X_test, y_train, y_test = train_test_split(a, b ,test_size=0.25, random_state=0)
   
@@ -41,14 +38,19 @@
   # Feature engineering:
         # each row n new columns, each column represents the value, 1 = true, 0 false, all rows with same value have 1 in the same col
           column_names_for_name_zero_one_array_OR_DF_contruction = vectorizer.get_feature_names()
+        ################################################################################
+        # Best practice use: pipeline
         # Pipeline: merge different features of the folling into the model alreay
           model = make_pipeline(Imputer(strategy='mean'),PolynomialFeatures(degree=3),Linearregression())
           model.fit(x,y)     model.predict(x2)
-        
+        ################################################################################
         # for few text columns, with low distinct: converts to N columns for N distinct values, only a single 1 for each row
-          vectorizer = DictVectorizer(sparse=False, dtype=int)
-          vectorizer.fit_transform(data)
+          dict_vectorizer = DictVectorizer(sparse=False, dtype=int)
+          dict_vectorizer.fit_transform(string_data)
           
+        # TF-IDF vectorizer (Term Frequency Inverse Document Frequency): transform text into numerical, used for analysis of string only data
+          tf_vectorizer = TfidfVectorizer()
+          tf_vectorizer.fit_transform(string_data)
         
         # count word occurences in strings, create column for each word, 1 for each word in string
           vectorizer = CountVectorizer()
@@ -63,9 +65,29 @@
           impute = Imputer(strategy='mean')
           impute.fit_transform(data_array)
           
+##########################        
+# ML Models:
+##########################
+# General Sci-Kit Model Usage
+    # X/Y: Predict Y given/based on X 
+    model = modeltype()
+    model.fit(x_train, y_train)
+    predict_y = mode.predict(x_test)
+    
+# Supervised
+    # Classification:
+        # Bayes: based on Bayes Theorem (conditional probability), naive = takes input of 2 measures, ignoring all the other columns of the data
+            GaussianNB()       --> When you have continuous (decimal) features
+            CategoricalNB()    --> textdata columns (categories) transformed into numerical ones, so that values repr categories
+            MultinomialNB()    --> describes propability of observing counts for categories (often applied to text data)
+            BernoulliNB()      --> binary/boolean features (True/False, 0/1)
+            
+        # Regression: predict value Y based on correlation between X and Y (x can be one dimensional [] or n Dimensional [[],[]])
+            LinearRegression() --> assumes linear relationship between Y and Y, tunes the correlation factor to minimize the error (over/underfitting)
+            Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) 
+            Lasso()            --> Linear + attempt to counter over/underfit like Ridge() but penalizing up to removing them completly (ridge keeps all)
         
-        
-        
+            
         
         
         
