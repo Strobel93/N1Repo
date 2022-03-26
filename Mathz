@@ -170,7 +170,8 @@ P(A∣B) = P(B∣A)P(A)/P(B
 ###############################################
 # Math Terms:
 ###############################################
-# Null-Hypothesis: Unterschied/Abweichung der Ergebnisse der Testgruppe/Subsets zum ganzen Dataset
+# Null-Hypothesis: current standard hypothesis (current state of knowledge)	 
+# Alternativ-Hypothesis: alternativ, claiming standards wrong (only NULL or Hypo can be correct)
 # P-Value:  Sagt aus wie wahrscheinlich NULL-Hypothesis ist
 # Bernoulli-Verteilung: Zufallsexperiment bei dem es nur 2 mögliche Ausgänge gibt (z.B. Münzwurf)
 # Messniveaus/Skalenniveau:
