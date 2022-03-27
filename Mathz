@@ -138,6 +138,8 @@ P(A | B) = P(A ∩ B) /
 	  (Wahrscheinlichkeit für B mit A als Vorraussetzung * Wahrscheinlichkeit für A mit B als Vorraussetzung * 
 
 #Herleitung: Vorraussetztung, Gleichsetzen
+P(A∣B)+P(¬A∣B) = 1
+
 P(A ∩ B) = P(B∣A)P(A)
 P(A ∩ B) = P(A∣B)P(B)
 
