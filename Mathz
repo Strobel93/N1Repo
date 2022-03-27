@@ -185,7 +185,8 @@ P(A∣B) = P(B∣A)P(A)/P(B
 # Continous Data: can take ANY values (time, height, weight,... theres infinty of numbers between 0 and 1)
 # Normalverteilung (Gausverteilung):großteil Daten befindet um Mittelwert (umgekerte Parabelform, symetrisch mit Median im Zentrum/Spitze)
 # Koeffizient: Konstante (Steigung) mit der variable multipliziert wird (5x)
- 
+# Mean Squared Error (MSE): accuracy of regression line (measures distances (errors) of points to line, squared to prevent -+ from canecling each other out)
+
 ###############################################
 # Bewertungskennzahlen (ML,..):
 ###############################################
