@@ -10,6 +10,9 @@
         --> clustering    : grouping data together based in similarities (without given target categories)
         --> Association   : find correlation between different features
         --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
+    --> Reinforcement Learning: true/false feedback for trial/error attempts by the model (input known, no output)
+    
+        
 # General:    
     # Feature engineering: turning string data into numerical data format for analysis purpose  
       
