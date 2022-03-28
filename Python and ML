@@ -1,4 +1,16 @@
 #######################################################################
+# Big O Notation
+#######################################################################
+# Measure of Algorithm efficiency analog to the number of data (time complexity)
+# O(Factor) = growth/factor/increase of time complexity compared to number of data
+# First Order, Order N,...
+    O(1): runtime completly independent of number of data 
+    O(N): linear runtime, time complexity increases at same rate as number of data (single loop)
+    O(N^2): exponential runtime, time complexity rises squared of amount of data (nested foor loop for example)
+    ...
+
+
+#######################################################################
 # Machine Learning
 #######################################################################
 # Definition: 
