@@ -6,6 +6,7 @@
     --> Supervised ML: for training the input is known and the output already known 
         --> classification: categorisierung data in SPECIFIC GIVEN categorys
         --> regression    : predict values of dependent column Y given independent column X based on correlation of X,Y (example in form of a straight)
+        --> SVM (Support Vect. Machines) : defines a line(2d)/plane(3d) seperating data into classes, optimum = max distiance between vector and both classes
     --> Unsupervis ML: for the training the input is known, output is unknown
         --> clustering    : grouping data together based in similarities (without given target categories)
         --> Association   : find correlation between different features
