@@ -80,7 +80,21 @@
         # NaN values to mean,min,max,..:
           impute = Imputer(strategy='mean')
           impute.fit_transform(data_array)
-          
+
+##########################
+# Sample Data
+##########################
+# Make Blobs
+X, y_true = make_blobs( n_samples=300     # Number of Rows
+                      , centers=4         # Number of Centers
+                      , n_features= 3     # Number of colums per row (default 2)
+                      , cluster_std=0.60  # standard deviation
+                      , random_state=0)   # number = reproduceable values
+
+# Seaborn Datasets
+sns.get_dataset_names()
+iris = sns.load_dataset("iris")
+
 ##########################        
 # ML Models:
 ##########################
@@ -102,9 +116,15 @@
             LinearRegression() --> assumes linear relationship between Y and Y, tunes the correlation factor to minimize the error (over/underfitting)
             Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) 
             Lasso()            --> Linear + attempt to counter over/underfit like Ridge() but penalizing up to removing them completly (ridge keeps all)
+# Unsupervised
+    #Clustering:
+        # K-Means: creates K-Clusters, guess k-Random-Clusters, assign all to closest  center, create new average center, reassign, new center,....
+        # GMM (Gausian Mixture Model): (better)assigns center based on gausian (dependent) probability, chose center, new probility, new center, new prob...
+            KMeans(n_clusters=K) 
+            GMM(n_components=K)
         
-            
-        
+
+         
         
         
         
