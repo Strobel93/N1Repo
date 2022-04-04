@@ -19,14 +19,22 @@
     ∃, ∄ = there exists, there does not exist
     ∝ = proportional to/correlation between 2 variables x = 2y
     α --> 0,∞  = variable goes towards 0/infinity 
+    
 ###############################################
-#Correlation: 
+#Correlation & Covariance: 
 ###############################################
-# wie stark sind die Werte von einander abhängig, zusammenhang der Werteentwicklung (gegenseitiger Einfluss)
-# Werte schwanken zwischen (1,0,-1) 
-  -->  1,-1 = starke postiive/negative correlation/verhältnis/schwankung, 0 = keine correlation
-	--> -1 --> eine nimmt zu die andere ab, +1 beide wachsen
-                     
+# Covariance:
+	# Werte schwanken zwischen -∞ , +∞
+	# Zeigen an ob verhältnis zwischen 2 Variablen positiv/negativ (+-covariance), steigend/fallender einfluss
+	
+# Correlation:
+	# standardisierung der Covariance + Stärke
+	# WIE STARK sind die Werte von einander abhängig, zusammenhang der Werteentwicklung (gegenseitiger Einfluss)
+	# Werte schwanken zwischen (1,0,-1) 
+	  -->  1,-1 = starke postiive/negative correlation/verhältnis/schwankung, 0 = keine correlation
+		--> -1 --> eine nimmt zu die andere ab, +1 beide wachsen
+
+
 ###############################################  
 #Correctness(Realität Vorhersage): 
 ###############################################
