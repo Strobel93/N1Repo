@@ -36,6 +36,8 @@
 ####################################
 # Sci-Kit
 #################################### 
+# Estimator = Model
+# Transformer/Preprocessing = Prepare Dataset into fitting form for Model  
 ##########################  
 # Tests and Validation
 ##########################
