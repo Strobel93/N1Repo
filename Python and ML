@@ -25,14 +25,16 @@
                 --> Logistic Regression: binary classification, weighting values resulting between 0-1, classification dependent on < or > than 0.5
         --> SVM (Support Vect. Machines) : defines a line(2d)/plane(3d) seperating data into classes, optimum = max distiance between vector and both classes
     --> Unsupervis ML: for the training the input is known, output is unknown
-        --> clustering    : grouping data together based in similarities (without given target categories)
-        --> Association   : find correlation between different features
-        --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
+         --> Dangers Unsupervised: local minima/maxima/wrong number of clusters due to random initiasation/chosen number of clusters
+            --> clustering    : grouping data together based in similarities (without predefined categories)
+            --> Association   : find correlation between different features
+            --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
     --> Reinforcement Learning: true/false feedback for trial/error attempts by the model (input known, no output)
     
         
 # General:    
-    # Feature engineering: turning string data into numerical data format for analysis purpose  
+    # Feature engineering: turning string data into numerical data format for analysis purpose
+    # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
       
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
@@ -63,9 +65,15 @@
           column_names_for_name_zero_one_array_OR_DF_contruction = vectorizer.get_feature_names()
         ################################################################################
         # Best practice use: pipeline
-        # Pipeline: merge different features of the folling into the model alreay
-          model = make_pipeline(Imputer(strategy='mean'),PolynomialFeatures(degree=3),Linearregression())
-          model.fit(x,y)     model.predict(x2)
+        # Pipeline: do all in one step: list of datatransformations on data + one model
+          model_pipeline = make_pipeline(StandardScaler(), VarianceThreshold(), KNeighborsClassifier())
+          model_pipeline = pipe = Pipeline([
+                                                ('scaler', StandardScaler()),
+                                                ('selector', VarianceThreshold()),
+                                                ('classifier', KNeighborsClassifier())
+                                    ])
+          model_pipeline.fit(x,y)     
+          model_pipeline.predict(x2)
         ################################################################################
         # for few text columns, with low distinct: converts to N columns for N distinct values, only a single 1 for each row
           dict_vectorizer = DictVectorizer(sparse=False, dtype=int)
@@ -110,7 +118,16 @@ iris = sns.load_dataset("iris")
     model = modeltype()
     model.fit(x_train, y_train)
     predict_y = mode.predict(x_test)
+    GridSearchCV(model, parameters).fit(x,y)
+    make_pipeline(StandardScaler(), VarianceThreshold(), KNeighborsClassifier())
+    scores = cross_val_score(model, x, y, cv=k_fold)
+    scores = cross_val_score(pipeline, x, y, cv=k_fold)
+
+#Transformation:
+    # GridSearchCV(model, parameters) --> execute model with different list of parameters
+    # 
     
+
 # Supervised
     # Classification:
         # Bayes: based on Bayes Theorem (conditional probability), naive = takes input of 2 measures, ignoring all the other columns of the data
@@ -118,11 +135,13 @@ iris = sns.load_dataset("iris")
             CategoricalNB()    --> textdata columns (categories) transformed into numerical ones, so that values repr categories
             MultinomialNB()    --> describes propability of observing counts for categories (often applied to text data)
             BernoulliNB()      --> binary/boolean features (True/False, 0/1)
-            
+            SVM.SVC()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
         # Regression: predict value Y based on correlation between X and Y (x can be one dimensional [] or n Dimensional [[],[]])
             LinearRegression() --> assumes linear relationship between Y and Y, tunes the correlation factor to minimize the error (over/underfitting)
             Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) 
             Lasso()            --> Linear + attempt to counter over/underfit like Ridge() but penalizing up to removing them completly (ridge keeps all)
+            SVM.SVR()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
+           
 # Unsupervised
     #Clustering:
         # K-Means: creates K-Clusters, guess k-Random-Clusters, assign all to closest  center, create new average center, reassign, new center,....
