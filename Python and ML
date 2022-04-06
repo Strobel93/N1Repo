@@ -18,6 +18,11 @@
     --> Supervised ML: for training the input is known and the output already known 
         --> classification: categorisierung data in SPECIFIC GIVEN categorys
         --> regression    : predict values of dependent column Y given independent column X based on correlation of X,Y (example in form of a straight)
+            --> gradient descent/minimum squared error for distince between points and regression graph (straight/curve,...)
+                --> Simple Linear Regression: straight line prediciton, simple dependecy of x,y (y = ax+b)
+                --> Multiple Linear Regression: straight line, based on multiple dependencies x1,x2,xn,y (y = ax1 + ax2 + b)
+                --> Polynomial Regression: curve due to non linear relation between x and y variable, by exponenting  (y = ax1^1 + ax2^2 +b)(overfitting!!!)
+                --> Logistic Regression: binary classification, weighting values resulting between 0-1, classification dependent on < or > than 0.5
         --> SVM (Support Vect. Machines) : defines a line(2d)/plane(3d) seperating data into classes, optimum = max distiance between vector and both classes
     --> Unsupervis ML: for the training the input is known, output is unknown
         --> clustering    : grouping data together based in similarities (without given target categories)
