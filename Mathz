@@ -194,7 +194,7 @@ P(A∣B) = P(B∣A)P(A)/P(B
 # Normalverteilung (Gausverteilung):großteil Daten befindet um Mittelwert (umgekerte Parabelform, symetrisch mit Median im Zentrum/Spitze)
 # Koeffizient: Konstante (Steigung) mit der variable multipliziert wird (5x)
 # Mean Squared Error (MSE): accuracy of regression line (measures distances (errors) of points to line, squared to prevent -+ from canecling each other out)
-
+# Polynom: algebraische Function/Formel bestehend aus Variablen, Konstanten und Exponenten (5x^2 + 69y + 5)
 ###############################################
 # Bewertungskennzahlen (ML,..):
 ###############################################
