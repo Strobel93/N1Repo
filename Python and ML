@@ -36,6 +36,7 @@
     # Missing: replace, delete
     # Irrelevant Data: dataset including irrelevant categories (regions, groups, ..)
     # Inconsistency: synonyms, typos, different ways to type/format
+    # Data Structure: replacing text values with numeric, pivot/unpivot tables
 
 # General:    
     # Feature engineering: turning string data into numerical data format for analysis purpose
