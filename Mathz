@@ -202,7 +202,8 @@ P(A∣B) = P(B∣A)P(A)/P(B
     # Formel
     # Bedeutung
   
-
+# Bias
+    # Hight or Low: Wie stark weichen Werte Prediction und Realität ab 
     
 # Durchschnitt/Aritmetische Mittel:
     # AV = Gesamtsumme / Anzahl
@@ -225,7 +226,7 @@ P(A∣B) = P(B∣A)P(A)/P(B
              
 # Varianz:
     # Varianz = ((x1-avg)^2-(x2-avg)^2...)/n-1     n = Gesamtanzahl der Elemente
-    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Konkrete Werte --> Bewertung Mittelwert
+    # Streung/Abweichung der einzelnen Werte vom Durchschnitt --> Konkrete Werte --> Bewertung Mittelwert (streuung wert stark all over the place oder zentriert)
     # Quadrieren um negative Werte zu entfernen --> Werte können höher/niedriger sein als AVG -->sonst gleichen fälschlicherweise aus 
       
 #Standardabweichung:          
