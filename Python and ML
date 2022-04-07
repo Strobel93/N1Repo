@@ -30,8 +30,13 @@
             --> Association   : find correlation between different features
             --> Dim. reduct   : reducing the number of columns/features/dimensions without loosing integrity
     --> Reinforcement Learning: true/false feedback for trial/error attempts by the model (input known, no output)
-    
-        
+
+# Data Cleaning and Normailsation:
+    # Outliers: missleading values influencing averages
+    # Missing: replace, delete
+    # Irrelevant Data: dataset including irrelevant categories (regions, groups, ..)
+    # Inconsistency: synonyms, typos, different ways to type/format
+
 # General:    
     # Feature engineering: turning string data into numerical data format for analysis purpose
     # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
