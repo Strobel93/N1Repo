@@ -13,6 +13,7 @@
 #######################################################################
 # Machine Learning
 #######################################################################
+# Usage: https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html
 # Definition: 
     # mathematic/algorithmic models to find structures and patterns in data
     --> Supervised ML: for training the input is known and the output already known 
@@ -64,16 +65,18 @@
         cross_val_func = cross_val_score(Model, unsplit_x_data, unsplit_y_data)
         train_score, val_score = validation_curve(Modelname_from_Import(), unsplit_x_data, unsplit_y_data)
         training_size, train_lc, val_lc = learning_curve(Modelname_from_Import(), unsplit_x_data, unsplit_y_data)
-        grid_model = GridSearchCV(Modelname_from_Import(), predifined_dict_with_paramters) --> grid_model.fit(x,y)
+        grid_model = GridSearchCV(Pipeline/Modelname_from_Import(), predifined_dict_with_paramters) --> grid_model.fit(x,y)
         
   # Feature engineering:
+    # Converting String to Vectors, using the new Vectors for transformation
         # each row n new columns, each column represents the value, 1 = true, 0 false, all rows with same value have 1 in the same col
+        # new sparse matrix created from this can be used as x for model.fit(x,y)
           column_names_for_name_zero_one_array_OR_DF_contruction = vectorizer.get_feature_names()
         ################################################################################
         # Best practice use: pipeline
         # Pipeline: do all in one step: list of datatransformations on data + one model
           model_pipeline = make_pipeline(StandardScaler(), VarianceThreshold(), KNeighborsClassifier())
-          model_pipeline = pipe = Pipeline([
+          model_pipeline = Pipeline([
                                                 ('scaler', StandardScaler()),
                                                 ('selector', VarianceThreshold()),
                                                 ('classifier', KNeighborsClassifier())
@@ -81,6 +84,8 @@
           model_pipeline.fit(x,y)     
           model_pipeline.predict(x2)
         ################################################################################
+        # Vectorizers
+        #######################
         # for few text columns, with low distinct: converts to N columns for N distinct values, only a single 1 for each row
           dict_vectorizer = DictVectorizer(sparse=False, dtype=int)
           dict_vectorizer.fit_transform(string_data)
@@ -89,9 +94,10 @@
           tf_vectorizer = TfidfVectorizer()
           tf_vectorizer.fit_transform(string_data)
         
-        # count word occurences in strings, create column for each word, 1 for each word in string
+        # count word occurences in strings, create column for each word, 1 for each word in string (dictionary with structure: 'word':count,..)
           vectorizer = CountVectorizer()
           x = vectorizer.fit_transform(string_list)
+          columns_to_tabular_data = vectorizer.vocabulary_
           data_in_tabular_form = x.toarray()
           
         # derive additional columns from existing ones for comparison, analysis,... (number different exponentials of values, ^1,^2,^3)
@@ -101,7 +107,23 @@
         # NaN values to mean,min,max,..:
           impute = Imputer(strategy='mean')
           impute.fit_transform(data_array)
-
+          
+        # Using get Dummies from Pandas:
+        one_dim = ['a', 'b', 'c', 'a']
+        multi_dim = pd.DataFrame({'A': ['a', 'b', 'a'],
+                                  'B': ['b', 'a', 'c']})
+        one_dim_pivot = pd.get_dummies(one_dim)
+        all_columns = pd.get_dummies(multi_dim)
+        only_columns = pd.get_dummies(multi_dim['A'])
+        
+        #######################
+        # Transformers
+        #######################
+        transformer = TfidfTransformer()
+        x_is_vectorized_data = transformer.fit_transform(x).toarray()
+        
+        
+        
 ##########################
 # Sample Data
 ##########################
@@ -115,6 +137,8 @@ X, y_true = make_blobs( n_samples=300     # Number of Rows
 # Seaborn Datasets
 sns.get_dataset_names()
 iris = sns.load_dataset("iris")
+# scikit
+from sklearn.datasets import  load_iris
 
 ##########################        
 # ML Models:
@@ -128,6 +152,7 @@ iris = sns.load_dataset("iris")
     make_pipeline(StandardScaler(), VarianceThreshold(), KNeighborsClassifier())
     scores = cross_val_score(model, x, y, cv=k_fold)
     scores = cross_val_score(pipeline, x, y, cv=k_fold)
+    model.fit_transform(x) --> combines model.fit(x), mode.transform(x)
 
 #Transformation:
     # GridSearchCV(model, parameters) --> execute model with different list of parameters
