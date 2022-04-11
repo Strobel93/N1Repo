@@ -24,6 +24,8 @@
                 --> Multiple Linear Regression: straight line, based on multiple dependencies x1,x2,xn,y (y = ax1 + ax2 + b)
                 --> Polynomial Regression: curve due to non linear relation between x and y variable, by exponenting  (y = ax1^1 + ax2^2 +b)(overfitting!!!)
                 --> Logistic Regression: binary classification, weighting values resulting between 0-1, classification dependent on < or > than 0.5
+                                         is considdered linear, but instead of straight line it assumes growth in s form (slow begin, fast middle, slow end) 
+                --> Generalized Regression: allows assumption of expentiell instead of linear correlation between x,y (linear = normal distribution) 
         --> SVM (Support Vect. Machines) : defines a line(2d)/plane(3d) seperating data into classes, optimum = max distiance between vector and both classes
     --> Unsupervis ML: for the training the input is known, output is unknown
          --> Dangers Unsupervised: local minima/maxima/wrong number of clusters due to random initiasation/chosen number of clusters
@@ -40,6 +42,7 @@
     # Data Structure: replacing text values with numeric, pivot/unpivot tables
 
 # General:    
+    # Cross Validation (CV): RidgeCV, GridSearchCV, XXXCV,...
     # Feature engineering: turning string data into numerical data format for analysis purpose
     # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
       
@@ -156,7 +159,7 @@ from sklearn.datasets import  load_iris
 
 #Transformation:
     # GridSearchCV(model, parameters) --> execute model with different list of parameters
-    # 
+    # StandardScaler().fit(data), scaler.transform(data) --> standardizes values (range) for all values with forumula: (data-average)/standard deviation
     
 
 # Supervised
@@ -169,8 +172,10 @@ from sklearn.datasets import  load_iris
             SVM.SVC()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
         # Regression: predict value Y based on correlation between X and Y (x can be one dimensional [] or n Dimensional [[],[]])
             LinearRegression() --> assumes linear relationship between Y and Y, tunes the correlation factor to minimize the error (over/underfitting)
-            Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) 
+            Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) --> all variables more linear/even
             Lasso()            --> Linear + attempt to counter over/underfit like Ridge() but penalizing up to removing them completly (ridge keeps all)
+            ElasticNet()       --> Ridge + Lasso
+            Lars()             --> Least Angle Regression --> find most correlating attribut to target (avg if multiple)--> coninuis linear graph in this direction
             SVM.SVR()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
            
 # Unsupervised
