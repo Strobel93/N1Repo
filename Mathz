@@ -64,12 +64,15 @@ LOG(a)B = x
   --> alle variablen aus einer werden als Konstanten betrachtet und fallen weg
   --> f(x,y)=2x^ 3 +y^2    --> f'x(x,y)=6x  --> f'y(x,y)= 2y
 # Gradient:
-  --> Gradient einer Funktion ist ein Vektor gebildet aus den einzelnen partiellen Ableitungen der Funktion 
+  --> Gradient einer Funktion ist ein Vektor gebildet aus den einzelnen partiellen Ableitungen der Funktion
+  --> sucht Tiefpunkt (Gradient/Wachstum = 0) --> je näher an 0, desto kleiner die Schritte (learning rate) da weiß man kommt dem gewünschten Ergebnis näher
+  --> Suche Tiefpunkt der Lossfunction mithilfe von Gradient
       --> f(x,y)=2x^ 3 +y^2  --> Vektor: [6x/2y] --> BSP Punkt: (2,1) --> [6*2/2*1] --> [12/1]
       --> Funktion wächst für Vektor [12/1] am schnellsten für Punkt (1,1)
       --> Grafik/Funktion: Fläche mit Tiefpunkt/Hochpunkt, steigt also in versch. Richtungen unter. Stark
 # Lineare Funktion (Gerade):
   --> y = ax+b (a = steigung, b = Schnittpunkt mit y-Achse (bei x = 0))
+  
 ###############################################
 #Kombinatorik:
 ###############################################
