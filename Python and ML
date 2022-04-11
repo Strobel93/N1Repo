@@ -46,6 +46,8 @@
     # Feature engineering: turning string data into numerical data format for analysis purpose
     # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
     # Gradient Descent vs Stochastik Gradient Descent: GD updates model after evaluating all datasets, Updates Model after each row (faster)
+    # Learning Rate = Tuning Parameter for Algorithm optimization that determines step size of iteration 
+    # Regularization = testing if variables are relevant by adjusting their coefficients (to 0 depending on l1,l2 regul) to check their impact (example lasso,ridge) 
       
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
@@ -171,6 +173,8 @@ from sklearn.datasets import  load_iris
             MultinomialNB()    --> describes propability of observing counts for categories (often applied to text data)
             BernoulliNB()      --> binary/boolean features (True/False, 0/1)
             SVM.SVC()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
+            SGDClassifier      --> allows execution of differnet models (loss = '', default linearreg) in combination with Gradient Descent --> fast for much data
+            Perceptron()       --> SGDClassifier, updating only on mistakes --> faster 
         # Regression: predict value Y based on correlation between X and Y (x can be one dimensional [] or n Dimensional [[],[]])
             LinearRegression() --> assumes linear relationship between Y and Y, tunes the correlation factor to minimize the error (over/underfitting)
             Ridge()            --> Linear + attempt to counter over/underfit by penalizing outliers (high coeffizinets(99x vs 2y)) --> all variables more linear/even
