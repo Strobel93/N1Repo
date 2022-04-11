@@ -45,6 +45,7 @@
     # Cross Validation (CV): RidgeCV, GridSearchCV, XXXCV,...
     # Feature engineering: turning string data into numerical data format for analysis purpose
     # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
+    # Gradient Descent vs Stochastik Gradient Descent: GD updates model after evaluating all datasets, Updates Model after each row (faster)
       
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
