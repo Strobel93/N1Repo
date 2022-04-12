@@ -19,14 +19,16 @@
     --> Supervised ML: for training the input is known and the output already known 
         --> classification: categorisierung data in SPECIFIC GIVEN categorys
         --> regression    : predict values of dependent column Y given independent column X based on correlation of X,Y (example in form of a straight)
-            --> gradient descent/minimum squared error for distince between points and regression graph (straight/curve,...)
                 --> Simple Linear Regression: straight line prediciton, simple dependecy of x,y (y = ax+b)
                 --> Multiple Linear Regression: straight line, based on multiple dependencies x1,x2,xn,y (y = ax1 + ax2 + b)
                 --> Polynomial Regression: curve due to non linear relation between x and y variable, by exponenting  (y = ax1^1 + ax2^2 +b)(overfitting!!!)
                 --> Logistic Regression: binary classification, weighting values resulting between 0-1, classification dependent on < or > than 0.5
                                          is considdered linear, but instead of straight line it assumes growth in s form (slow begin, fast middle, slow end) 
                 --> Generalized Regression: allows assumption of expentiell instead of linear correlation between x,y (linear = normal distribution) 
-        --> SVM (Support Vect. Machines) : defines a line(2d)/plane(3d) seperating data into classes, optimum = max distiance between vector and both classes
+        --> SUPPORT VECTOR : maximising distance between seperator and data (categories/groups)
+            --> SV Classifiers: define a seperator (line,plane) to find the least missclassifications (outliers)
+            --> SV Regression:  build more flexibel Model, learning is not based on clear output, but more flexible ranges within these margins values are correct
+        --> SUPPORT VECTOR MACHINES: transform data into higher dimension for better seperation (1D --> 2D, x--> x,x^2) and run support vector on it
     --> Unsupervis ML: for the training the input is known, output is unknown
          --> Dangers Unsupervised: local minima/maxima/wrong number of clusters due to random initiasation/chosen number of clusters
             --> clustering    : grouping data together based in similarities (without predefined categories)
@@ -45,14 +47,26 @@
     # Cross Validation (CV): RidgeCV, GridSearchCV, XXXCV,...
     # Feature engineering: turning string data into numerical data format for analysis purpose
     # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
-    # Gradient Descent vs Stochastik Gradient Descent: GD updates model after evaluating all datasets, Updates Model after each row (faster)
+    # Gradient Descent
+        # Machine Learning Optimization technique for model training to deal with huge amount of data, loss gradient --> depends on chosen loss function
+        # Implemented by using the slope/gradient (of the loss) to determine the stepsize/learningrate between each data point (big steps far away, small when close)
+        # Gradient Descent vs Stochastik Gradient Descent: GD updates model after evaluating all datasets, Updates Model after each row (faster)
     # Learning Rate = Tuning Parameter for Algorithm optimization that determines step size of iteration 
     # Regularization = testing if variables are relevant by adjusting their coefficients (to 0 depending on l1,l2 regul) to check their impact (example lasso,ridge) 
+    # Kernel: methof of transforming data into higher dimension to make them useable (for non-linear problems) (1D-->2D, 2D --> 3D)
+        # Linear: multiplying x*y + some constant c to create new attribute/feature/column
+        # Polinomial Kernel: when only X data, make x^2 the Y data, x^3 the z data, one dimension becomes 3 dimension and more option for seperation (line,plane)
+        # Radio Basis Function Kernel RBF: KNN Classification for 
+    # Bias/Variance Trade Off: Model Choice depending on problem  
+      # BIAS: inability to capture REAL relationship between attributes (example linear regression, straight line not accurate)
+      # Variance: difference of accucary between different data sets (train, test) --> high variance = accurate train, inaccurate test prediction (overfit)
       
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
       # Overfitting (Model is biased): too adapted to training data ( deals well with training data, terrible with different datasets)
       # Underfitting (Model has high result variance): too simple solution for too complex data (lack of accucary)        
+      
+      
 ####################################
 # Sci-Kit
 #################################### 
@@ -182,7 +196,7 @@ from sklearn.datasets import  load_iris
             ElasticNet()       --> Ridge + Lasso
             Lars()             --> Least Angle Regression --> find most correlating attribut to target (avg if multiple)--> coninuis linear graph in this direction
             SVM.SVR()          --> Support Vector Regression/Classification (kernel = 'definition' ['linear','polynomial','rbf','sigmoid '])
-           
+            SGDRegressor()     --> very large datasets because of efficiency due to gradient descent learning factor
 # Unsupervised
     #Clustering:
         # K-Means: creates K-Clusters, guess k-Random-Clusters, assign all to closest  center, create new average center, reassign, new center,....
