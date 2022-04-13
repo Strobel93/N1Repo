@@ -46,20 +46,20 @@
 # General:    
     # Cross Validation (CV): RidgeCV, GridSearchCV, XXXCV,...
     # Feature engineering: turning string data into numerical data format for analysis purpose
-    # Outliars: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
+    # Outliers: direct models in wrong direction, because if they work with distances (stand deviation) outliars missdirect the averages
     # Gradient Descent
         # Machine Learning Optimization technique for model training to deal with huge amount of data, loss gradient --> depends on chosen loss function
         # Implemented by using the slope/gradient (of the loss) to determine the stepsize/learningrate between each data point (big steps far away, small when close)
         # Gradient Descent vs Stochastik Gradient Descent: GD updates model after evaluating all datasets, Updates Model after each row (faster)
     # Learning Rate = Tuning Parameter for Algorithm optimization that determines step size of iteration 
     # Regularization = testing if variables are relevant by adjusting their coefficients (to 0 depending on l1,l2 regul) to check their impact (example lasso,ridge) 
-    # Kernel: methof of transforming data into higher dimension to make them useable (for non-linear problems) (1D-->2D, 2D --> 3D)
+    # Kernel: method of transforming data into higher dimension to make them useable (for non-linear problems) (1D-->2D, 2D --> 3D)
         # Linear: multiplying x*y + some constant c to create new attribute/feature/column
         # Polinomial Kernel: when only X data, make x^2 the Y data, x^3 the z data, one dimension becomes 3 dimension and more option for seperation (line,plane)
         # Radio Basis Function Kernel RBF: KNN Classification for 
     # Bias/Variance Trade Off: Model Choice depending on problem  
       # BIAS: inability to capture REAL relationship between attributes (example linear regression, straight line not accurate)
-      # Variance: difference of accucary between different data sets (train, test) --> high variance = accurate train, inaccurate test prediction (overfit)
+      # Variance: difference of accuracy between different data sets (train, test) --> high variance = accurate train, inaccurate test prediction (overfit)
       
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
