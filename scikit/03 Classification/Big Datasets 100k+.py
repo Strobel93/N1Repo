@@ -29,8 +29,10 @@ from sklearn.naive_bayes import GaussianNB
     # True: Naive Bayes
         # Complex example of text analysis with benchmark of multiple classifiers
         # https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html#sphx-glr-auto-examples-text-plot-document-classification-20newsgroups-py
-    # False: KNeighbors Classifier / SVC
+    # False: KNeighbors Classifier into --> SVC or Ensemble methods
 ######################################################################################
+# Text Data
+###################################################
 # Naive Bayes: BASIC
 ########################
 x, y = load_iris(return_X_y=True)
@@ -54,8 +56,8 @@ from sklearn.metrics import accuracy_score
 # Get Text Data
 data_train = fetch_20newsgroups(subset="train", categories=['sci.space'])
 data_test = fetch_20newsgroups(subset="test", categories=['sci.space'])
-print(data_train.keys())
-print(data_train.data[0:5])
+# print(data_train.keys())
+# print(data_train.data[0:5])
 
 # Extracting features from the training/test data using a sparse vectorizer
 # Converting Text into numerical (useable) form for model
@@ -71,5 +73,44 @@ y_train, y_test = data_train.target, data_test.target
 mnb = MultinomialNB()
 mnb.fit(x_train, y_train)
 pred = mnb.predict(x_test)
-print('Score: ', accuracy_score(y_test, pred))
+# print('Score: ', accuracy_score(y_test, pred))
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import load_iris
+###################################################
+# NonTextdata
+    # Prio 1:  KNeighborsClassifier
+    # Prio 2:  Ensemble methods
+###################################################
+# KNeighborsClassifier
+########################
+n_neighbours = 15
+iris = load_iris()
+
+# Take first 2 features (relevant for distance calculation)
+x = iris.data[:, :2]
+y = iris.target
+
+# weights parameter: are closer points more valueable (=distance) or not (=uniform)?
+nnc = KNeighborsClassifier(n_neighbours)
+nnc.fit(x, y)
+# print(x[0:3])
+# print(nnc.predict(x))
+# print(y)
+
+from sklearn.svm import SVC
+########################
+# SVC
+########################
+iris = load_iris()
+
+# Take first 2 features (relevant for distance calculation)
+x = iris.data[:, :2]
+y = iris.target
+
+svcl = SVC()
+svcl.fit(x, y)
+# print(x[0:3])
+# print(svcl.predict(x))
+# print(y)
 
