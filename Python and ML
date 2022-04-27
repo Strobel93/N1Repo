@@ -60,7 +60,16 @@
     # Bias/Variance Trade Off: Model Choice depending on problem  
       # BIAS: inability to capture REAL relationship between attributes (example linear regression, straight line not accurate)
       # Variance: difference of accuracy between different data sets (train, test) --> high variance = accurate train, inaccurate test prediction (overfit)
-      
+    #PCA: Principal Component Analysis
+        # Reduce Number of Dimensions/Features into 2 Dimensional Plane
+        # Center = Averages of each individual N-Dimensions --> N Dim = coordinate [N1,N2,..]
+        # PC1 : first  Component = Line with Least Squared Error (best fitting line approximation of N-Dim Data)
+        # PC2:  Nth    Component = best fit orthogonal Line to PC1 through center (intersection PC1/PC2)
+            --> Result is 2 orthogonal straights/lines, which can be used to create a plane
+            --> Data/Rows are now spread across the plane with 2 coordinates each
+                --> 2 orthogonal lines create a "new coordinate system" which is rotated compared to the original
+                --> data being spread around this "new coordinate system" allows categorising/grouping of similar data
+                --> Measuring the PC1 Score tells us how important each feature is
 # Model Choice:
       # Model Performance bad: more/less complicated Model, get more training data, more features(columns)
       # Overfitting (Model is biased): too adapted to training data ( deals well with training data, terrible with different datasets)
