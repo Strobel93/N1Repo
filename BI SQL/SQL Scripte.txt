@@ -1,0 +1,474 @@
+--##############################################################################################
+--General
+--##############################################################################################
+--String/Message Formating
+SELECT FORMATMESSAGE('First %s Second %s Third %i', 'first_string', 'second_string', 69420) AS Result;  
+
+--NOWAIT: show print/message during execution (ssms must activate "RESULTS TO TEXT" Button)
+RAISERROR('%i', 0, 1, @INTEGER_VARIABLE) WITH NOWAIT;
+RAISERROR('%s', 0, 1, @String_VARIABLE) WITH NOWAIT;
+
+--GO X: executes the same query x times
+delete top 100 from SCHEMA.Table
+WHERE X = ''
+GO 100
+
+--DATEFROMPARTS, Date erzeugen aus 3 Parametern
+SELECT DATEFROMPARTS ( 2010, 12, 31 ) 
+SELECT DATEFROMPARTS ( year(CURRENT_TIMESTAMP), 12, 31 ) 
+
+--Erzeugt Tabelle mit Default anstatt NULL
+alter table dwh.FACT_AE
+add Test int default 1 WITH VALUES 
+
+--negiert und not --> enthält etwas das nicht 0-9 ist
+select Charge_ID
+where Charge_ID not like '%[^0-9]%'
+
+--Sonderzeichen/unicode
+select N'∆ HR / PM'
+select '''Hochkomma in String mit Doppelhochkomma'''
+
+--Fängt mit C and
+--Endet mit sen	
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE LastName LIKE '[C]%sen';	
+	
+--Fängt mit C oder H and
+--Endet mit sen	
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE LastName LIKE '[CH]%sen';		
+
+--Session Beenden: ACHTUNG, ROLLBACK --> Dauert oft länger als bisherige ausführung
+KILL SESSION_ID
+KILL SESSION_ID WITH STATUSONLY	--Gibt aktuellen Status des KILLS zurück, kein KILL selbst
+
+--Execute SQL Code in smaller batches/subsets (rollback does not have to rollback whole thing on cancellation)
+--If execution is cancelled during execution --> must run n times "COMMIT TRANSACTION" end current session (until error)
+BEGIN TRANSACTION
+select 'EXECUTE SQL STUFF'
+COMMIT TRANSACTION
+
+BEGIN TRY
+	BEGIN TRANSACTION
+	select 'EXECUTE SQL STUFF'
+	COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	WHILE @@TRANCOUNT != 0
+		COMMIT TRANSACTION
+END CATCH;
+
+--Systeminfos:
+select @@SPID
+select ERROR_MESSAGE()
+select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like '%%' or TABLE_NAME like '%%'
+
+--##############################################################################################
+--GOTO: move to certain execution
+--##############################################################################################
+DECLARE @VARIABLE INT = 1 --0
+
+IF @VARIABLE = 1
+	GOTO SKIPPING_STEP_WITH_GOTO
+select 'did not skip'
+
+SKIPPING_STEP_WITH_GOTO:
+select 'skipped first execution'
+
+
+--##############################################################################################
+--CROSS APPLY: rechte Seite des Apply kann auf die Linke Seite referenzieren
+--##############################################################################################
+--#########################################
+--die 3 niedrigsten Verkaufsbelegpos
+--#########################################
+--Join + ROW_NUMBER()
+select *
+	from (
+			select a.Verkaufsbeleg_ID
+				   ,b.Verkaufsbelegpos
+				   ,Zaehler=ROW_NUMBER() OVER(PARTITION BY b.Verkaufsbeleg_ID ORDER BY b.Verkaufsbelegpos)
+				from dwh.MD_Verkaufsbeleg a
+					 inner join dwh.MD_Verkaufsbelegposition b on a.Verkaufsbeleg_ID = b.Verkaufsbeleg_ID
+				where a.Verkaufsbeleg_ID = '1402075790'
+	       ) kek
+	where Zaehler <= 3
+	order by 2
+
+--CROSS APPLY
+select a.Verkaufsbeleg_ID
+      ,kek.Verkaufsbelegpos
+	from dwh.MD_Verkaufsbeleg a
+	     CROSS APPLY (select top 3 Verkaufsbeleg_ID,Verkaufsbelegpos
+							from dwh.MD_Verkaufsbelegposition b
+							where a.Verkaufsbeleg_ID = b.Verkaufsbeleg_ID
+							order by Verkaufsbelegpos
+					  ) kek
+	where a.Verkaufsbeleg_ID = '1402075790'
+	order by 2
+
+--#########################################
+--Max
+--#########################################
+select a.Verkaufsbeleg_ID
+		,b.Verkaufsbelegpos
+	from dwh.MD_Verkaufsbeleg a
+			inner join (select Verkaufsbeleg_ID,Verkaufsbelegpos=max(Verkaufsbelegpos)
+						from dwh.MD_Verkaufsbelegposition
+						group by Verkaufsbeleg_ID) b on a.Verkaufsbeleg_ID = b.Verkaufsbeleg_ID
+	where a.Verkaufsbeleg_ID = '1402075790'
+
+--CROSS APPLY
+select a.Verkaufsbeleg_ID
+      ,kek.Verkaufsbelegpos
+	from dwh.MD_Verkaufsbeleg a
+	     CROSS APPLY (select top 1 Verkaufsbeleg_ID,Verkaufsbelegpos
+							from dwh.MD_Verkaufsbelegposition b
+							where a.Verkaufsbeleg_ID = b.Verkaufsbeleg_ID
+							order by Verkaufsbelegpos desc
+					  ) kek
+	where a.Verkaufsbeleg_ID = '1402075790'
+
+##############################################################################################
+--Variablen
+##############################################################################################
+DECLARE @sql    nvarchar(MAX),  
+        @params nvarchar(4000),
+		@cnt  int
+		
+DECLARE @Variable int;
+SET @Variable = 5;
+
+##############################################################################################
+--Drop if exists
+##############################################################################################
+--Drop permanent table if exists
+IF OBJECT_ID('dbo.Scores', 'U') IS NOT NULL 
+  DROP TABLE dbo.Scores; 
+  
+--Drop temp table if exists
+IF OBJECT_ID('tempdb.dbo.#TempTableName', 'U') IS NOT NULL
+  DROP TABLE #TempTableName;   
+  
+--#################################################
+--Multiple input und output parameter ?????
+--#################################################
+DECLARE @sql    nvarchar(MAX),  
+        @params nvarchar(4000),
+             @cnt  int,
+             @cnt2 int
+--Query to be executed
+SELECT @sql = N'SELECT @cnt = COUNT(*) 
+                      ,@cnt2 = COUNT(*) + 1
+                           from dwh.MD_Mandant
+                WHERE  Mandant_ID = @Mandant_ID
+                                  and Sprache_ID  = @Sprache_ID'
+
+--Dynamic Parameters used in Query String
+SELECT @params = N'@cnt     int OUTPUT, 
+                              @cnt2    int OUTPUT,
+                   @Mandant_ID  nchar(5) = N''999'',
+                              @Sprache_ID  nchar(2)=  N''DE'''
+
+--Execution with default values
+EXEC sp_executesql @sql, @params, @cnt OUTPUT, @cnt2 OUTPUT
+SELECT @cnt,@cnt2
+
+--Execution with value set during Execution
+EXEC sp_executesql @sql, @params, 
+                   @cnt = @cnt OUTPUT,
+                              @cnt2 = @cnt2 OUTPUT,
+                              @Mandant_ID = '221'
+SELECT @cnt,@cnt2
+
+--######################################
+--Procedure with input and return output
+--######################################
+create procedure z_z ( @input_value int, @return_value int OUTPUT) as
+BEGIN 
+       select @return_value=@input_value * 10
+END
+
+--Aufruf
+DECLARE @Result_Value int
+exec z_z @input_value = 5,  @return_value=@Result_Value OUTPUT --, @ OUTPUT, @Variable = 'another input'
+
+select @Result_Value
+
+--###############################
+--DONT USE!!!!!!!!
+--EXEC (DANGER SQL INJECTION)
+--###############################
+--Execute simple String without return
+EXEC ('SQL Query') --@SQL
+
+--Execute with input
+DECLARE @Input_Variable int = 221,
+        @sql nvarchar(MAX) 
+SELECT @sql = N'SELECT Mandant_ID
+                           from dwh.MD_Mandant
+                WHERE  Mandant_ID = ''' + convert(nvarchar(8), @Input_Variable) + ''''
+EXEC (@sql) 
+
+
+--Save result from executed Procedure in which a return @variable is defined
+EXEC @Result_of_return = @Stored_Procedure_with_return_name
+
+##############################################################################################
+-- Try Catch
+##############################################################################################
+BEGIN TRY  
+     --code to try 
+END TRY  
+BEGIN CATCH  
+     --code to run if an error occurs
+END CATCH
+
+##############################################################################################
+#iif --> identisch mit case when, aber ist kein SQL Standard, sondern SQL Server standard
+##############################################################################################
+select 
+  a.[name],
+  sum(case when b.gender='M' then 1 else 0 END) m_count,
+  sum(case when b.gender='F' then 1 else 0 END) f_count
+from
+  #department a
+ join
+  #employee b on a.departmentID = b.departmentID
+group by 
+  a.[name];
+
+##############################################################################################
+--PIVOT/UNPIVOT
+##############################################################################################
+#############################
+--Pivot:Zeilen zu Spalten
+#############################
+--Nimmt die Zeilenwerte "in (...)" aus Ursprungsspalte (for), erzeugt daraus Spalten die mit aggregierter Spalte befüllt werden
+SELECT Unveraenderte_Spalte, Zeile_zu_Spalte_1,Zeile_zu_Spalte_2
+from Tabelle
+PIVOT 
+( 
+	SUM(Spalte_die_Aggregiert_werden_Soll) 
+	for ursprungs_spalte	
+	in (Zeile_zu_Spalte_1,Zeile_zu_Spalte_2))
+) AS PivotTable 	  
+	  
+--BSP: in geeksforgeeks stehen 2 Werte, Prog und inter, diese werden zu 2 Spalten mit Werten aus original Price Spalte
+SELECT CourseName, PROGRAMMING, INTERVIEWPREPARATION
+FROM geeksforgeeks 
+PIVOT 
+( 
+	SUM(Price) 
+	FOR CourseCategory 
+	IN (PROGRAMMING, INTERVIEWPREPARATION ) 
+) AS PivotTable 	  
+
+#############################
+--UNPIVOT: Spalten zu Zeilen
+#############################
+--für jeden Eintrag aus den Ursprünglich 3 Spalten aus "in(...)" wird eine Zeile erzeugt die den Wert(SpaltenWert) und Ursprungsspalte (SpaltenName) enthält
+SELECT Unveraenderte_Spalte, SpaltenWert, SpaltenName
+FROM Quelle
+UNPIVOT
+( 
+	SpaltenWert 
+	FOR SpaltenName 
+	in ([Spalte1], [Spalte2], [Spalte3])
+) up
+
+--BSP: person hat 3 Spalten M,A,P, diese werden zu 1 Spalte Nummer (Werte aus Spalten M,A,P), 
+--werden zu 1 Spalte in der der Spaltennamen aus der sie kommt drin steht (M,A,P selbst)
+SELECT Name,Nummer,Typ
+FROM #Person
+UNPIVOT
+( 
+	Nummer 
+	FOR Typ 
+	in ([Mobil], [Arbeit], [Privat])
+) up
+
+
+
+##############################################################################################
+--CTE: Common Table Expression
+##############################################################################################
+WITH dwhtime_cte (timedayid, yearno)
+AS (
+	SELECT a.timedayid, yearno = a.[CY Year]
+		FROM dwh.MD_Zeit a
+		WHERE a.[DayOfMonth] = '01'
+)
+
+select *
+	from dwhtime_cte cte
+	
+--Mehrfach CTE Verwendung	
+WITH TIME_CTE_TEST AS (select top 10 * from dwh.MD_Zeit),
+Zweite_CTE_TEST as (select * from TIME_CTE_TEST)
+select *
+	from Zweite_CTE_TEST	
+
+##############################################################################################
+--CURSOR
+##############################################################################################	
+DECLARE 
+	@product_name VARCHAR(MAX), 
+	@list_price   DECIMAL;
+
+DECLARE cursor_product CURSOR
+FOR SELECT 
+        product_name, 
+        list_price
+    FROM 
+        production.products;
+
+OPEN cursor_product;
+
+FETCH NEXT FROM cursor_product INTO 
+    @product_name, 
+    @list_price;
+
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+        PRINT @product_name + CAST(@list_price AS varchar);
+        FETCH NEXT FROM cursor_product INTO 
+            @product_name, 
+            @list_price;
+    END;
+
+CLOSE cursor_product;
+
+DEALLOCATE cursor_product;
+	
+	
+--##############################################################################################
+--Rekursion
+--##############################################################################################
+--Bottom-UP:Alle Parents zu den VV Key --> Finde immer nächsten Parent
+--Kind suchen, Vater ausgeben
+WITH cte_org AS (
+	--Kunde mit Parents
+    SELECT Kunde_VV_Key        
+		FROM dwh.MD_Kunde_VV
+		WHERE Kunde_VV_Key = 426839
+    UNION ALL
+	--Bottom-UP:Alle Parents zu den VV Key
+	--Ausgabe aller Parents die zu dem originalkunden existieren --> Parent wird zu VV, wird verwendet für nachsten durchlauf
+    SELECT Parent_Kunde_VV_Key
+    FROM (select  Kunde_VV_Key,Parent_Kunde_VV_Key
+			from dst.md_kundenhierarchie_view) e
+        INNER JOIN cte_org o 
+			--Kunde = Kunde --> Kunde + Parent --> Parent = neuer Kunde 
+            ON o.Kunde_VV_Key = e.Kunde_VV_Key
+)
+SELECT *  FROM cte_org;
+
+
+
+
+--Top-Bottom:Alle Parents zu den VV Key --> finde immer nächsten Child zu Parent
+--Parent suchen, Kind ausgeben
+WITH cte_org AS (
+	--dst.md_kundenhierarchie_view ohne parent
+    SELECT Kunde_VV_Key        
+		FROM dwh.MD_Kunde_VV
+		WHERE Kunde_VV_Key = 564120 
+    UNION ALL
+	--Top-Bottom:Alle Parents zu den VV Key
+	--e.Kunde_VV_Key = Original Kunde --> Parent --> Kunde des Parents 
+    SELECT e.Kunde_VV_Key
+    FROM (select  Kunde_VV_Key,Parent_Kunde_VV_Key
+			from dst.md_kundenhierarchie_view) e
+				 --Einschränkungen auf einen Kunden der Original Kunde als Parent hat
+				 where a.Kunde_VV_Key = 421520
+				 ) e
+        INNER JOIN cte_org o
+			--Childkunde durch Abgleich Kunde mit Parent 
+            ON o.Kunde_VV_Key = e.Parent_Kunde_VV_Key
+)             
+SELECT  *  FROM cte_org;
+
+##############################################################################################
+--While
+##############################################################################################	
+DECLARE @Counter INT 
+SET @Counter=1
+WHILE ( @Counter <= 10)
+	BEGIN
+		SET @Counter  = @Counter  + 1
+	END
+
+
+
+##############################################################################################
+--SSIS
+##############################################################################################
+boolean_expression?true_expression:false_expression  	
+	@Test == "Test"? "Test": "Kein_Test" 
+
+RIGHT("00"+(DT_WSTR, 2) (month(getdate())),2)
+RIGHT("00"+(DT_WSTR, 2) (month( DATEADD( "DAY", -5, getdate() ))),2)
+(DT_WSTR, 4) (year( DATEADD( "DAY", -3, getdate() )))
+
+--#############################################################################################
+--Basic Python Script execution ohne variable
+--#############################################################################################
+--@script is a nvarchar(max) variable and it is used to store the external language code
+EXEC sp_execute_external_script
+    @language       = N'Python',
+    @script         = N'print("Welcome to the wonderful world of Python integration!")'
+
+
+--Ausgabe von Python Script
+INSERT INTO myTable    
+EXECUTE sp_execute_external_script 
+	@language = N'Python',
+	@script = N'dict = {"x":5,"y":10}',
+	@output_data_1_name = N'dict';
+
+
+--Übergabe von benannter SQL-Query an Python-Variable und Rückausgabe zu SQL
+--Version Übergabe an @output_data_1_name
+DECLARE @input_query NVARCHAR(MAX) = N'select distinct top 10 Tabelle,QuellTabelle,Prozessnr from dbo.Metadaten_Tabelle;'
+
+INSERT INTO myTable    
+EXECUTE sp_execute_external_script 
+	@language = N'Python',
+	@script = N'dict = SQL_Input_Variable',
+    @input_data_1 = @input_query,
+	@input_data_1_name = N'SQL_Input_Variable',
+	@output_data_1_name = N'dict'
+with result sets ((Tabelle nvarchar(20), QuellTabelle nvarchar(20), Prozessnr int));
+
+
+
+--Übergabe von benamter SQL-Query an Python-Variable und Rückausgabe zu SQL
+--Version übergabe innerhalb Python an OutputDataSet
+DECLARE @input_query NVARCHAR(MAX) = N'select distinct top 10 Tabelle,QuellTabelle,Prozessnr from dbo.Metadaten_Tabelle;'
+
+INSERT INTO myTable    
+EXECUTE sp_execute_external_script 
+	@language = N'Python',
+	@script = N'dict = SQL_Input_Variable
+	            OutputDataSet = dict',
+    @input_data_1 = @input_query,
+	@input_data_1_name = N'SQL_Input_Variable'
+with result sets ((Tabelle nvarchar(20), QuellTabelle nvarchar(20), Prozessnr int));
+
+
+
+
+
+
+
+
+
+
+
+
+
+

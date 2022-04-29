@@ -1,0 +1,222 @@
+################################################################################
+VBA
+################################################################################
+--Kommentare: ' Kommentar + Enter --> erzeugt Kommentar
+--Allgemein
+	--> Subroutine --> Codeblock für spezifischen Code
+		--> Subroutinen sind Code der sich separat über Makros aufrufen lässt
+		--> Mehrere Subroutinen in einem Modul möglich
+	--> DIM = Dimension --> Variablen Deklaration
+	
+###############################
+Public und Priv
+###############################
+--Code zwischen SUB und END SUB
+--Private nicht sichbar in "Makros" Tab
+Public Sub Example()
+	'Codeblock der über Makro in Entwicklertab aufrufbar ist'
+End Sub
+
+
+Private Sub PrivateExample()
+	'Codeblock'
+End Sub
+
+--Subroutine mit Parameter für Übergabe
+Private Sub Andere_Subroutine(Var1 As String, Var2 As Int)
+	'Codeblock'
+End Sub
+
+--Subroutinenaufruf: Codetrennung + wiederholte Aufrufe mit Variablen
+Call Andere_Subroutine
+Call Andere_Subroutine(Par1, Par2)
+
+###############################
+Variablen
+###############################
+--Locale Variablen :verfügbar innerhalb der jeweiligen Subroutine
+--Set bei Objektreferenzen
+Dim Datum As Date
+Dim VText As String
+Dim IntVAr As Integer
+Dim wb as Workbook
+Dim wb as Worksheet
+Var1 = 9
+VText = "TEXT"
+Set wb = Workbooks("ExcelDatei")
+
+--Global: Verfügbar in jeder Subroutine in Modul
+Public GLVar as Integer
+
+--Aufruf:
+&VText
+
+###############################
+Basisfunktionen
+###############################
+--Base, "String" oder Variable/Zelle
+"String"&"Concat"
+Left("String",3)
+LTrim("String")
+inStr(1, "Test","T")
+
+--CELLS(ZeilenIndex,SpaltenIndex) --> Befüllt Zellen mit Werten
+Cells(2, 1).Value = Var1
+Cells(2, 2).Value = VText
+
+--Popup Nachricht: MsgBox("PopupTextBox",buttons,"PopupTitel")
+MsgBox "BoxText", , "BoxTitel"
+MsgBox "BoxText", vbYesNo , "BoxTitel"
+
+--Inputbox
+VText = InputBox("Fav Color?", "Default")
+
+--Range Index Referenz
+Worksheets("Tabelle1").Range("A1").Value = 3.14159
+Worksheets("Tabelle1").Range("A1:A5").Value = 3.14159
+
+ActiveSheet.Range("A1").Value = 3.14159
+ActiveSheet.Range("A1:A5").Value = 3.14159
+
+--ActiveCell
+Selection.Offset(1, 0).Select
+ActiveCell.Value = "Nach unten Row+1"
+Selection.Offset(0, 1).Select
+ActiveCell.Value = "Rechts, Column+1"
+
+--Tabellen:
+ActiveSheet.ListObjects("TabellenName").Range.select
+ActiveSheet.ListObjects("TabellenName").ListColumns(3).Range.select
+ActiveSheet.ListObjects("TabellenName").ListRows(4).Range.select
+
+--Auswahl bearbeiten
+Range("B2:C3").Select
+With Selection.Font
+    .Size = 69        'Textsize
+    .Name = "Aharoni" 'Font
+    '....' 'Schnellschreibweise für:Selection.Font.Size = 69, Selection.Font.Name = "Aharoni"'
+End With
+
+###############################
+Array
+###############################
+--################
+--Statisch
+--################
+--Strings mit Index 0-4 (5 Elemente)
+Dim ArrayV(0 To 4) As String
+ArrayV(0)="String1"
+
+--Output
+ArrayV(0)
+ArrayV(IndexVariable)
+
+--################
+--Dynamisch
+--################
+--Dynamisch = Länge lässt sich immer wieder ändern
+--Resizing = Clear
+--Preserver --> behaltet Daten
+Dim ArrayV() as String
+ReDim ArrayV(0 To 4)
+ReDim ArrayV(0 To 5)			--CLEAR
+ReDim Preserve ArrayV(0 To 5)	--Behält Daten
+
+--################
+--Multidimensional
+--################
+--(Rows,Columns)
+Dim ArrayV(0 To 4,0 To 2) As String
+ArrayV(0, 0) = "String"
+
+###############################
+Loops
+###############################
+--For Loop: von X bis Y
+For x = 1 to 5
+	Cells(x,1)="Loop"
+Next x
+
+
+For x = 1 to 5
+	For y = 1 to 5
+		Cells(x,y).Value="Loop"
+	Next y	
+Next x
+
+--For Each: 
+Dim cell As Range
+Set rng = Range("A1:A5")
+
+For Each cell In rng
+    cell.Value = "Loop"
+Next cell
+
+--Do Until
+Dim X as Integer
+x = 1
+
+Do Until x > 10
+	Cells(x, 2).Value = "Loop"
+	x = x + 1
+LOOP
+	
+--WHILE
+Dim X As Integer
+X = 1
+
+While X < 10
+    Cells(X, 2).Value = "x"
+    X = X + 1
+Wend	
+###############################
+IF
+###############################
+IF XXXXX THEN
+	'Dann'
+	Else
+	'Ansonsten'
+	
+	
+IF XXXXX THEN
+	'Dann'
+	ELSEIF XXXX2 THEN
+	'Dann2'
+	Else
+	'Ansonsten'
+	
+###############################
+Forms
+###############################
+if CheckButtonName = True then..
+GUI_Element_Name.Value 
+
+###############################
+Errorhandlich
+###############################
+--Am anfang der Subroutine, ignoriert Fehler und springt weiter
+On Error Resume Next
+
+--Goto, entspricht try catch
+On Error GoTo Fail_XXXX
+
+Done_Correctly:
+	Exist Sub
+	
+Fail_XXXX:
+	XXXX
+	
+###############################
+Custom Funktion 
+	--> erlaubt nutzung als Formel in Zelle =CustomFunnktion()
+	--> Außerhalb Subroutine
+	--> Funktionsreturn ist variable, deshalb hat Funktion datentyp 
+###############################
+Function Funktionsname(p as double, p2 as double) as Double
+if p > p2 Then
+	Funktionsname = p
+	else
+	Funktionsname = p2
+End If	
+END Function
+

@@ -1,0 +1,578 @@
+################################################################################
+#Tabular/DAX Allgmein:
+################################################################################
+#columnar database:statt Tabelle mit Zeilen + Spalten
+					--> Spalten werden zu selbständigen strukturen
+					--> Zuordnung der einzelnen Spalten zueinander über gleiche Indexe[0,1..]
+#Memory Requirement Faktoren: Datentyp, Datenlänge, Rownumber, Columnnumber, Distinctcount
+#Execution Order: from inside to outside
+	# SUMX(Sales, Sales[Value] * 2)
+	# first each row * 2, then aggregates by iterating over the rows
+#X-Functions: SUMX(), AVERAGE(X)
+	# functions are iterators --> calculate each row then create aggregations
+#Context:
+	#Filter Context: aggregations of everything visibile in current filters
+	#Row    Context: which column values for each row belong together/form a row
+		# Calc Columns: always use row context Table[XX] = Table[x1]+Table[x2]
+		# Calc Measure: only with an additional iterator creating rowcontext --> X-Functions, Filter,..
+			# Examples for valid/invalid calc measures due to row context
+			# Valid  : Margin := SUMX (Sales, Sales[Quantity] * ( Sales[Net Price] - Sales[Unit Cost] ))
+			# Invalid: Margin := Sales[Quantity] * ( Sales[Net Price] - Sales[Unit Cost] ) 
+				--> only valid as calc column, because of automic row context
+#Unidirectional/Bidiretional relation in Model (marked in model with arrows: > vs <>
+	# Unidirectional(<): is only filtered/influced when attribute of table itself or directly connected table is filtered
+	# Bidirectional(<>): filters this table aswell, when bd related table which itself is filtered by 3rd hand table also connected
+	# Not set as default though: use CROSSFILTER function for specific measures --> risks (Chapter 15 defintiive gude to dax)
+#Naming Conventions: 
+	# Measures without table Name (Measure), Columns with Table Name (Table[Column])
+	# 'Table'[Column], Table[Column], '' is for default names which would be used otherwise
+#Measure vs Calc Column:
+	# Measure: runtime, no memory,needs iterator for rowcontext, formulas ALWAYS automatically wrapped in CALCULATE()
+	# Column: precalc, memory, defaultrowcontext sinc for each column, 
+# Variables: are constants, more efficient than Measures in IF, help readability by divding codeblocks in smaller parts 
+ 
+###################
+#Dax generell
+###################
+Table[Column]
+'Table'[Column]
+Commenting: -- // /*...*/
+Operators: = <> && || IN NOT -->	'Product'[Color] IN { "Red", "Blue", "White" }
+Calculated Column vs Measure:
+	Calculated Column: basically a table column (faster, needs more ram,dont use agg of CC)
+	Measure: aggreations (slower (calculated on demand), no additional ram req) 
+VAR TOTALSALES = SUM(UMS[Nettoerloes])
+SUM(Table[Column])
+SUMX(Table, Table[Column])
+-- Filter/Calculatetable work with where/selection of values (inner join) to filter 
+FILTER ('Table','TABLE'[COLUMN] = "WHERE")
+FILTER ('Table','TABLE'[COLUMN1] = "WHERE" || 'TABLE'[COLUMN2] = "WHERE2" )
+CALCULATETABLE ('Table','TABLE'[COLUMN] = "WHERE")
+CALCULATE ( expression_measure, filter1, filter2, …, filterN )
+LOOKUPVALUE(Resultcolumn, searchcolumn, searchvalue)	
+RELATED('other_Table'[Column])
+RELATEDTABLE ('other_Table')
+ALL('Table'[Column])
+ALL('Table')
+--Math Functions:
+DIVIDE(X,Y), MULTIPLY(X,Y), ADDITION(X,Y), SUBTRACTION(X,Y)
+--VALUES VS Distinct: distinct removes blanks, values does not
+VALUES(Table[column])
+DISTINCT(Table[column])
+
+################################################################################
+Calculated column(Row Based): Werte warden für jede EINZELNE Zeile Berechnet
+################################################################################
+= AE[AE_Menge]* AE[AE_Wert]
+= Kunde[B1_Branche_Id]&","&Kunde[Branche_de_bez]
+
+################################################################################
+Measures(Column Based): Werte werden nur für ganze Spalte im Kontext berechnet
+################################################################################
+AE_WERT:=SUM(AE[AE_Wert])
+AE_STK:=SUM(AE[AE_Wert])-SUM(AE[AE_Menge])
+AE_STK:=SUMX(AE, AE[AE_Wert]-AE[AE_Menge])  
+
+################################################################################
+X Functions: Iterators work for each column, save ram since dont need CC
+################################################################################
+V1: 2 steps + CC
+Sales[DaysToDeliver] = INT ( Sales[Delivery Date] - Sales[Order Date] )
+AvgDelivery := AVERAGE ( Sales[DaysToDeliver] )
+
+V2: X Function saving Ram, doing the same
+AvgDelivery :=
+	AVERAGEX (
+		Sales,
+		INT ( Sales[Delivery Date] - Sales[Order Date] )
+	)
+
+
+################################################################################
+Calculate: (Measure_Expression, Filter1, Filter2) --> Filter = is translated into literal Filter()
+	--> Calculate überschreibt Filter Context in report, Fitler nicht
+	--> CALCULATE --> Calculate wird zu Filter, beide beispiele identisch
+	--> inner CALCULATE überschreibt outer CALCULATE wenn selbe Spalte 
+		--> KEEPFILTERS innen --> behält beide filter
+		--> inner: KEEPFILTERS(x,y) outer: (y,z) --> x,y,z
+	--> calculate > filter --> less expensive
+	--> Calculate in Row Context(Calc Column, or in calc Measure (SUMX(Table, CALC(SUM(Measure)))
+		--> removes row context, therefore has to create its own --> expensive
+		--> to identify EACH row now, each row is defined as the values of each columns 
+		--> n1 columns = number of filters with value of column --> c1 = 'value of row', c2 = value of row, c3...
+			--> all values filtered like current row --> does not mean its unique !!! multiple rows can have all same values
+################################################################################
+--single table reference
+CALC_MEASURE:=
+CALCULATE(
+	SUM(FACT_AE[AE_Menge])
+   ,'MD_Zeit'[CY YEAR]=2022
+   ,'MD_Zeit'[CY Month]=202201
+	)
+
+Calc_Measure:= 
+CALCULATE(
+		SUM(FACT_AE[AE_Menge]),
+        FILTER(
+		   'MD_Zeit',
+		   'MD_Zeit'[CY YEAR]=2022
+		   && 'MD_Zeit'[CY Month]=202201
+		 )
+)
+
+--Multiple TABLESPACE: calc1 Währung,calc2 Time
+CALC_MEASURE:=
+CALCULATE(
+			CALCULATE(
+						SUM(FACT_AE[AE_Menge])
+					   ,MD_Waehrungssicht[waehrungsicht] = "Euro" 
+					),
+			MD_Zeit[CY YEAR]=2022
+		)
+
+################################################################################
+#where --> Filter
+ # does not change filter context, filter is an iterators
+ # iterators over table and returns a subset of table
+ # nested filter = AND, && Filter --> nested is less readable, but faster if problematic (bigger filter first/inside)
+################################################################################
+--FILTER V1: Filter=subselect --> ersetzt ganze AE Tabelle als Datenbasis für Abfrage
+FILTER_MEASURE:=
+SUMX(
+	FILTER('AE','AE'[Datenart] = "Act")
+   ,AE[AE_Menge]
+	)
+	
+FILTER_MEASURE:=
+SUMX(
+	FILTER('AE',RELATED('Zeit'[CY YEAR])=2021)
+		   ,AE[AE_WERT]
+	)
+--Measure 2-4 have the same result	
+FILTER_MEASURE_2_FILTER:=
+SUMX(
+	FILTER('zAE'
+	       ,'zAE'[Datenart] = "Act" && 
+		    'zAE'[Kundenbezirk_Key]=2508)
+   ,zAE[AE_Menge]
+	)
+	
+FILTER_MEASURE_2_FILTER:=
+SUMX(
+	FILTER('zAE'
+	       AND (
+		        'zAE'[Datenart] = "Act", 
+		        'zAE'[Kundenbezirk_Key]=2508)
+   ,zAE[AE_Menge]
+	)
+	
+FILTER_MEASURE_4_FILTER:=
+SUMX(
+    FILTER(
+			FILTER('zAE'
+				   ,'zAE'[Kundenbezirk_Key]=2508
+				   ),
+		   'zAE'[Datenart] = "Act"
+		   ),
+   ,zAE[AE_Menge]
+	)
+	
+################################################################################
+where --> CALCULATETABLE --> ignoriert Filterkontext
+	  --> wenn andere Datenarten drin sind, zeigt trotzdem wert von ACT an
+	  --> inner calculate überschreibt outer calculate
+################################################################################
+--CALCULATETABLE V1: ersetzt AE Tabelle
+CALC_TABLE_MEASURE:=
+SUMX(
+	CALCULATETABLE ('AE','AE'[Datenart] = "Act")
+	,AE[AE_Menge]
+	)
+
+-- CALCULATETABLE V2: Filtert auf selectierte Daten
+CALC_TABLE_MEASURE:= 
+CALCULATE(
+		SUM(AE[AE_Menge]),
+        CALCULATETABLE(
+		   'AE',
+		   'AE'[Datenart] = "Act" 
+		 )
+)
+
+-- VGL WHERE und JOIN Filter
+EVALUATE CALCULATETABLE(
+	MD_Zeit
+   ,MD_Zeit[CY Year] = 2022
+)
+
+EVALUATE CALCULATETABLE(
+	MD_Zeit
+   ,CALCULATETABLE(
+			MD_Zeit
+		   ,MD_Zeit[CY Year] = 2022
+		)
+)
+################################################################################
+Zugriff auf mehrere Tabellen
+################################################################################
+--Filtern von Datenart basierend auf existenz in AE
+EVALUATE
+	FILTER(
+		VALUES( 'Datenart'[ID] ),
+		CONTAINS(
+			RELATEDTABLE( 'AE' ),
+			AE[Material_Key], 
+			1
+	)
+)
+
+################################################################################
+Zeitfunktionen
+################################################################################
+--YTD/QTD/MTD
+[Summe AE_Menge]:=sum(AE[AE_Menge])
+[YTD AE_Menge]  := CALCULATE( [Summe AE_Menge], DATESYTD( 'Zeit'[TimeDayID] ) )
+[YTD AE_Menge]  := TOTALYTD( [Summe AE_Menge] , 'Zeit'[TimeDayID] )
+
+--Previous Year
+[PY AE Menge]:= CALCULATE( [Summe AE_Menge], DATEADD( 'Zeit'[TimeDayID], -1, YEAR ) )
+[PY AE Menge]:= CALCULATE( [Summe AE_Menge], SAMEPERIODLASTYEAR( 'Zeit'[TimeDayID] ) ) 
+[PY AE Menge]:= CALCULATE( [Summe AE_Menge], PreviousYear('Zeit'[TimeDayID]))
+
+--YTD aus Previous Year
+[PY YTD Menge] :=
+	CALCULATE(
+				[Summe AE_Menge],
+				 DATESYTD( SAMEPERIODLASTYEAR( 'Zeit'[TimeDayID] ) )
+) 
+
+--Last 30 days
+--Can be used for YTD/MTD Dimension?
+	--> define period (variable) and calc Measure for this period
+AvgXSales30 :=
+VAR LastVisibleDate = MAX ( 'Date'[Date] )
+VAR NumberOfDays = 30
+VAR PeriodToUse =
+	FILTER (
+		ALL ( 'Date' ),
+		'Date'[Date] > LastVisibleDate - NumberOfDays,
+		'Date'[Date] <= LastVisibleDate
+	)
+VAR Result =
+	CALCULATE ( --Version excluding days with 0 Sales Amount
+				AVERAGEX ( 'Date', [Sales Amount] ) ,
+				--Version including daays with 0 Sales Amount
+				DIVIDE([Sales Amount], COUNTROWS('Date')),
+				PeriodToUse
+	)
+RETURN
+	Result		
+################################################################################
+Summen für aggregierte Spalten 
+################################################################################
+#Average age for customer by getting distinct distinct salesdates 
+Correct Average :=
+	VAR CustomersAge =
+		SUMMARIZE ( 					-- Existing combinations
+					Sales, 				-- that exist in Sales
+					Sales[CustomerKey], -- of the customer key and
+					Sales[Customer Age] -- the customer age
+					)
+	RETURN
+		AVERAGEX ( 
+										-- Iterate on list of
+					CustomersAge, 		-- Customers/age in Sales
+					Sales[Customer Age] -- and average the customer's age
+				  )
+
+################################################################################
+# Accessing different tables
+	#Related: N:1  		--> starting from the N side relating to N --> calulcation done with one of each rows
+	#Relatedtable: 1:N	--> Starting from the 1 Side 			   --> calculates all values of N for reach row of M 
+################################################################################
+#1:1 
+Table[CalcColumnName] = Sales[Unit Price] - RELATED ( 'Product'[Unit Price] )
+
+Measurename :=SUMX (
+					Sales,
+						Sales[Quantity]
+						* RELATED ( 'Product'[Unit Price] )
+						* RELATED ( 'Product Category'[Discount] )
+					)
+#1:N 
+Product[NumberOfSales] =
+	VAR SalesOfCurrentProduct = RELATEDTABLE ( Sales )
+	RETURN
+		COUNTROWS ( SalesOfCurrentProduct )
+################################################################################
+--All Ingoriert ALLE anderen Filter, für Weiterverwendung, statisch vs dynamisch berechnungen
+	--Verwendung für Total Values, zeigt Gesamtwert an für z.B. % Werte abhängig von Total
+	--ALL('Table'[Column]) entfernt filtercontext nur für diese spalte
+	--ALL('Table') entfernt filter für ALLE Spalten im Report dieser Tabelle
+		--> ALL on Dimension for Dim only filter removal
+		--> ALL on Fact Table itself = removes all related filters (all also means time)
+	--KEEPFILTERS() --> only shows values if matching condition in report(compared to all values in ALL())
+	--ALLSELECTED() --> ingores Filters in DAX formulation, but unlike ALL applies filters in Report (slicer/filter)
+################################################################################
+#X1: value for whole time
+ALL_MEASURE:= CALCULATE(SUM(AE[AE_Menge]),ALL('Zeit'[CY YEAR]))
+XYZ:=[ALL_MEASURE]/[FILTER_MEASURE]
+
+#X2: number of ALL red products, independent of brand/color/...
+NumOfAllRedProducts :=
+	VAR AllRedProducts =
+		FILTER (
+				ALL ( 'Product' ),
+				'Product'[Color] = "Red"
+				)
+	RETURN
+		COUNTROWS ( AllRedProducts )
+
+#X3: remove all filters except certain
+all_excep_measure := 
+	CALCULATE( 
+				FACT_AE[AE_Menge],
+				ALL( 'FACT_AE'),
+				VALUES('MD_Waehrungssicht'[CY YEAR] = 2022)
+	        )
+
+################################################################################
+Beziehungen/Spalten zu/aus anderen Tabellen 
+################################################################################
+--Spalte aus andere Tabelle 
+RELATEDTABLE((AndereTabelle); AndereTabelle[Spalte])
+RELATED(AndereTabelle[Spalte])
+COUNTROWS(RELATEDTABLE((AndereTabelle))) --Anzahl Einträge
+SUMX (
+		Sales,
+		Sales[Quantity]
+		* RELATED ( 'Product'[Unit Price] )
+		* RELATED ( 'Product Category'[Discount] )
+)
+
+
+
+--Neue spalte basierend auf MEHREREN foreign Keys
+Neue_Spalte_in_ZielTabelle = LOOKUPVALUE(
+	Suchtabelle[Wunsch_Spalte],
+	Suchtabelle[FK1_Suchtabelle], ZielTabelle[FK1_ZielTabelle],
+	Suchtabelle[FK2_Suchtabelle], ZielTabelle[FK2_ZielTabelle]
+)
+
+
+################################################################################
+IF und Error Handling
+################################################################################
+IF (
+    ISERROR(Table[Measure1]/Table[Measure2])
+	,"ERROR"
+	,"NO Error"
+   )
+   
+IFERROR(Table[Measure1]/Table[Measure2],0) 
+
+################################################################################
+SELECT Queries
+################################################################################
+--Simple Colums/Table Query
+EVALUATE MD_Waehrungssicht
+EVALUATE VALUES(MD_Waehrungssicht[waehrungsicht])
+EVALUATE CALCULATETABLE(VALUES(MD_Waehrungssicht[waehrungsicht]), MD_Waehrungssicht[waehrungsicht] = "Euro")
+
+--Nur ausgewählte spalten
+EVALUATE
+SELECTCOLUMNS (
+    Datenart,
+    "ID", Datenart[ID],
+    "BEZ",Datenart[BEZ]
+)
+
+--Gruppiert/Distinct
+EVALUATE --FROM
+SUMMARIZECOLUMNS (	
+	 Datenart[ID]
+	,Datenart[BEZ]
+)
+	 
+EVALUATE 
+SUMMARIZE(	
+    Datenart
+   ,Datenart[ID]
+   ,Datenart[BEZ]
+)
+--Calculations: 2 Dimension Attributes, 1 Dimension Filter and 3 Measures 
+DEFINE
+	MEASURE FACT_AE[Net AE] =
+		SUMX ( FACT_AE, FACT_AE[AE Menge] * FACT_AE[AE Wert])
+EVALUATE
+SUMMARIZECOLUMNS  (
+					MD_Zeit[CY Year],
+					MD_Waehrungssicht[waehrungsicht],
+					FILTER(MD_Waehrungssicht,MD_Waehrungssicht[waehrungsicht] = "Euro"),
+					"Wert",FACT_AE[AE Wert],
+					"Menge",FACT_AE[AE Menge],
+					"TOTAL AE", [Net AE]
+					)
+ORDER BY FACT_AE[AE Wert]
+
+	
+
+
+################################################################################
+Variablen
+################################################################################
+-- Readability:
+Margin% :=
+VAR SalesAmount =
+	SUMX ( Sales, Sales[Quantity] * Sales[Net Price] )
+VAR TotalCost =
+	SUMX ( Sales, Sales[Quantity] * Sales[Unit Cost] )
+VAR Margin =
+	SalesAmount - TotalCost
+VAR MarginPerc =
+	DIVIDE ( Margin, TotalCost )
+RETURN
+	MarginPerc
+
+Margin :=
+	SUMX (
+		Sales,
+		VAR LineAmount = Sales[Quantity] * Sales[Net Price]
+		VAR LineCost = Sales[Quantity] * Sales[Unit Cost]
+	RETURN
+	LineAmount - LineCost
+)
+
+VAR Test = 
+	VAR Variable1 = SUM(Table[Measure1]
+	VAR Variable2 = SUM(Table[Measure2]
+	RETURN (IF(Variable1 < Variable2,Variable2,Variable1))
+
+#Define variable for rowcontext --> PriceOfCurrentProduct becomes the value of the current row, allows comparison to all others
+'Product'[UnitPriceRank] =
+	VAR PriceOfCurrentProduct = 'Product'[Unit Price]
+	VAR MoreExpensiveProducts =
+		FILTER (
+				'Product',
+				'Product'[Unit Price] > PriceOfCurrentProduct
+				)
+		RETURN
+			COUNTROWS ( MoreExpensiveProducts )
+			
+NumOfRedProducts :=
+	VAR RedProducts =
+	FILTER (
+			'Product',
+			'Product'[Color] = "Red"
+			)
+	RETURN
+		COUNTROWS ( RedProducts )
+	
+################################################################################
+RankX
+	--> ALL:RANKS current selection based on ALL in Table, global ranking, might have gaps between ranks
+	--> ALLSELECTED: only creates "local" rank for all selected items without gaps from 1-N
+################################################################################
+RANKX(ALL(RankThis),Sortiert_Kriterium)
+RANKX(ALL(Material[Material_Key]),AE[Menge])
+RANKX(ALL(RankThis),Sortiert_Kriterium,DESC,DENSE) --DENSE: Value TIES get same rank
+--Best Practice: HAS ONE VALUE 
+	--> prevent unexpected results, only rank relevant
+	--> if COLUMN is not filtered result is blank
+RANK_MEASURE:=
+IF (
+	HASONEVALUE('TABLE'[COLUMN]),
+	RANKX( 
+			ALL('TABLE'[COLUMN]),
+			[MEASURE]
+		)
+	)
+################################################################################
+SWITCH: alternative zu verschachtelten IF
+################################################################################
+# IF
+'Product'[SizeDesc] =
+						IF (
+						'Product'[Size] = "S",
+						"Small",
+							IF (
+							'Product'[Size] = "M",
+							"Medium",
+								IF (
+								'Product'[Size] = "L",
+								"Large",
+								"Other"
+									)
+								)
+						)
+
+#Switch
+'Product'[SizeDesc] =
+					SWITCH (
+						'Product'[Size],
+						"S", "Small",
+						"M", "Medium",
+						"L", "Large",
+						"Other"
+					)
+################################################################################
+# Earlier - redefine rowcontext - use the previous one
+################################################################################
+#Define variable for rowcontext --> PriceOfCurrentProduct becomes the value of the current row, allows comparison to all others
+'Product'[UnitPriceRank] =
+	VAR PriceOfCurrentProduct = 'Product'[Unit Price]
+	VAR MoreExpensiveProducts =
+		FILTER (
+				'Product',
+				'Product'[Unit Price] > PriceOfCurrentProduct
+				)
+		RETURN
+			COUNTROWS ( MoreExpensiveProducts )
+
+#Also changes inner rowcontext of 'Product'[UnitPrice] to current row
+'Product'[UnitPriceRankDense] =
+	COUNTROWS (
+		FILTER (
+			VALUES ( 'Product'[Unit Price] ),
+			'Product'[UnitPrice] > EARLIER ( 'Product'[UnitPrice] )
+		)
+	)
+
+################################################################################
+Hiearchien
+################################################################################
+--Über mehrere Tabellen hinweg: Lösung -->Spalten aus anderen Tabellen aufnehmen
+BasisTabelle[Neue_Spalte1] = RELATED(ANDERE_TABELLE[gewuenschtes_Attribut])
+
+--Parent Child: Tabelle die auf sich selbst joined
+--Schritt1: Verbindung erzeugen
+	HiearchiePfad=PATH(Kunde[Kunde_VV_Key];Kunde[Parent_Kunde_VV_Key])
+
+--Schrit2:Pfadlänge prüfen für Anzahl Level (Pfadlängen anzeigen und hier max suchen)
+	Kunde[HierchieDepth] = PATHLENGTH( Kunde[HiearchiePfad] )
+	MAX_Depth:= MAX(Kunde[HierchieDepth])
+
+--Schritt3: Level für Hierarchie erzeugen --> Pathitem = Indexierte Liste mit jeweiligem Pfadlänge
+	--> LOOKUPVALUE(HOLT_SPALTE_ZU,DIESER_SPALTE,BASIEREND_AUF_DIESEM_WERT)
+		--> LOOKUPVALUE(Result, searchcolumn, searchvalue)
+	--> PATHITEM(Erzeugte_Pfad_Spalte,Level_des_Pfads) --> 3rd parameter INTEGER, Text,no Paramter (Text)
+	Kunde[Level1]:=LOOKUPVALUE([Verbraucher_DE_bez],[Kunde_VV_Key],PATHITEM(Kunde[HiearchiePfad],1))
+	Kunde[Level2]:=LOOKUPVALUE([Verbraucher_DE_bez],[Kunde_VV_Key],PATHITEM(Kunde[HiearchiePfad],2))
+	Kunde[Level3]:=LOOKUPVALUE([Verbraucher_DE_bez],[Kunde_VV_Key],PATHITEM(Kunde[HiearchiePfad],3))
+
+--Schritt4: Hierarchie in Model erzeugen aus Level 1-NATIONAL
+	
+################################################################################
+#Rollen über Tabelle zuweisen
+################################################################################
+= CONTAINS( Berechtigungs_Pflegetabelle,
+	Berechtigungs_Pflegetabelle[RoleName_Spalte], "MyRole",
+	Berechtigungs_Pflegetabelle[CalendarYear], RELATED( DimDate[CalendarYear] ),
+	Berechtigungs_Pflegetabelle[Color], RELATED( DimProduct[Color] )
+)
+
+=DimSalesTerritory[SalesTerritoryKey]=LOOKUPVALUE(
+										DimUserSecurity[SalesTerritoryID], 
+										DimUserSecurity[UserName], USERNAME(),
+										DimUserSecurity[SalesTerritoryID], DimSalesTerritory[SalesTerritoryKey]
+										)

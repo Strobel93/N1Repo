@@ -1,0 +1,162 @@
+################################################################################
+# MDX
+################################################################################
+--Ampersand &: Key vs Name in Dimension, identisches Ergebnis
+	-->[Category].[CategoryName].[Hardware]
+	-->[Category].[CategoryName].&[6]
+--Member: einzelnes Element 
+	--> [Measures].[Bezugsmenge], [Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1]
+--Tuple: members aus untersch. Dim 
+	--> ([Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1],[Waehrungssicht].[Waehrungsicht].&[Euro])
+--Set: Liste von tuppeln
+	--> gleiche Attribute: {[],[]} 	={[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+									 ,[Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1]}
+	--> unterschied  Attr: {(),()}  =      ,{
+											 (
+												[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+											   ,[Waehrungssicht].[Waehrungsicht].&[Euro]
+											  ),
+											 (
+												[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+											   ,[Waehrungssicht].[Waehrungsicht].&[Landeswährung]
+											  )
+											}
+											
+--Dimensionszugriff: Zugriffebene.Members bestimmt ob ALL enthalten ist oder nicht
+	--Attribut(nur ALL):	[Kunde].[Kunde ID]
+	--Attribut(nur ALL):	[Kunde].[Kunde ID].[All]
+	--Alle Werte in Dim:	[Kunde].[Kunde ID].[Kunde ID]
+	--Alle Werte in Dim:	[Kunde].[Kunde ID].[Kunde ID].MEMBERS
+	--Member DIM:			[Kunde].[Kunde ID].&[1000000000090]
+	--Hierarchie:			[Kunde].[Branche]
+	--Hier. Level:	    	[Kunde].[Branche].[Branche Stufe 1]
+	
+--CurrentMember: aktuellte Member in:Hierarchie /Dimension 
+	--> [Zeit].[Kalender].CurrentMember
+	--> [Zeit].[CY Month].Currentmember
+	
+--MEMBERS: Alle Elemente von Hierarchie, Dimension, Dimensionslevel (mit/ohne ALL)
+	--> Attribut in Dimension: [Kunde].[Kunde Kurz Id].[Kunde Kurz Id].MEMBERS
+	--> Ganze Hierarchie:	   [Kunde].[Land].[Land Id].MEMBERS
+	--> Level in Hierarchie:   [Kunde].[Land].MEMBERS
+	
+--FILTER:filter(zu_filternde_Daten, basierend_auf)
+		filter([Kunde].[Kunde ID].[Kunde ID].members,
+		       [Measures].[Nettoerloes CO) > 0)
+				
+--Aggregate die Measure für ausgewählte Dim zusafa, wenn keine Measure angegeben, aggregierte ausgewählte Measure
+	--Aggregieren von Dimensionen für aktuell ausgewählte Measure: von-bis, oder X und Y
+		-->Aggregate({[Zeit].[CY Year].&[2012],[Zeit].[CY Year].&[2020]})
+		-->Aggregate([Zeit].[Kalender].CurrentMember.Lag(11) : [Zeit].[Kalender].CurrentMember)
+	--Aggregieren spezifischer Measure: für Sets, Scope,...
+		-->Aggregate([Datenart].[Datenart].&[Jahr 2-3 roll.],[Measures].[Nettoerloes CO])
+		-->Aggregate([Zeit].[CY Month].Currentmember.lag(23):[Zeit].[CY Month].Currentmember,[Measures].[Nettoerloes CO])
+--Count: zählt Anzahl Elemente
+	--Elemente verschiedene Stufen in Hierarchie 
+		 ([Zeit].[Kalender].[CY Month].&[201205].children,[Zeit].[Kalender].[CY Month].&[201311].children).count
+	--mit Filter
+		count( 
+		  filter([Kunde].[Kunde ID].[Kunde ID].members,
+				  Aggregate([Datenart].[Datenart].&[2 Jahre roll.],[Measures].[Nettoerloes CO]) > 0 )        
+		   ), 		
+--MIN()/MAX()/MEDIAN()/AVG()/..
+	--> MAX([Kunde].[Land].[Land Id].MEMBERS,[Measures].[Nettoerloes CO])
+
+--RANK: Rank(zu_Rankende_Daten,Alle_Daten_die_fuer_Ranking_relevant_sind,Reihenfolge_Bedingung_zb_Measure)
+	--Kunde unter allen Kunden: keine Order angegeben Ordnet nach aktueller Measure
+		Rank([Kunde].[Kunde ID].CURRENTMEMBER,
+				 [Kunde].[Kunde ID].[All].Children,
+				 [Measures].[Nettoerloes CO]
+			)	
+	--Kunde unter submenge an Kunden:
+		RANK(
+			([Kunde].[Kunde ID].CURRENTMEMBER),
+			 FILTER([Kunde].[Kunde ID].[Kunde Id].Members,
+					 COALESCEEMPTY(([Measures].[DB IV],[Datenart].[Datenart].&[Act.LastMonth]),0) <> 0),
+			[Measures].[Nettoerloes CO]
+			)	
+--ORDER:			
+	ORDER(
+	      [Kunde].[Kunde ID].[Kunde Id].Members,
+		  [Measures].[Nettoerloes CO], 
+		  DESC 
+		 )		
+--Erzeuge verstecktes künstliches element/set das alle Elemente on X enthält
+	create hidden set currentcube.[Bohrerart except YPAB] as
+	EXCEPT([Material].[Bohrerart Id].[Bohrerart Id].MEMBERS
+		  ,[Material].[Bohrerart Id].&[YPAB]);  
+		  
+--IIF(): IIF(Test,when_True,when_False)
+	iif(abs([Measures].[Angebotene Menge]) > 0.01,
+		[Measures].[Angebot-HK] /[Measures].[Angebotene Menge],
+		NULL),	
+
+--Scope: Einschränkung Datenmenge --> hier als definiiton für Element in Dimension
+	SCOPE (Subcube_Datenmenge);
+	THIS = Berechnung * für * Subcubedaten
+	END SCOPE;
+	
+	SCOPE([Datenart].[Datenart].&[Jahr roll.]);                    
+	THIS = AGGREGATE(
+			{ClosingPeriod([Zeit].[Kalender].[CY Month],[Zeit].[Kalender].CurrentMember.Lag(11) ) : 
+			 ClosingPeriod([Zeit].[Kalender].[CY Month],[Zeit].[Kalender].CurrentMember )}      
+			 ,([Datenart].[Datenart].&[Act]));                        
+		END SCOPE;      
+	
+CREATE MEMBER CURRENTCUBE.[Measures].[where2]
+ AS ([Measures].[Bezugsmenge],[Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1]), 
+FORMAT_STRING = "#,##0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Qualitätsmeldungen'  ; 
+
+CREATE MEMBER CURRENTCUBE.[Measures].[where4]
+ AS (([Measures].[Bezugsmenge],[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1])
+     +([Measures].[Bezugsmenge],[Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1])), 
+FORMAT_STRING = "#,##0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Qualitätsmeldungen'  ; 
+
+--Where: innerhalb selben Hierarchie/Attribut in Dimension
+SELECT [Measures].[Anzahl QM-Meldungen] ON COLUMNS 
+      ,[Datenart].[Datenart].[All] ON ROWS
+FROM [EINKAUF]
+WHERE {[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+       ,[Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1]}
+
+--Where über mehrere unterschiedliche Attribute 
+SELECT [Measures].[Anzahl QM-Meldungen] ON COLUMNS 
+      ,[Datenart].[Datenart].[All] ON ROWS
+FROM [EINKAUF]
+WHERE ([Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+       ,[Waehrungssicht].[Waehrungsicht].&[Euro])
+
+--Filter in Where
+select [Zeit].[Day Of Month].members on Rows
+      ,[Measures].[AE Menge] on Columns
+from Vertrieb
+WHERE [Zeit].[CY Month].&[202101]
+
+--Filter in Rows
+select [Zeit].[Day Of Month].members * [Zeit].[CY Month].&[202101] on Rows
+      ,[Measures].[AE Menge] on Columns
+from Vertrieb
+
+--Filter AE auf alle Spalten, auf nur 2021 aus anderem attribut
+select ([Measures].[AE Menge],[Zeit].[CY Year].[CY Year],[Zeit].[ISO Year].&[2021])on COLUMNS
+FROM VERTRIEB
+
+--Spalten
+SELECT [Measures].[Anzahl QM-Meldungen] ON COLUMNS 
+     ,{[Qualitaetsmeldung].[Qualitätsmeldungsart].&[U1]
+	  ,[Qualitaetsmeldung].[Qualitätsmeldungsart].&[Q1]} ON ROWS
+FROM [EINKAUF]
+
+--Beides zusammen/Merge: kombiniert Jahre 2019/2020/2021 (iso 2020) mit 2021/2022 (iso 2021)
+select {([Zeit].[CY Year].[CY Year],[Zeit].[ISO Year].&[2021])
+      ,([Zeit].[CY Year].[CY Year],[Zeit].[ISO Year].&[2020])} on COLUMNS
+FROM VERTRIEB
+
+--Join, nur Schnittmenge --> 2021
+select INTERSECT(
+    {[ISO Year].&[2021],[ISO Year].&[2020]}
+    ,{[ISO Year].&[2021]}
+) on COLUMNS
+FROM VERTRIEB
