@@ -1,6 +1,7 @@
 # get datasets or use sns datasets like iris to:
-    # use and test all the scikit models i made notes of
-#https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html
+# use and test all the scikit models i made notes of
+https://scikit-learn.org/stable/user_guide.html
+    # https://scikit-learn.org/stable/model_selection.html
 
 
 #online scikit tutials/walkthroughs:
@@ -14,8 +15,7 @@ https://www.tutorialspoint.com/scikit_learn/scikit_learn_introduction.htm
 #Generell:  
     
 #Data Analysis:
-  https://github.com/rushter/MLAlgorithms
-    https://github.com/scikit-learn/scikit-learn
+    https://github.com/rushter/MLAlgorithms
     https://github.com/TheAlgorithms/Python.git
     https://github.com/ageitgey/face_recognition
     https://github.com/tensorflow/tensorflow
