@@ -15,7 +15,7 @@ multi_line_style = (    # () > \ for line breaking
     "line 2"
     )
 ###########################################
-#Import
+#Import: any directory with an __init__.py (empty/comments/imports) file is considered a Python package
 ###########################################
 import python_Datei_komplett
 from Python_Datei import funktion
@@ -105,7 +105,7 @@ set_bsp = {1,2,3,3,4}
 ###################################
 #Dictionary
 ###################################
-dick = {'size': 5, 'color': 'white'} #gefüllte Liste erzeugen
+dick = {'size': 5, 'color': 'white'} #gefï¿½llte Liste erzeugen
 print(dick['size'])
 print(dick.items)
 print(dick.keys) 
@@ -137,8 +137,8 @@ x = np.arange(1,10).reshape(3,3)		#3x3 range
 ##################################################################################
 #Slicing [a:b:c]/slice(a,b,c) = [von:bis:Schritt] 
 ##################################################################################
-#C hat Dimensionalität von 4:2:3 (4 Arrays, mit je 2 Arrays Länge, mit je 3 Elementen
-#Slicing-->0 nicht für Anfang und len(a) nicht für ende wählen[:N],[N:]
+#C hat Dimensionalitï¿½t von 4:2:3 (4 Arrays, mit je 2 Arrays Lï¿½nge, mit je 3 Elementen
+#Slicing-->0 nicht fï¿½r Anfang und len(a) nicht fï¿½r ende wï¿½hlen[:N],[N:]
 print(c[:])
 print(c.shape)
 print(c[0][1][1])   #Array 1, Subarray 2, Position 2
@@ -147,7 +147,7 @@ print(c[0,[3,2,1])	#Array 1, Element 3, 2, 1
 print(c[:,:,0])     #Alle ersten Positionen jedes Subarrays
 print(c[:,0,:])     #Alle ersten Subarrays aller 4 Arrays
 print(c[0,::])      #Ganze erste Array    
-#Rückwerts --> stepsize -1
+#Rï¿½ckwerts --> stepsize -1
 print(s[::-1])
 all_but_last_n = x[:-2]
 only_last_n = x[-5:]
@@ -220,12 +220,12 @@ keys_by_ind_slice		= s['apples':'cherries'].keys()
 ###################################
 #Dataframe: import pandas as pd
 #Dataframe besteht aus N panda Series
-	--> Seriesfunktionen für DF Spalten verwendbar
+	--> Seriesfunktionen fï¿½r DF Spalten verwendbar
 	--> df["Column"] == Series
 ###################################
 import pandas as pd
-axis = 0 --> über alle Zeilen  (1x average pro Spalte)
-axis = 1 --> über alle Spalten (1x average aller numerischen Werte dieser Zeile)
+axis = 0 --> ï¿½ber alle Zeilen  (1x average pro Spalte)
+axis = 1 --> ï¿½ber alle Spalten (1x average aller numerischen Werte dieser Zeile)
 
 #########################
 # Creation
@@ -248,8 +248,8 @@ indexes.set_index('C1', Inplace=True)
 multi_indexed_DF.index.names = ['first_ind','second_ind']
 multi_indexed_DF.set_index(['C1','c2','c3'], Inplace=True)
  
-#Übersich über Dataframe: count, mean, min,max,.. (stackable ontop each other)
-#Counter z.B. nützlich für fehlende Werte
+#ï¿½bersich ï¿½ber Dataframe: count, mean, min,max,.. (stackable ontop each other)
+#Counter z.B. nï¿½tzlich fï¿½r fehlende Werte
 #funktionieren auch auf spalten df[Year].isnull(), df.Year.isnull()
 df.describe()
 df.columns
@@ -278,7 +278,7 @@ print(df[["Year","Points"]])
 tf2 = (df['Year']==2016) | (df['Year']==2017)
 print(df[tf2]) 
 
-#Query, soadss gesehen mit @ tag für variablen
+#Query, soadss gesehen mit @ tag fï¿½r variablen
 bsp = 2016
 print(df.query('Year == @bsp' & Team = 'Kings'))
 print(df.query('Team == "Kings"'))
@@ -290,7 +290,7 @@ tf4 = df['Year'].isin([2014,2015,2016])
 #loc/iloc (indexlocator) Struktur immer: [Rows or Index, Columns]
 print(df.loc[['a','b'],['Team','Rank','Year']])
 print(df.loc['a':'d'],['Team','Rank','Year']])
-print(df.loc[tf4,['Team','Rank','Year']]) #True/False für Row Filter
+print(df.loc[tf4,['Team','Rank','Year']]) #True/False fï¿½r Row Filter
 print(df[(df['Year']<=2015)])
 print(df[df.Year <= 2015])
 print(df[df['Year'].notnull()])
@@ -315,7 +315,7 @@ print(df[(df['Year']<=2015)].groupby(['Team','Year'])['Points'].sum())
 print(df[(df['Year']<=2015)].groupby(['Team','Year']).agg({'Points':sum}))
 print(df[(df['Year']<=2015)].groupby(['Team','Year']).agg({'Points':sum, Points2: [min, max]}))
 print(df.loc[df["Points"] >= df["Points"].mean()])
-print(df[(df['Year']<=2015)].groupby(['Team','Year']).agg(count('Year'))).alias(‘Counter Column’)
+print(df[(df['Year']<=2015)].groupby(['Team','Year']).agg(count('Year'))).alias(ï¿½Counter Columnï¿½)
 print(df.groupby(listname)])
 print(df.groupby(df[])])
 
@@ -336,7 +336,7 @@ print(df['datecolumn'].dt.year)
 print(df['datecolumn'].dt.month)
 
 #Lag Lead 
-#1 Wert Rückwirkend auslesen -->aus Zeile N Zeilen zurück 
+#1 Wert Rï¿½ckwirkend auslesen -->aus Zeile N Zeilen zurï¿½ck 
 print(df['Year'].shift(1))
 print(df['Year'].shift(365))
 
@@ -392,10 +392,10 @@ value_filter     = multi_indexed_DF[multi_indexed_DF.data1 > 0.5]
 #Edit Dataframes
 #################################################
 #Dataframe Cleaning: 
-#Unnötige Spalten
+#Unnï¿½tige Spalten
 df.drop.(colums=['column1','column2'])
 
-#Unnötige Zeilen, drop Zeile 1 und 3
+#Unnï¿½tige Zeilen, drop Zeile 1 und 3
 df.drop([1, 3])
 df.drop(df.index[[1,3]])
 
@@ -403,7 +403,7 @@ df.dropna(axis=1, how='all')    		#Spalten/Zeilen wo alle Werte NaN
 df.dropna(axis=1, how='any')    		#Spalten/Zeilen mit mit min 1 Nan
 df.dropna(axis=1, how='all', thresh=3)  #Threshold = min number of non nun values to be kept
 
-#Alle Daten ändern
+#Alle Daten ï¿½ndern
 df["Points"]=df["Points"]*100
 df.Points = df["Points"]*100
 df['Points2'] = df['Points']*df['Points']
@@ -411,7 +411,7 @@ df['new_col'] = df['Points']*df['Points']
 df['Points']=df['Points'].apply(lambda x: x*2)
 df.Points=df['Points'].apply(lambda x: x*2)
 
-#Bestimmte Zeilen ändern
+#Bestimmte Zeilen ï¿½ndern
 df['a'][0] = 69
 df.loc['Row','Column'] = 420
 df.iloc[0,0] = 420
@@ -424,12 +424,12 @@ conditions 	    = [(df.Year == 2015),(df.Year == 2014)]
 choices    		= ["2015","2014"]
 df["new_column"]=np.select(conditions,choices,"default")
  
-#Fehlende Werte füllen
+#Fehlende Werte fï¿½llen
 df['Points'].fillna(df['Points'].mean(),inplace= True)
 df.Points.fillna(69)
 df['a']=df['a'].replace(0,df['a'].mean())
 
-#String replace für .apply function, a zu nichts
+#String replace fï¿½r .apply function, a zu nichts
 df['Column'].replace('A','')
 
 ###################################
@@ -783,18 +783,18 @@ dyn3('Param_A', 'tl_1', 'tl_2', b='Param_B')
  
 ##############################################################################################
 list comprehension vs Generator Expression:
-	--> list_comprehension --> für viele iterationne
-	--> iter für große Datenmengen
+	--> list_comprehension --> fï¿½r viele iterationne
+	--> iter fï¿½r groï¿½e Datenmengen
 ##############################################################################################
 symbols = 'ABCDE'
 #################################
 matrix = [[[1,2],[3,4]]
          ,[[5,6],[7,8]]]
 		 
-#Für jede äußere Liste         
+#Fï¿½r jede ï¿½uï¿½ere Liste         
 list_c = [x for x in matrix]
 
-#Für jedes Element in jeder äußeren Liste
+#Fï¿½r jedes Element in jeder ï¿½uï¿½eren Liste
 x2 = [y
 	 for x in matrix
 	 for y in x]        
@@ -837,7 +837,7 @@ re.split(r'[;,\s]\s*', line)
 f = lambda x: x *3 + 7
 f(10)
  
-#Lambda Verwendung für Dynamische Funktion
+#Lambda Verwendung fï¿½r Dynamische Funktion
 def multiply(k):
     return lambda x : x * k
     
@@ -854,13 +854,13 @@ class Person:
     self.firstname = fname
     self.lastname = lname
 
-#Erbende Klasse Student1:Aufruf über Oberklasse.__init__
+#Erbende Klasse Student1:Aufruf ï¿½ber Oberklasse.__init__
 class Student1(Person):
   def __init__(self, fname, lname, year):
     Person.__init__(self, fname, lname)
     self.graduationyear = year
 	
-#Erbe über super() --> ohne self
+#Erbe ï¿½ber super() --> ohne self
 class Student2(Person):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
@@ -877,7 +877,7 @@ f.pop()
 f.append()
  
 ####################################################################################################
-#Counter(): findet häufigsten Wert, order by most to least common
+#Counter(): findet hï¿½ufigsten Wert, order by most to least common
 ####################################################################################################
 from collections import Counter
 l = [1,2,2,3]
@@ -896,10 +896,10 @@ for counter, value in enumerate(some_list):
 #Initialisieren Loggers der in Log Datei schreibt, logged default nur wenn Dringlichkeit > Info, deshalb parameter ab Wichtigkeit N
 logging.basicConfig(filename = "programm.log", level = logging.INFO)
 
-#Meldungen an Logger übergeben, an stellen im Programmcode?
+#Meldungen an Logger ï¿½bergeben, an stellen im Programmcode?
 logging.log(logging.ERROR, "Fehler REEEEEEEEE")
 logging.log(logging.INFO, "NUR INFO REEEEEEEE")
-#logging.log(logging.CRITICAL, "KILLT AUSFÜHRUNG")   #Auskommentiert, weil ausführung killt
+#logging.log(logging.CRITICAL, "KILLT AUSFï¿½HRUNG")   #Auskommentiert, weil ausfï¿½hrung killt
 
 #Deinitialiseren
 logging.shutdown()
@@ -937,7 +937,7 @@ for i in x:
     print(i)
  
 ####################################################################################################
-#Iterateable: Verwendung als Parameter in funktionen wenn man irgend einen Parameter hat von dem man weiß er muss iterierbar sein
+#Iterateable: Verwendung als Parameter in funktionen wenn man irgend einen Parameter hat von dem man weiï¿½ er muss iterierbar sein
 #Listen, Tupple, Dictionary,... sind Iterables
 ####################################################################################################
 from typing import Iterable, Iterator,List
@@ -984,14 +984,14 @@ r = requests.get(url)
 response_dict = r.json()
 
 ##############################################################################################
-# Exceptions: werden bei error immer erstellt, handling ermöglicht verhidnern von Abbruch
+# Exceptions: werden bei error immer erstellt, handling ermï¿½glicht verhidnern von Abbruch
 # Catch --> How to deal with ERROR --> Code Continues instead of stopping right there
 ##############################################################################################
 #Basic error handling
 #############################
 # V1:
 try:
-	#try:Code der Exception erzeugen könnte
+	#try:Code der Exception erzeugen kï¿½nnte
     print(5/0) 
 except NullTeilenError:
     print('Kann nicht durch 0 Teilen')
@@ -1032,7 +1032,7 @@ class CustomError(ValueError):
 		super().__init__('ERROR, falscher parameter: {0}'.format(message))
 	
 # Raise:
-raise CustomError('Paremter für Exception')
+raise CustomError('Paremter fï¿½r Exception')
    
 ################################################################################################
 #Decorator:is a callable that takes another function as argument (the decorated function)
@@ -1040,8 +1040,8 @@ raise CustomError('Paremter für Exception')
 # Basic without parameter
 ###########################################################
 # Mit @ decorierte funktion wird zum func parameter in der funktion die zum @deco namen passt
-# Mehrwert von Aufruf der Funktioniert die dekortiert wurde --> aufruf von decorierte funktioniert führt alles aus deco aus
-# Übergabe von Funktionen als Objekte --> add = add() objekt
+# Mehrwert von Aufruf der Funktioniert die dekortiert wurde --> aufruf von decorierte funktioniert fï¿½hrt alles aus deco aus
+# ï¿½bergabe von Funktionen als Objekte --> add = add() objekt
 def deco(func):
     def wrapper():
         return func() * 2
@@ -1248,17 +1248,17 @@ print("The value of __name__ is:", repr(__name__))
 print("wenn .py file importiert wird ist der filename __name__:", repr(__name__))
 
 #File1.py
-print('Wird bei import und bei Dateiausführung ausgefürt')
+print('Wird bei import und bei Dateiausfï¿½hrung ausgefï¿½rt')
 def ff():
-    print("Wird nur ausgeführt wenn Datei selbst ausgefürht wird, nicht bei import")
+    print("Wird nur ausgefï¿½hrt wenn Datei selbst ausgefï¿½rht wird, nicht bei import")
 
 if __name__ == "__main__":
     ff()
 
 #File2.py
 import file2.py
-print('Führt print 1 aus File1 aus, nicht ff() weil __name__ = File1 und nicht main')
+print('Fï¿½hrt print 1 aus File1 aus, nicht ff() weil __name__ = File1 und nicht main')
 
-#Obere Code führt main aus wenn Datei ausgepführt wird, wenn importiert wird nicht!
-#denn dann .py filename, wenn .py importiert wird wird code ausgeführt wenn nicht in klassen/func
+#Obere Code fï¿½hrt main aus wenn Datei ausgepfï¿½hrt wird, wenn importiert wird nicht!
+#denn dann .py filename, wenn .py importiert wird wird code ausgefï¿½hrt wenn nicht in klassen/func
 

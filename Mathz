@@ -103,10 +103,14 @@ LOG(a)B = x
       --> ( aktuell auswahl aus Pool entfernen)
       #BSP: 4 Optionen (2x2 = 50%) und 3 durchläufe: 4 * 3 * 2 = 24 Permutationen
       
-    # Kombinationsregel: ohne zurücklegen, reihenfolge egal (Lotto), n über k, r zufällige objekte aus n möglichkeiten = N Kombinationen
-     (n über k)
-      (n) = n! /				49! /
-      (k)   k! * (n-r)!				(6! * (49-6)!)
+    # Kombinationsregel (urnmodell): ohne zurücklegen, reihenfolge egal (Lotto), n über k, r zufällige objekte aus n möglichkeiten = N Kombinationen
+      # Mit zurücklegen mit Reihenfolge
+        n^k
+      # Ohne Zurücklegen/ohne Reihenfolge: (n über k)
+        k! * (n-r)!				(6! * (49-6)!)
+      ..
+
+
     
   ############################   
   # Einzel Wahrscheinlichkeit:
