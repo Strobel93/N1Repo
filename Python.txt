@@ -667,7 +667,7 @@ model_pipeline.predict(x2)
 accuracy_score(y_values_correctly_labed, y_predicted_by_model)
 
 # Crossvalidation Score, input: model, x_data,y_data, number_of_different_test_train_splits
-# kfold vs cv= (StratifiedKFold)
+# kfold vs cv= (StratifiedKFold) StratifiedKFold > KFOLD --> keeps equal proportions/distr of y_observations as OG DATA
 k_fold = KFold(n_splits=5)
 cross_val_score(model, x, y, cv=5)
 scores = cross_val_score(model, x, y, cv=k_fold)
