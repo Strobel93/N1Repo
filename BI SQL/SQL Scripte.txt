@@ -133,6 +133,17 @@ select a.Verkaufsbeleg_ID
 	where a.Verkaufsbeleg_ID = '1402075790'
 
 ##############################################################################################
+--Drop if exists
+##############################################################################################
+--Drop permanent table if exists
+IF OBJECT_ID('dbo.Scores', 'U') IS NOT NULL
+  DROP TABLE dbo.Scores;
+
+--Drop temp table if exists
+IF OBJECT_ID('tempdb.dbo.#TempTableName', 'U') IS NOT NULL
+  DROP TABLE #TempTableName;
+
+##############################################################################################
 --Variablen
 ##############################################################################################
 DECLARE @sql    nvarchar(MAX),  
@@ -142,17 +153,19 @@ DECLARE @sql    nvarchar(MAX),
 DECLARE @Variable int;
 SET @Variable = 5;
 
-##############################################################################################
---Drop if exists
-##############################################################################################
---Drop permanent table if exists
-IF OBJECT_ID('dbo.Scores', 'U') IS NOT NULL 
-  DROP TABLE dbo.Scores; 
-  
---Drop temp table if exists
-IF OBJECT_ID('tempdb.dbo.#TempTableName', 'U') IS NOT NULL
-  DROP TABLE #TempTableName;   
-  
+--#################################################
+--Simple Dynamic
+--#################################################
+DECLARE @int_val NVARCHAR(200) = '12'
+DECLARE @SQL_QUERY NVARCHAR(500) = 'select ' + @int_val + ''
+DECLARE @SQL_QUERY2 NVARCHAR(500) = 'select @int_val'
+DECLARE @params nvarchar(4000) = N'@int_val nchar(2)'
+
+--Execution with differnet variable types
+EXEC sp_executesql @SQL_QUERY
+EXEC sp_executesql @SQL_QUERY2, @params, @int_val = '69'
+EXEC sp_executesql @SQL_QUERY2,  N'@int_val nchar(2)', @int_val = '69'
+
 --#################################################
 --Multiple input und output parameter ?????
 --#################################################
