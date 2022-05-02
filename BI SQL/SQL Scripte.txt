@@ -171,30 +171,30 @@ EXEC sp_executesql @SQL_QUERY2,  N'@int_val nchar(2)', @int_val = '69'
 --#################################################
 DECLARE @sql    nvarchar(MAX),  
         @params nvarchar(4000),
-             @cnt  int,
-             @cnt2 int
+        @cnt  int,
+        @cnt2 int
 --Query to be executed
-SELECT @sql = N'SELECT @cnt = COUNT(*) 
+SELECT @sql = N'SELECT @cnt = COUNT(*)
                       ,@cnt2 = COUNT(*) + 1
-                           from dwh.MD_Mandant
+                from dwh.MD_Mandant
                 WHERE  Mandant_ID = @Mandant_ID
-                                  and Sprache_ID  = @Sprache_ID'
+                       and Sprache_ID  = @Sprache_ID'
 
 --Dynamic Parameters used in Query String
-SELECT @params = N'@cnt     int OUTPUT, 
-                              @cnt2    int OUTPUT,
+SELECT @params = N'@cnt int OUTPUT,
+                   @cnt2    int OUTPUT,
                    @Mandant_ID  nchar(5) = N''999'',
-                              @Sprache_ID  nchar(2)=  N''DE'''
+                   @Sprache_ID  nchar(2)=  N''DE'''
 
 --Execution with default values
-EXEC sp_executesql @sql, @params, @cnt OUTPUT, @cnt2 OUTPUT
+EXEC sp_executesql @sql, @params, @cnt = @cnt OUTPUT,@cnt2 = @cnt2 OUTPUT
 SELECT @cnt,@cnt2
 
 --Execution with value set during Execution
 EXEC sp_executesql @sql, @params, 
                    @cnt = @cnt OUTPUT,
-                              @cnt2 = @cnt2 OUTPUT,
-                              @Mandant_ID = '221'
+                   @cnt2 = @cnt2 OUTPUT,
+                   @Mandant_ID = '221'
 SELECT @cnt,@cnt2
 
 --######################################
