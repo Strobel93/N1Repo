@@ -12,7 +12,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.4, random_
 model = SVC().fit(x_train, y_train)
 y_pred = model.predict(x_test)
 
-# Scoring:
+# Scoring: sklearn.metrics implentation of different scores for classficiation, regression and clustering
     # R2 = regression (continous data)
     # accuracy = classification
 sing_score = model.score(x_test, y_test)
