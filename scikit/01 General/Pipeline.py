@@ -16,5 +16,8 @@ model_pipeline = Pipeline([
 model_pipeline.fit(x, y)
 model_pipeline.predict(x2)
 
+# Access steps:
+model_pipeline[0]
+model_pipeline['scaler']
 
 

@@ -1,5 +1,6 @@
 from sklearn import svm, datasets
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.linear_model import LogisticRegression
 #########################################################################################
 # Parameter Optimization/Tuning
 # GridSearchCV(model, parameters): slower, because tries all possible parameter permutations given
@@ -25,6 +26,4 @@ print(clf.best_params_)
 clf2 = RandomizedSearchCV(svc, parameters, n_iter= 20)
 clf2.fit(iris.data, iris.target)
 print(clf2.best_params_)
-
-
 
