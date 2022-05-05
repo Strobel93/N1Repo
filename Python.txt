@@ -19,7 +19,10 @@ multi_line_style = (    # () > \ for line breaking
 # Project Notes
 ###########################################
 # Let each function just do one thing
-#
+# Graphics for Functions,Import and Class dependencies
+# folder structure to group alike objects/python files/categories (setting/config files, data/images, gui, ...)
+# Create class hierarchies that allow one place customization/additions --> new class extended frub sublcass + ...
+
 
 ###########################################
 #Import: any directory with an __init__.py (empty/comments/imports) file is considered a Python package
