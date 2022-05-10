@@ -155,6 +155,9 @@ SET @Variable = 5;
 
 --#################################################
 --Simple Dynamic
+    -- wenn @sql_text variable mit sql code mit folgender struktur ('..' + @var + '..')
+        -- dann muss diese bei jeder änderung der @var,set @sql_text auch ausgeführt werden, sonst alte @var
+        -- alternativ statische string ohne sql variable sodass sich nur @var ändert --> ohne @sql_text
 --#################################################
 DECLARE @int_val NVARCHAR(200) = '12'
 DECLARE @SQL_QUERY NVARCHAR(500) = 'select ' + @int_val + ''
@@ -166,7 +169,7 @@ EXEC sp_executesql @SQL_QUERY
 EXEC sp_executesql @SQL_QUERY2, @params, @int_val = '69'
 EXEC sp_executesql @SQL_QUERY2,  N'@int_val nchar(2)', @int_val = '69'
 
---@ColNames wird auserhalb vom string definiert = Definition separat von sp_executeable
+--@ColNames wird auserhalb vom string definiert = Definition separat von sp_executeable (def var vor sql var)
 --@where wird innerhalb von string definiert = Definition nach @params in sp_executeable
 DECLARE  @SqlStatment AS NVARCHAR(1000)
 DECLARE  @ColNames AS NVARCHAR(100)
