@@ -166,6 +166,18 @@ EXEC sp_executesql @SQL_QUERY
 EXEC sp_executesql @SQL_QUERY2, @params, @int_val = '69'
 EXEC sp_executesql @SQL_QUERY2,  N'@int_val nchar(2)', @int_val = '69'
 
+--@ColNames wird auserhalb vom string definiert = Definition separat von sp_executeable
+--@where wird innerhalb von string definiert = Definition nach @params in sp_executeable
+DECLARE  @SqlStatment AS NVARCHAR(1000)
+DECLARE  @ColNames AS NVARCHAR(100)
+DECLARE  @PARAMS AS NVARCHAR(100)
+
+SET @PARAMS = N'@where nchar(3)';
+SET @ColNames = N'TABLE_NAME , COLUMN_NAME';
+SET @SqlStatment = 'SELECT ' + @ColNames + ' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = @where';
+
+EXECUTE sp_executesql @SqlStatment , @PARAMS , @where='dwh'
+
 --#################################################
 --Multiple input und output parameter ?????
 --#################################################
