@@ -67,6 +67,15 @@ select ERROR_MESSAGE()
 select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like '%%' or TABLE_NAME like '%%'
 
 --##############################################################################################
+--Fensterfunktionen
+--##############################################################################################
+--
+select ROW_NUMBER() OVER(PARTITION BY groupbycolumn ORDER BY ordercolumn)
+select LAG(DateColumn) OVER(PARTITION BY prev_column order by ordercolumn)
+select running_total = SUM(sum_column) OVER(PARTITION BY groupbycolumn order by ordercolumn)
+select total_for_all = sum(sum_column) OVER(PARTITION BY groupbycolumn)
+
+--##############################################################################################
 --GOTO: move to certain execution
 --##############################################################################################
 DECLARE @VARIABLE INT = 1 --0
