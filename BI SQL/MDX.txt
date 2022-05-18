@@ -21,7 +21,9 @@
 											   ,[Waehrungssicht].[Waehrungsicht].&[Landeswährung]
 											  )
 											}
-											
+--AGGREGATE()
+    --> wenn mehrere Dimensionselemente Zusammengefasst werden (Periode als 1 Element auswählbar, alles ohne X)
+
 --Dimensionszugriff: Zugriffebene.Members bestimmt ob ALL enthalten ist oder nicht
 	--Attribut(nur ALL):	[Kunde].[Kunde ID]
 	--Attribut(nur ALL):	[Kunde].[Kunde ID].[All]

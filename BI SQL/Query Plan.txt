@@ -1,0 +1,14 @@
+################################################################################
+# Query Plans:
+################################################################################
+# General:
+    # are retrieved from cache if available, if not need to be created on execution
+    # prepared queries: use stored procedures/parameters, different plans where = 'x1' and where = 'x2'
+    # plans are influenced/dropped/aged from cache when: index, table or statistic changes
+    # Arrow Flows: thickness = estimated data amount
+    # Plan optimizes execution based on estimations, which are based on statistics
+    # Plans:
+        # Trivial Plan: simple query, run without much preparation by server
+        # Estimated Plan (submits query without actually acessing data), gets cached if exists
+        # Actual Plan:  plan used during actual execution, if cached exists same as estimated
+
