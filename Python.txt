@@ -15,17 +15,28 @@ multi_line_style = (    # () > \ for line breaking
     "line 1"
     "line 2"
     )
+
 ###########################################
 # Project Notes
 ###########################################
+# Example Projects:
+    # https://github.com/gleitz/howdoi
+    # https://github.com/python-diamond/Diamond
+    # https://github.com/kennethreitz/tablib
 # Let each function just do one thing
 # Graphics for Functions,Import and Class dependencies
-# folder structure to group alike objects/python files/categories (setting/config files, data/images, gui, ...)
+# folder structure to group alike:
+    # objects/python files/categories (setting/config files, data/images, gui, ...)
+    # Central Entry --> splitting and grouping by tasks
+    # Split categories/folders in REASONABLE Subcategories (utilities -> config, log, classes,...) instead of 1 big file
+# Base clases for central customability and indenpendent extensability --> adding on top without interefering existing code
 # Create class hierarchies that allow one place customization/additions --> new class extended frub sublcass + ...
-
+# Setup File --> includes metadata --> can be inst/exec with "pip install ." --> Installing relevant packages/dependencies
 
 ###########################################
-#Import: any directory with an __init__.py (empty/comments/imports) file is considered a Python package
+#Import:
+    # any directory with an __init__.py (empty/comments/imports) file is considered a Python package
+    # import of a folder (package) with an init will run whatever is in init
 ###########################################
 import python_Datei_komplett
 from Python_Datei import funktion
@@ -60,10 +71,8 @@ deep    = copy.deepcopy(list_v)
 def func1(p1):
     print(p1)
 
-
 def func2(p1, p2):
     print(p1, p2)
-
 
 def func_handler(func, *args):
     func(*args)
