@@ -3,13 +3,15 @@
 https://scikit-learn.org/stable/user_guide.html
     # https://scikit-learn.org/stable/modules/feature_extraction.html
 
-# Struktur (auch wenn py 2.7)
-https://github.com/python-diamond/Diamond
+
 
 
 #online scikit tutials/walkthroughs:
 https://scikit-learn.org/stable/tutorial/index.html#tutorial-menu
 https://www.tutorialspoint.com/scikit_learn/scikit_learn_introduction.htm
+https://flask-sqlalchemy.palletsprojects.com/en/2.x/
+https://packaging.python.org
+
 
 #SQL Server:
     Paketerzeugung
@@ -39,3 +41,4 @@ Logging
 #Intresting/to revisit:
     https://github.com/faif/python-patterns
     https://github.com/keon/algorithms
+    https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html

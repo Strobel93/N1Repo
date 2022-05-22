@@ -32,7 +32,7 @@ multi_line_style = (    # () > \ for line breaking
 # Base clases for central customability and indenpendent extensability --> adding on top without interefering existing code
 # Create class hierarchies that allow one place customization/additions --> new class extended frub sublcass + ...
 # Setup File --> includes metadata --> can be inst/exec with "pip install ." --> Installing relevant packages/dependencies
-
+    # Check Example Setup.py
 ###########################################
 #Import:
     # any directory with an __init__.py (empty/comments/imports) file is considered a Python package
@@ -1221,14 +1221,27 @@ print(type(x))
 print(type(y))
 
 ####################################################################
-#sys.argv
+#Argument Parsers for command Line:
 ####################################################################
 #Ecuted using parameters: python filenaname.py 1 2 3
 #Get Parameters of given to the execution
+################
+sys.argv
+################
 import sys
 print(sys.argv)             #List of: Path/filename.py + Arguments (Path/filename.py,1,2,3)
 print(sys.argv[0])          #Filepath/filename.py
 print(len(sys.argv))        #4 = File + Parameters
+
+################
+ Argparse
+################
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('arg_at_index1')
+args = parser.parse_args()
+print(args.arg_at_index1)
+
 
 ####################################################################	
 #Testing: checking results for:
