@@ -1244,7 +1244,9 @@ print(args.arg_at_index1)
 
 
 ####################################################################	
-#Testing: checking results for:
+#Testing:
+    # Continous Integration: automate Testing when making changes
+    # Tools to check: Tox
 #variables, class attributes or functions with return
 ####################################################################
 # unittest

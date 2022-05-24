@@ -20,7 +20,7 @@ https://packaging.python.org
 #Books Reading:
     
 #Generell:  
-Testing
+Testing + Continous Integration with Tox or alternatives
 Sphinx Documentation
 Logging
 
