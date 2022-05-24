@@ -6,19 +6,18 @@ https://scikit-learn.org/stable/user_guide.html
 
 
 
-#online scikit tutials/walkthroughs:
+#Todo:
 https://scikit-learn.org/stable/tutorial/index.html#tutorial-menu
 https://www.tutorialspoint.com/scikit_learn/scikit_learn_introduction.htm
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 https://packaging.python.org
+https://github.com/orgs/anthonywritescode/repositories
 
 
 #SQL Server:
     Paketerzeugung
     Query Erzegung
 
-#Books Reading:
-    
 #Generell:  
 Testing + Continous Integration with Tox or alternatives
 Sphinx Documentation
