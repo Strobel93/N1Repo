@@ -153,21 +153,7 @@
         
         
         
-##########################
-# Sample Data
-##########################
-# Make Blobs
-X, y_true = make_blobs( n_samples=300     # Number of Rows
-                      , centers=4         # Number of Centers
-                      , n_features= 3     # Number of colums per row (default 2)
-                      , cluster_std=0.60  # standard deviation
-                      , random_state=0)   # number = reproduceable values
 
-# Seaborn Datasets
-sns.get_dataset_names()
-iris = sns.load_dataset("iris")
-# scikit
-from sklearn.datasets import  load_iris
 
 ##########################        
 # ML Models:

@@ -1,0 +1,102 @@
+###################################
+#set = distinct
+###################################
+set_bsp = {1,2,3,3,4}
+
+###################################
+#Dictionary
+###################################
+dick = {'size': 5, 'color': 'white'} #gef�llte Liste erzeugen
+print(dick['size'])
+print(dick.items)
+print(dick.keys)
+print(dick.values)
+print('size' in dick)
+print(5 in dick.values())
+
+###################################
+#Nested Dictionary
+###################################
+people = {'eins': {'name': 'John', 'age': '27', 'sex': 'Male'},
+          'zwei': {'name': 'Marie', 'age': '22', 'sex': 'Female'}}
+
+#Abruf
+print(people['eins']['name'])
+
+###################################
+#Array: import numpy as np
+###################################
+# Arrayerzeugung
+x = np.array(list)
+x = np.full((5,5),None)					#5x5 with defaultvalue
+x = np.zeros((5,5))						#5x5 with zeros
+x = np.random.randint(0, 100, 5)		#5 numbers from 0-100
+x = np.random.randint(0, 100, (5,5))	#5x5 numbers from 0-100
+x = np.arange(0, 20)					#0-19
+x = np.arange(1,10).reshape(3,3)		#3x3 range
+
+##################################################################################
+#Slicing [a:b:c]/slice(a,b,c) = [von:bis:Schritt]
+##################################################################################
+#C hat Dimensionalit�t von 4:2:3 (4 Arrays, mit je 2 Arrays L�nge, mit je 3 Elementen
+#Slicing-->0 nicht f�r Anfang und len(a) nicht f�r ende w�hlen[:N],[N:]
+print(c[:])
+print(c.shape)
+print(c[0][1][1])   #Array 1, Subarray 2, Position 2
+print(c[0, 1, 1])   #Array 1, Subarray 2, Position 2
+print(c[0,[3,2,1])	#Array 1, Element 3, 2, 1
+print(c[:,:,0])     #Alle ersten Positionen jedes Subarrays
+print(c[:,0,:])     #Alle ersten Subarrays aller 4 Arrays
+print(c[0,::])      #Ganze erste Array
+#R�ckwerts --> stepsize -1
+print(s[::-1])
+all_but_last_n = x[:-2]
+only_last_n = x[-5:]
+
+# Concatinating
+#[[a1],[a2],[b1],[b2]]
+np.concatenate([x1, x2])
+np.vstack((x1, x2))
+np.append(x1, x2)
+
+#[[a1+b1],[a2+b2]]
+np.concatenate((a, b), axis=1))
+np.hstack((a,b)))
+
+
+# UFuncs (Universal functions, faster than iterating over whole array)
+# operated on all values in array, operators (+-*...) are wrappers for numpy implementations np.add()
+add_1_to_all = x1 + 1
+minus_same_index = x1 - x2
+minus_only_certain = x1[0:2] - x2[0:2]
+aggregate_whole_ar = np.multiply.reduce(x1)
+aggregate_whole_ar = np.sum(x1)
+maximum_in_whole_ar = np.max(x1)
+maximum_by_column = x1.min(axis=1)
+maximum_by_row = x1.min(axis=0)
+true_false_for_each = x1 < 3
+true_false_for_each = x1 == 3
+tf_any_value_matching_condition = np.any(x1 < 5)
+tf_all_value_matching_condition = np.all(x1 < 5)
+conditional_sum = np.sum(x1 < 3)
+conditional_sum = np.sum(x1 > 10) & (x1 < 5)
+filter_with_true_false = x1[x1 < 3]
+if_else_pro_element = np.where(x1 > x2, x1, x2)
+
+# General:
+arr.flatten() # returns deep flattend copy
+arr.ravel()   # returns a shallow flattend copy
+a.sort()
+new_sorted_list = np.sort(a)
+sorted_subarrays = np.sort(a, axis=1)
+# returns array of a's indexes reordered, if that index order was used, a would be ordered  [69,1,420] --> [1,0,2]
+np.argsort(a)
+# sort nested array by index x: get order by argsort, output array with indexes outputted by argsort
+nested_sorted_by_index = a[np.argsort(a[:, x])]
+
+#Inner Join mit Array
+a = np.array([1,2,3,4])
+b = np.array([3,4,5,6])
+
+print(np.intersect1d(a,b))
+print(a[np.in1d(a, b)])

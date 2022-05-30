@@ -1,0 +1,50 @@
+##############################################################################################
+# Exceptions: werden bei error immer erstellt, handling erm�glicht verhidnern von Abbruch
+# Catch --> How to deal with ERROR --> Code Continues instead of stopping right there
+##############################################################################################
+#Basic error handling
+#############################
+# V1:
+try:
+	#try:Code der Exception erzeugen k�nnte
+    print(5/0)
+except NullTeilenError:
+    print('Kann nicht durch 0 Teilen')
+else:
+    print('Wenn kein Error auftritt')
+
+# V2:
+if input == 0:
+	raise ZeroDivisionError('Dont divide by 0')
+
+# V3:
+def troll(input):
+    if input == 0:
+        raise ZeroDivisionError('ZeroDivisionError: Dont divide by 0')
+    else:
+        raise ValueError('ValueError: Dont divide by anything')
+
+try:
+    troll(0)
+except ZeroDivisionError as z:
+    print(z)
+except ValueError as v:
+    print(v)
+
+#############################
+#Custom Exception mit und ohne Argument
+#############################
+# V1
+class CustomError(Exception):
+	pass
+
+raise CustomError
+raise CustomError('Messge')
+
+# V2
+class CustomError(ValueError):
+	def __init__(self, message):
+		super().__init__('ERROR, falscher parameter: {0}'.format(message))
+
+# Raise:
+raise CustomError('Paremter f�r Exception')

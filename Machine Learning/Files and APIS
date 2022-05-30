@@ -1,0 +1,29 @@
+##############################################################################################
+#Zugriffe
+##############################################################################################
+#CSV/TXT
+#Originanpath: 'C:\Python\Data\x.csv'
+
+#Python:
+V1 = 'C:/Python/Data/x.csv'
+v2 = 'C:\\Python\\Data\\x.csv'
+
+filename = 'C:/Python/Data Visualisation/Data Visualisation/data/CSV/sitka_weather_2018_simple.csv'
+with open(filename,'r') as f:
+    csv_reader = csv.reader(f)
+    txt_read = f.read()
+	txt_lines = f.readlines()
+    json_loader = json.load(f)
+
+    for row in reader:
+        high = int(row[5])
+        low = int(row[6])
+
+--Panda reads
+df = pd.read_csv('xx.csv, sep',', header=None)
+df = pd.read_excel(xx.xlsx,sheet_name='tabelle1')
+df = pd.read_json('xx.json')
+
+--API
+r = requests.get(url)
+response_dict = r.json()

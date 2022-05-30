@@ -1,0 +1,168 @@
+
+################################################################################################
+#Decorator:is a callable that takes another function as argument (the decorated function)
+################################################################################################
+# Basic without parameter
+###########################################################
+# Mit @ decorierte funktion wird zum func parameter in der funktion die zum @deco namen passt
+# Mehrwert von Aufruf der Funktioniert die dekortiert wurde --> aufruf von decorierte funktioniert f�hrt alles aus deco aus
+# �bergabe von Funktionen als Objekte --> add = add() objekt
+def deco(func):
+    def wrapper():
+        return func() * 2
+    return wrapper
+
+#Decorator
+@deco
+def add():
+    return 1+1
+
+#Same as Decorator
+x = deco(add)
+
+# Calling add executes deco function and passes add function as its parameter, returns 4
+print(add())
+
+###########################################################
+# with parameters and return, multiple decorated functions
+# on execution, they all become parameter of f1
+# functions in classes can also be decorated to become parameters
+# class names can also be decorated
+	# functions become decorators in class creation
+	# the decorated function can be an executeable in the class (self.func = func) --> xx.func()
+###########################################################
+def f1(func):
+	def wrapper(*args, **kwargs):
+		x = func(*args, **kwargs)
+		return x
+	return wrapper
+
+@f1
+def f(a):
+	print(a)
+
+@f1
+def add(x,y):
+	return x + y
+
+# Runs f1 with function f as parameter, which uses paremters itself
+f('Hi')
+
+# Runs f1 function with add as paremter, returns wrapper which returns the return of add
+add(3,4)
+
+###########################################################
+# Multiple decorations = nested execution
+###########################################################
+# F1 and F2 are the same, both get @fx decorator
+def f1(func):
+    def wrapper():
+        return func() * 2
+    return wrapper
+
+def f2(func):
+    def wrapper():
+        return func() * 2
+    return wrapper
+
+#Example 1 from above, this equals: x = f1(f)
+@f1
+def	f():
+	return 2
+
+#Example 2, multiple decoratos, this equals: x = f2(f1(f))
+@f1
+@f2
+def f():
+	return 2
+
+######################################################################
+# @property: property() is a built in function
+# which gets functions as parameters by @property decoration
+# Reasons to use getter/setter:
+	# allows more complex logic (if...) than just simple ob.attr = attr
+######################################################################
+class Whatever:
+    def __init__(self,x):
+        self.x = x
+
+    # Getter
+    def getter1(self):
+        return self.x
+
+    @property
+    def getter2(self):
+        return self.x
+
+    # Setter
+    def setter1(self,new_value):
+        self.x = new_value
+
+    @getter2.setter
+    def setter2(self,new_value):
+        self.x = new_value
+
+# Call as function and as decorated object
+# Setter takes the @property getter function
+kek = Whatever(5)
+print(kek.getter1())
+print(kek.getter2)
+
+#Setter1, Setter2
+kek.setter1(69)
+kek.setter2 = 420
+print(kek.getter1())
+print(kek.getter2)
+
+###############################################################################
+# Abstract classes: force implementation of methods + attributes
+###############################################################################
+from __future__ import annotations
+from abc import ABC, abstractmethod
+from collections.abc import Sequence
+
+class AbsClass(ABC):
+	@abstractmethod
+	def abmethod(self):
+		pass
+
+	@property
+	@abstractmethod
+	def absset(self):
+		pass
+
+class NonAbsClass(AbsClass):
+	absset = 'property set'
+	def abmethod(self):
+		print('implementation')
+
+
+c = NonAbsClass()
+
+
+###############################################################################
+# Overload: define return type depending on input
+# Example is BS, but the this is just for understand what overload is used for
+###############################################################################
+from typing import overload
+
+@overload
+def samename(in_put: int) ->int:
+	...
+
+@overload
+def samename(in_put: float) -> float:
+	...
+
+def samename(in_put: int | float) -> int | float:
+	if isinstance(in_put, int):
+		print('integer')
+		return in_put
+	else:
+		print('float')
+		return in_put
+
+x = samename(1)
+y = samename(0.5)
+print(type(x))
+print(type(y))

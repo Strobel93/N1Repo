@@ -1,0 +1,13 @@
+###############################################################################
+#Logging
+###############################################################################
+#Initialisieren Loggers der in Log Datei schreibt, logged default nur wenn Dringlichkeit > Info, deshalb parameter ab Wichtigkeit N
+logging.basicConfig(filename = "programm.log", level = logging.INFO)
+
+#Meldungen an Logger �bergeben, an stellen im Programmcode?
+logging.log(logging.ERROR, "Fehler REEEEEEEEE")
+logging.log(logging.INFO, "NUR INFO REEEEEEEE")
+#logging.log(logging.CRITICAL, "KILLT AUSF�HRUNG")   #Auskommentiert, weil ausf�hrung killt
+
+#Deinitialiseren
+logging.shutdown()

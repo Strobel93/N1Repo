@@ -1,0 +1,143 @@
+#################################################
+#Matplotlib
+#################################################
+import matplotlib.pyplot as plt
+
+plt.diagramm(xAchsenDaten,yAchsenDaten,yAchsenDaten2)
+plt.diagramm(df.column)
+plt.plot(x,y)
+plt.bar(x,y)
+plt.scatter(x,y)
+
+#3D
+ax = plt.axes(projection='3d')
+ax.plot3D(x_axis, y_axis, z_axis)
+
+#############################################
+#Plot 3 Graphs in same cordinate System
+#############################################
+months = range(1, 13)
+nyc_temp_2000 = [31.3, 37.3, 47.2, 51.0, 63.5, 71.3, 72.3, 72.7, 66.0, 57.0, 45.3, 31.1]
+nyc_temp_2006 = [40.9, 35.7, 43.1, 55.7, 63.1, 71.0, 77.9, 75.8, 66.6, 56.2, 51.9, 43.6]
+nyc_temp_2012 = [37.3, 40.9, 50.9, 54.8, 65.1, 71.0, 78.8, 76.7, 68.8, 58.0, 43.9, 41.5]
+
+#All(appending different x-axis next to each other vs same x-axis) vs Individual
+plt.plot(months, nyc_temp_2000,months, nyc_temp_2006,months, nyc_temp_2012)
+plt.plot(months, nyc_temp_2000)
+plt.plot(months, nyc_temp_2006)
+plt.plot(months, nyc_temp_2012)
+plt.show()
+
+#############################################
+#Mehrere Graphen unter/nebeneinander Subplots
+#############################################
+#Single Subplot (with optional multiple graphs)
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.plot(x, y2)
+plt.show()
+
+#2 Below each other
+#Erzeugen von 2 graphen untereinander, einer mit negativen Y Werten
+fig, axs = plt.subplots(2)
+axs[0].plot(x, y)
+axs[1].plot(x, -y)
+
+#Erzeugt 2 Grafiken, aber nebeneinander, version mit direktbezeichnung statt indexiertem Aufruf
+fig, (ax1, ax2) = plt.subplots(1, 2)
+ax1.plot(x, y)
+ax2.plot(x, -y)
+
+#2x2 Grafiken
+fig, axs = plt.subplots(2, 2)
+axs[0, 0].plot(x, y)
+axs[0, 1].plot(x, y, 'tab:orange')
+axs[1, 0].plot(x, -y, 'tab:green')
+axs[1, 1].plot(x, -y, 'tab:red')
+
+#Config: plt.function() --> ax.set_function()
+fig.suptitle('whole_graphic_title')
+ax.plot(x, y, color = 'red')
+ax.plot(x, y, label='y_value_description')
+ax.set_title('subplot_title')
+ax.set_xlabel('sub_x_label')
+ax.set_ylabel('sub_y_label')
+plt.title('Diagrammtitel')
+plt.xlim(0,69)
+plt.ylim(0,420)
+plt.show()
+
+# Stylesheets
+# used for whole session, set at beginning
+plt.style.available[:5]
+plt.style.use('grayscale')
+
+#Use Seaborn settings (Import seaborn as sns)
+sns.set()
+
+# used only for plot x*2
+with plt.style.context('dark_background'):
+	Plottingcode
+
+############################################
+# ADD Sublots: manual + iterative
+############################################
+# V1
+fig = plt.figure()
+
+#221 = 2x2 Subplots, Position 1 (Top left)
+ax1 = fig.add_subplot(221)
+ax2 = fig.add_subplot(222)
+ax3 = fig.add_subplot(223)
+ax4 = fig.add_subplot(224)
+plt.show()
+
+ax1.plot(x,y1)
+ax2.plot(x,y1)
+ax3.plot(x,y1)
+ax4.plot(x,y1)
+
+# V2
+fig, axs = plt.subplots(2,2)
+for index, ax in enumerate(fig.axes):
+    ax.plot(x, y1)
+
+plt.show()
+
+#################################################
+#Seaborn
+#################################################
+import seaborn as sns
+
+#Grapherzeugung generell
+#V0: show all graphs overview for table data
+sns.pairplot(iris)
+
+sns.displot(x, y)
+sns.displot(data=df)
+sns.histplot(data=df)
+sns.kdeplot(data=df)
+sns.scatterplot(data=df)
+sns.barplot(data=df)
+
+#Graphanpassung, alles in einem was man braucht
+sns.displot(df, color = "red")
+sns.displot(df, x='X-Achse', y='Y-Achse')
+sns.displot(df, x='X-Achse', y='Y-Achse',multiple='stack')
+
+#################################################
+#Panda Plotting
+#################################################
+dataframe.plot(kind='scatter', x='dfcolumn1', y='dfcolumn2')
+dataframe.plot(kind='bar', x='dfcolumn1', y='dfcolumn2')
+dataframe.plot(kind='hist', x='dfcolumn1', y='dfcolumn2')
+
+dataframe.plot.scatter(x='x-Achse',y='y-Achse')
+dataframe.plot.bar(x='x-Achse',y='y-Achse')
+dataframe.plot.hist(x='x-Achse',y='y-Achse')
+
+#################################################
+# SNS
+#####################
+sns.get_dataset_names()
+iris = sns.load_dataset("iris")

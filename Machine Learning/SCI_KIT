@@ -1,0 +1,145 @@
+#####################
+# SKLEARN
+#####################
+# x= N Dimensional, y = 1 Dimensional
+x, y = load_iris(return_X_y=True)
+dataset = datasets.load_iris()
+x = dataset.data
+y = dataset.target
+colum_names = iris.feature_names
+
+################################################################
+# Text Analysis
+################################################################
+from textblob import TextBlob
+# Importing Missing packages
+    # import nltk
+    # nltk.download()
+
+text = "This is a Pfusch Sentence. This is another Pfuscher Sentence "
+wiki = TextBlob(text)
+
+wiki.words
+wiki.sentences
+wiki.noun_phrases
+wiki.word_counts['is']
+wiki.words.count('is')
+wiki.noun_phrases.count('pfusch sentence')
+
+
+####################################################################
+#Machine Learning: --> #sklearn:x = train, y = test
+####################################################################
+Supervised (input + output result) --> Classification (discrete) + Regression (continious)
+Unsupervised (input)--> Clustering + Association
+#########################
+#Model Grundstruktur
+#########################
+a = [1, 2, 3, 4, 5]
+b = [2, 4, 6, 8, 10]
+X_train, X_test, y_train, y_test = train_test_split(a, b ,test_size=0.25, random_state=0)
+
+#Model and Training Data
+nb = ModelFunktion()
+nb.fit(X_train, y_train)
+
+# make predictions on test data using test_dtm
+preds = nb.predict(X_test)
+
+#########################
+# Pipeline and make_pipeline
+#########################
+model_pipeline = make_pipeline(StandardScaler(), VarianceThreshold(), KNeighborsClassifier())
+model_pipeline = pipe = Pipeline([
+                                     ('scaler', StandardScaler()),
+                                     ('selector', VarianceThreshold()),
+                                     ('classifier', KNeighborsClassifier())
+                                    ])
+model_pipeline.fit(x,y)
+model_pipeline.predict(x2)
+
+# Basic Accuracy Score (for check/comparisons)
+accuracy_score(y_values_correctly_labed, y_predicted_by_model)
+
+# Crossvalidation Score, input: model, x_data,y_data, number_of_different_test_train_splits
+# kfold vs cv= (StratifiedKFold) StratifiedKFold > KFOLD --> keeps equal proportions/distr of y_observations as OG DATA
+k_fold = KFold(n_splits=5)
+cross_val_score(model, x, y, cv=5)
+scores = cross_val_score(model, x, y, cv=k_fold)
+scores = cross_val_score(pipeline, x, y, cv=k_fold)
+
+#########################
+# GridSearchCV: execute model with different list of parameters
+#########################
+# execute with 2 values linear and rbf for the parameter kernel
+parameters = {'kernel': ('linear', 'rbf')}
+svc = svm.SVC()
+clf = GridSearchCV(svc, parameters)
+clf.fit(x, y)
+# Check results: list of parameters
+clf.cv_results_.keys()
+clf.best_estimator_
+
+#########################
+#Linear Regression (Classification) --> 0, 1
+#########################
+lin_reg = LinearRegression()
+lin_reg.fit(x, y)
+
+# Predict the values given test set
+predictions = lin_reg.predict(X_test)
+
+#########################
+#Logistic Regression (Classification) --> 0, 1
+#########################
+#X = independten feature
+#Y = dependent feature
+logreg = LogisticRegression(solver='lbfgs')
+logreg.fit(x_train,y_train)
+
+# Predict the values given test set
+predictions = logreg.predict(x_test)
+
+#########################
+#Bayes
+#########################
+#Model and Training Data
+nb = MultinomialNB()
+nb.fit(x_traindata, y_traindata)
+
+#make predictions on test data using test_dtm
+preds = nb.predict(test_dtm)
+
+#########################
+#Decision Tree
+#########################
+#Model and Training Data
+treeclf = DecisionTreeClassifier(max_depth=3, random_state=1)
+treeclf.fit(X, y)
+
+preds = treeclf.predict(test_dtm)
+
+#########################
+#K-Means
+#########################
+km = KMeans(n_clusters=3)
+km.fit(X)
+
+# save the cluster labels and sort by cluster
+clusters = km.labels_
+
+# Chose proper K
+# calculate Silhouette Coefficient for K=3
+metrics.silhouette_score(X, km.labels_)
+
+#########################
+#K-Nearest Neighbor
+#########################
+#Trainingvalues
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X, y)
+
+#Genauigkeit/Score
+knn.score(X, y)
+
+preds = knn.predict(testvalues)

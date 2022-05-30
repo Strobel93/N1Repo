@@ -1,0 +1,19 @@
+
+###########################################
+# regular expression (Regex)
+	# fullmatch: does full string match conditions
+	# findall: returns whole substring matching conditions
+###########################################
+import re
+
+# simple all match check
+if re.fullmatch('[A-Za-z0-9_]+', check_string):
+	print(check_string, ' is valid')
+else:
+	print(check_string, ' is not valid')
+
+# check all with separator
+if re.fullmatch('[A-Za-z0-9_]+@[A-Za-z0-9_]+.[A-Za-z0-9_]+', check_string):
+	print(check_string, ' is valid')
+else:
+	print(check_string, ' is not valid')

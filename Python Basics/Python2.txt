@@ -1,0 +1,29 @@
+###########################################
+import copy
+###########################################
+# shallow copies: same object (id), changs effect to one, effect both
+# deep copies: differnet object (id), changes to one, dont effect the other
+# list
+shallow = list_v
+deep    = copy.deepcopy(list_v)
+
+
+####################################################################################################
+#Callable: erlaubt dynamische anwendung bzw, aufruf von Funktionen/Formeln
+####################################################################################################
+from typing import Callable
+
+def add(a, b):
+    print(a + b)
+
+def sub(a, b):
+    print(a - b)
+
+def call_example(f: Callable, a, b):
+    return f(a, b)
+
+call_example(add, 5, 3)
+call_example(sub, 5, 3)
+print(call_example(lambda x, y: x * y, 5, 3))
+
+

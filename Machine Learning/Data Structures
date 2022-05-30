@@ -1,0 +1,258 @@
+import pandas as pd
+import numpy as np
+import rng
+###################################
+# Series import pandas as pd
+###################################
+# V1
+fruits = ['apples', 'oranges', 'cherries', 'pears']
+quantities = [20, 33, 52, 10]
+s = pd.Series(quantities, index = fruits)
+
+# V2
+d = {'b': 1, 'a': 0, 'c': 2}
+pd.Series(d)
+
+second_index_value 		= s[1]
+value_by_index 			= s['apples']
+value_by_condition		= s[ s >20]
+values_by_ind_slice 	= s[0:2].values
+keys_by_ind_slice		= s['apples':'cherries'].keys()
+
+###################################
+# Dataframe: import pandas as pd
+# Dataframe besteht aus N panda Series
+### Seriesfunktionen f�r DF Spalten verwendbar
+### df["Column"] == Series
+###################################
+axis = 0 ### �ber alle Zeilen  (1x average pro Spalte)
+axis = 1 ### �ber alle Spalten (1x average aller numerischen Werte dieser Zeile)
+
+#########################
+# Creation
+##########################
+# 4x4 DF with random Numbers between 0,69
+a = pd.DataFrame(rng.randint(0, 69, (4, 4)),
+                 columns=['c1' ,'c2', 'c3', 'c4'])
+
+ipl_data = {'Team': ['Riders', 'Riders', 'Devils', 'Devils', 'Kings',
+                     'kings', 'Kings', 'Kings', 'Riders', 'Royals', 'Royals', 'Riders'],
+            'Rank': [1, 2, 2, 3, 3 ,4 ,1, 1, 2, 4, 1, 2],
+            'Year': [2014, 2015, 2014, 2015, 2014, 2015, 2016, 2017, 2016, 2014, 2015, 2017],
+            'Points': [876, 789, 863, 673, 741, 812, 756, 788, 694, 701, 804, 690],
+            'Points2': [8761, 19, 8613, 73, 7141, 8112, 56, 7818, 94, 7101, 8104, 6910]
+            }
+# Index
+indexes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
+df = pd.DataFrame(data=ipl_data, index=indexes)
+indexes.set_index('C1', Inplace=True)
+multi_indexed_DF.index.names = ['first_ind', 'second_ind']
+multi_indexed_DF.set_index(['C1', 'c2', 'c3'], Inplace=True)
+
+# �bersich �ber Dataframe: count, mean, min,max,.. (stackable ontop each other)
+# Counter z.B. n�tzlich f�r fehlende Werte
+# funktionieren auch auf spalten df[Year].isnull(), df.Year.isnull()
+df.describe()
+df.columns
+df.corr()
+df.isnull()
+df.notnull()
+df.dropna()
+df.fillna()
+total_nulls_each_Colum = df.isnull().sum()
+df.column.duplicated()
+df.unstack()  # PIVOT/UNPIVOT
+df.pivot_table(Index=['column1']  # column of whichs DISTINCT values become rows of first column
+               , columns=['column2']
+               # each DISTINCT Value becomes a different column appended to first column (wide table)
+               ,
+               values='column3')  # each column2 column gets a value  based on match on between c1, c2, c3 (sparse table)
+df['column'] = df.column.str.lower()
+df['column'].apply(lambda: x: x.upper())
+df['Teams'].quantile(q=[0.25, 0.5, 0.75])
+df['Teams'].value_counts()
+
+# Columausgabe/Zugriff
+print(df.Points)
+print(df["Points"].values)
+print(df[["Year", "Points"]])
+
+# Ausgabe mit Und und True False ### true werte ausgegeben
+tf2 = (df['Year'] == 2016) | (df['Year'] == 2017)
+print(df[tf2])
+
+# Query, soadss gesehen mit @ tag f�r variablen
+bsp = 2016
+print(df.query('Year == @bsp' & Team = 'Kings'))
+print(df.query('Team == "Kings"'))
+
+# Between/isin
+tf4 = df['Year'].between(2014, 2016)
+tf4 = df['Year'].isin([2014, 2015, 2016])
+
+# loc/iloc (indexlocator) Struktur immer: [Rows or Index, Columns]
+print(df.loc[['a', 'b'], ['Team', 'Rank', 'Year']])
+print(df.loc['a':'d'], ['Team', 'Rank', 'Year']])
+print(df.loc[tf4, ['Team', 'Rank', 'Year']])  # True/False f�r Row Filter
+print(df[(df['Year'] <= 2015)])
+print(df[df.Year <= 2015])
+print(df[df['Year'].notnull()])
+print(df[df.Year == 2015]['Rank'])
+print(df.loc[(df['Year'] <= 2015), ['Team', 'Rank', 'Year']])
+print(df.loc[(df.Year <= 2015), ['Team', 'Rank', 'Year']])
+
+print(df.iloc[[0, 1], [0, 1, 2]])
+print(df.iloc[0:4, [0, 1, 2]])
+
+# Sort by regualar column/columns
+print(df.sort_values(by='Year', ascending=False))
+print(df.sort_values(by=['Team', 'Year'], ascending=False))
+
+# Sort und Top 10 by Aggregated Column
+grp = df.groupby(['Team']).agg({'Points': sum}).sort_values(ascend='False')
+grp = df.groupby(['Team']).agg({'Points': sum}).sort_values(ascend='False').head(10)
+grp = df.groupby(['Team'])
+
+# Beispiel
+print(df[(df['Year'] <= 2015)].groupby(['Team', 'Year'])['Points'].sum())
+print(df[(df['Year'] <= 2015)].groupby(['Team', 'Year']).agg({'Points': sum}))
+print(df[(df['Year'] <= 2015)].groupby(['Team', 'Year']).agg({'Points': sum, Points2: [min, max]}))
+print(df.loc[df["Points"] >= df["Points"].mean()])
+print(df[(df['Year'] <= 2015)].groupby(['Team', 'Year']).agg(count('Year'))).alias(�Counter
+Column�)
+print(df.groupby(listname)])
+print(df.groupby(df[])])
+
+# Concats
+row_append_ax0 = pd.concat([df1, df2])
+ra_ax0_continious_index = pd.concat([df1, df2], ignore_index=True)
+column_app_ax1 = pd.concat([df1, df2], axis=1)
+df1.append(df2)
+
+# Joining
+df_inner_join = pd.merge(df1, df2, on=['joincolumn1', 'JC2'], how='inner') - -right, left, outer
+diff_column_names = pd.merge(df1, df2, left_on='name_jc_of_df1', right_on='name_jc_of_df2')
+index_join = pd.merge(df1, df2, left_index=True, right_index=True)
+inner_join = series1.join(series2, how='left')  # Join basierend auf selben Indexen
+
+# Datumsfunktionen
+print(df['datecolumn'].dt.year)
+print(df['datecolumn'].dt.month)
+
+# Lag Lead
+# 1 Wert R�ckwirkend auslesen ###aus Zeile N Zeilen zur�ck
+print(df['Year'].shift(1))
+print(df['Year'].shift(365))
+
+# Ausgabe Aggregation aus allen N letzten Werten
+print(df['Year'].rolling(window=2).mean())
+print(df['Year'].rolling(window=5).max())
+
+#####################################################################################################
+# Multi/Hierarchical Indexing: data + index + creation
+# Create DF with hierarchal index directly or create DF and change columns to indexes
+#####################################################################################################
+# V1:
+multi_indexed_DF = pd.DataFrame(np.random.rand(4, 2),
+                                index=[['a', 'a', 'b', 'b'], [1, 2, 1, 2]],
+                                columns=['data1', 'data2'], )
+
+# V2:
+mult_index = [('index1', 2000), ('index1', 2010),
+              ('index1', 2000), ('index1', 2010),
+              ('index1', 2000), ('index1', 2010)]
+mult_index = [['Cal', 'NY', 'NY', 'Tex', 'Tex', 'Tex']
+    , [2000, 2001, 2000, 2002, 2000, 2010]]
+
+populations = [33871648, 37253956,
+               18976457, 19378102,
+               20851820, 25145561]
+u_18 = [9267089, 9284094,
+        4687374, 4318033,
+        5906301, 6879014]
+
+multi_indexed_DF = pd.DataFrame({
+    'string_column': ['a', 'b', 'c', 'd', 'e', 'f']
+    , 'total': populations
+    , 'under18': u_18
+}
+    , index=mult_index)
+# indexing: renaming + changing columns to indexes themselves
+multi_indexed_DF.index.names = ['first_ind', 'second_ind']
+multi_indexed_DF.set_index(['C1', 'c2', 'c3'], Inplace=True)
+
+# Slicing/Dicing hierachical: loc[(index1,index2),[columns]]
+# Slicing [x:y] only works with sorted indexes
+sorted = df._sort_index()
+column_selection = multi_indexed_DF[['data1', 'data2']]
+column_selection = multi_indexed_DF.loc[['a', 'b']]
+loc_iloc_select = multi_indexed_DF.loc[['a', 'b'][0]]
+fil_mlt_index_levels = multi_indexed_DF.loc[('a', [1, 2]), ['data1', 'data2']]
+fil_mlt_index_levels = multi_indexed_DF.loc[(['a', 'b'], 1), ['data1', 'data2']]
+value_filter = multi_indexed_DF.loc[multi_indexed_DF.data1 > 0.5]
+value_filter = multi_indexed_DF[multi_indexed_DF.data1 > 0.5]
+
+#################################################
+# Edit Dataframes
+#################################################
+# Dataframe Cleaning:
+# Unn�tige Spalten
+df.drop.(colums=['column1', 'column2'])
+
+# Unn�tige Zeilen, drop Zeile 1 und 3
+df.drop([1, 3])
+df.drop(df.index[[1, 3]])
+
+df.dropna(axis=1, how='all')  # Spalten/Zeilen wo alle Werte NaN
+df.dropna(axis=1, how='any')  # Spalten/Zeilen mit mit min 1 Nan
+df.dropna(axis=1, how='all', thresh=3)  # Threshold = min number of non nun values to be kept
+
+# Alle Daten �ndern
+df["Points"] = df["Points"] * 100
+df.Points = df["Points"] * 100
+df['Points2'] = df['Points'] * df['Points']
+df['new_col'] = df['Points'] * df['Points']
+df['Points'] = df['Points'].apply(lambda x: x * 2)
+df.Points = df['Points'].apply(lambda x: x * 2)
+
+# Bestimmte Zeilen �ndern
+df['a'][0] = 69
+df.loc['Row', 'Column'] = 420
+df.iloc[0, 0] = 420
+df.loc[df.Year == 2015, "Points"] = df["Points"] * 100
+df.loc[df.Year == 2015, "Points"] = df['Points'].apply(lambda x: x * x)
+df['Points'] = np.where(df['Year'] == 2015, df["Points"] * 100, df["Points"])
+
+# Select: matching condition 1 mit choice 1, co2 mit ch2,..
+conditions = [(df.Year == 2015), (df.Year == 2014)]
+choices = ["2015", "2014"]
+df["new_column"] = np.select(conditions, choices, "default")
+
+# Fehlende Werte f�llen
+df['Points'].fillna(df['Points'].mean(), inplace=True)
+df.Points.fillna(69)
+df['a'] = df['a'].replace(0, df['a'].mean())
+
+# String replace f�r .apply function, a zu nichts
+df['Column'].replace('A', '')
+
+###################################
+# df.apply ### Custom functions
+###################################
+
+
+def funktion(row):
+    if row == 2014:
+        return "2014"
+    else:
+        return "Nicht 2014"
+
+
+df["new_Column2"] = df["Year"].apply(funktion)
+
+# Axis: 0 apply to all Columns, 1 to all Rows
+# Sum Columns
+print(df.apply(np.sum))
+print(df.apply(np.sum, axis=0))
+# Sum Rows
+print(df.apply(np.sum, axis=1))

@@ -1,0 +1,39 @@
+###########################################
+# Project Notes
+###########################################
+# Example Projects:
+    # https://github.com/gleitz/howdoi
+    # https://github.com/python-diamond/Diamond
+    # https://github.com/kennethreitz/tablib
+# Let each function just do one thing
+# Graphics for Functions,Import and Class dependencies
+# folder structure to group alike:
+    # objects/python files/categories (setting/config files, data/images, gui, ...)
+    # Central Entry --> splitting and grouping by tasks
+    # Split categories/folders in REASONABLE Subcategories (utilities -> config, log, classes,...) instead of 1 big file
+# Base clases for central customability and indenpendent extensability --> adding on top without interefering existing code
+# Create class hierarchies that allow one place customization/additions --> new class extended frub sublcass + ...
+# Setup File --> includes metadata --> can be inst/exec with "pip install ." --> Installing relevant packages/dependencies
+    # Check Example Setup.py
+
+
+####################################################################
+#Vererbung: super()
+####################################################################
+#Oberklasse Person
+class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+#Erbende Klasse Student1:Aufruf �ber Oberklasse.__init__
+class Student1(Person):
+  def __init__(self, fname, lname, year):
+    Person.__init__(self, fname, lname)
+    self.graduationyear = year
+
+#Erbe �ber super() --> ohne self
+class Student2(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year

@@ -1,0 +1,14 @@
+rgs.arg_at_index1)
+
+
+####################################################################
+#Testing:
+    # Continous Integration: automate Testing when making changes
+    # Tools to check: Tox
+#variables, class attributes or functions with return
+####################################################################
+# unittest
+assertEqual(1,1)
+
+# pytest
+assert 1 == 1.0
