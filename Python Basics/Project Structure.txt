@@ -37,3 +37,26 @@ class Student2(Person):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
+
+####################################################################
+# Prototype Pattern:
+# call clone function (deepcopy of class itself)
+# create multiple similar objects
+# dynamic call of class(parameter) within dictionary
+####################################################################
+class Barracks(object):
+    def __init__(self):
+        self.units = {
+                        "knight": {
+                                1: Knight(1),
+                                2: Knight(2)
+                        },
+                        "archer": {
+                                1: Archer(1),
+                                2: Archer(2)
+                        }
+                    }
+    def build_unit(self, unit_type, level):
+        # call clone() function of knight/archer class for object in units dictionary
+        return self.units[unit_type][level].clone()
+
