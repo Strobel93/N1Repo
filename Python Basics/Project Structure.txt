@@ -37,9 +37,25 @@ class Student2(Person):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
+####################################################################
+# Class Nesting:
+####################################################################
+class user_class(used_class_object):
+    def __init__(self):
+        self.nested_used_object =  used_class_object
+
+    def use_nested_function():
+        return self.nested_used_object.function_of_used_class()
+
+class used_class():
+    def __init__(self):
+        self.attr = 69420
+
+    def function_of_used_class():
+        return self.attr
 
 ####################################################################
-# Prototype Pattern:
+# Prototype Pattern: call deepcopy of single Object instead of N = Object() inits
 # call clone function (deepcopy of class itself)
 # create multiple similar objects
 # dynamic call of class(parameter) within dictionary

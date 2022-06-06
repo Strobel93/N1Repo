@@ -1,14 +1,27 @@
-rgs.arg_at_index1)
-
-
 ####################################################################
 #Testing:
     # Continous Integration: automate Testing when making changes
     # Tools to check: Tox
 #variables, class attributes or functions with return
 ####################################################################
+def testfunc(n):
+    return n * n
+
 # unittest
 assertEqual(1,1)
 
 # pytest
 assert 1 == 1.0
+
+# replace/call multipl multiple paramters for same function
+@pytest.mark.parametrize(
+    ('param_name1','param_name2'),
+    (
+        (1,1),
+        (1,2),
+        (2,3),
+        (2,4),
+    ),
+)
+def test_func(param_name1,param_name2):
+    assert testfunc(param_name1) == param_name2
