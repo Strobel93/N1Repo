@@ -20,6 +20,8 @@ multi_line_style = (    # () > \ for line breaking
 #Import:
     # any directory with an __init__.py (empty/comments/imports) file is considered a Python package
     # import of a folder (package) with an init will run whatever is in init
+    # sort imports by name, first and last (from XXX import YYYY)
+    # use imports in different lines for readability?
 ###########################################
 import python_Datei_komplett
 from Python_Datei import funktion
@@ -40,6 +42,32 @@ for x in range(n, 0, -1):
 x += 2
 x *= 2
 
+
+for x in abc:
+    do_something():
+        break
+else:
+    # runs if for loop COMPLETES without break
+
+# Use return to return evaluations themseleves, not only the results
+def all_equal(a, b, c):
+    return a == b == c
+
+# Same Yield, different syntax
+from z in range(x):
+    yield z
+
+yield from range(x)
+
+#######################################
+#Strings
+#######################################
+x = 69
+y = 420
+s = 'kek {}'.format(x)
+s = 'kek {0}{1}{0}'.format(x,y)
+s = 'kek {s1}{s2}{s1}'.format(s1=x,s2=y)
+
 ###########################################
 # Functionsexectioon handling:
 # everythings an object
@@ -56,14 +84,6 @@ def func_handler(func, *args):
 func_handler(func1, 1)
 func_handler(func2, 1, 2)
 
-#######################################
-#Strings
-#######################################
-x = 69
-y = 420
-s = 'kek {}'.format(x)
-s = 'kek {0}{1}{0}'.format(x,y)
-s = 'kek {s1}{s2}{s1}'.format(s1=x,s2=y)
 
 ####################################################################
 #DynamischE Anzahl Parameter

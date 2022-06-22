@@ -38,14 +38,22 @@ class Student2(Person):
     super().__init__(fname, lname)
     self.graduationyear = year
 ####################################################################
-# Class Nesting:
+# Class Nesting: use classes as objects/list items in other class
 ####################################################################
-class user_class(used_class_object):
-    def __init__(self):
+class user_class():
+    def __init__(self, used_class_object):
         self.nested_used_object =  used_class_object
+        self.object_list = []
 
     def use_nested_function():
         return self.nested_used_object.function_of_used_class()
+
+    def add_class_to_list_attribute(self, used_class_object):
+        self.object_list.append(used_class_object)
+
+    def iterate_and_execute_over_list(self):
+        for list_object_element in self.object_list:
+            list_object_element.function_of_used_class()
 
 class used_class():
     def __init__(self):
