@@ -1,0 +1,36 @@
+####################################################################
+# Basics 
+####################################################################
+  # Shells:
+      # CMD = Basic Command Line (simple executions)
+      # Powershell(ISE)/Batchfile = allows for more complex scripting
+  # ::Comment
+  # CD, DIR/LS, IPCONFIG, PING, CLEAR/CLS
+  # ==, &, ||, (), *.txt, fileNameBegin*.txt
+  # Display Filecontent in shell
+      # CAT displayEntireFile.txt
+      # head 10 top10ofFile.txt 
+      # grep showOnlyContextThatStartsWith displayFile.txt
+  # echo 
+      # echo "string"
+      # echo dir
+      # print or to pass on arguments
+  # | is a pipeline
+      # stuff before pipeline is used as arguments/inputs for following
+      # pipechaining is possible XXX | YYYYY | ZZZZ
+      # (echo anyCMDcommand) | anyFile.extension
+  # findstr 
+      # Filter content
+      # dir | findstr .txt
+    
+  # Fileathpath\file.extenion (execute file)
+  # $varName = "string or Int content or result of a command like dir"
+  
+  # Export Output/Import content from/to file:
+      # $var < filepath\import_content_for_variable.txt
+      # dir > filetpath\create_or_replace.txt
+      # dir >> fipath\append_or_create_file.txt
+  
+####################################################################
+
+####################################################################
