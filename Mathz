@@ -16,9 +16,14 @@
     ∆ = Delta  	∆t = t1 - t0
     ∑ = Sigma ∑ xi= x1+x2+...+xn  (sum of all values in range)
     ∀ = for all
-    ∃, ∄ = there exists, there does not exist
     ∝ = proportional to/correlation between 2 variables x = 2y
     α --> 0,∞  = variable goes towards 0/infinity 
+    A⋂B = Intersection, cointained in both
+    A⋃B = Union, belongs to either or
+    A is (not) a subset/in/exists in/of B
+    	A⊂B/A⊄B
+	A∃B/A∄B
+	A∈B/A∉B
     
 ###############################################
 #Correlation & Covariance: 
