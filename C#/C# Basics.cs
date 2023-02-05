@@ -6,11 +6,18 @@
         -- Interpreted language like Python
         -- Microsoft developed language based on .net
         -- ObjectNamingConvention
+            --RegularConventionForMost
+            --exceptionConventions
+                --methodArguments
+                --localVariables
+                --fieldName
     Execution:
         -- every line of executing code must be inside a class
         -- ; at the end of codelines
         -- Main Method is the entry point, aka first method to be called
-        -- Operators: ==, !=, ||, &&, ! (not, aka is not reverse --> !(x=5))
+        -- Operators: 
+               ==, !=, ||, &&, ! (not, aka is not reverse --> !(x=5))
+               +=,-=
         -- "static" Keyword: 
             --can be called without instanciation of the object
             --faster than non static objects, due to internal pointer overhead
@@ -26,6 +33,7 @@ int number = 69;
 const string = "can not be altered";
 int x = 69, y = 70, z = 71;
 x = y = z = 70;
+x.GetType();
 
 string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
 int[] myNum = { 10, 20, 30, 40 }; // myNum[0]
@@ -35,10 +43,10 @@ string UserInput = Console.ReadLine();
 
 //Casting: tolerates data loss due to change of datatype
 float floater = 69.8;
-int iamnow69 = (int) floater;
+int iAmNow69 = (int) floater;
 
 //Converting: fails if info gets lost, aka its not 1:1 transformation
-string stringnow = Convert.ToString(floater);
+string stringNow = Convert.ToString(floater);
 
 //############################################################################
 // Basic Methods
@@ -59,7 +67,7 @@ string firstName = "John";
 string lastName = "Doe";
 string name = $"My full name is: {firstName} {lastName}";
 //############################################################################
-//Using is a Namespace, allows usage of everything within this Namespace
+//"using" is a Namespace, allows usage of everything within this Namespace
 //############################################################################
 //Version with  
 using System;
@@ -154,14 +162,13 @@ Base obj = New Base();
 obj.x;
 
 //Simple class with constructor function to overwrite base constructor 
-//classname = constructor name
 class Base
 {
     //Fieldlist
     public int F1;
     public int F2;
 
-    //Constructor
+    //classname = constructor name
     public Base(string P1, string P1)
     {
         this.F1 = P1;
@@ -172,51 +179,41 @@ class Base
 Base obj1 = new Base(69, 420);
 
 //Getter and Setter
-class GetSetClass
+namespace SetupClass
 {
-    //get { return Year; }   // get method
-    //set { Year = value; }  // set method
-    public int PublicYearOfBirth { get; set; }
-    private int PrivateYearOfBirth { get; set; }
-    public int MixYearOfBirth { get; private set; }
-
-    public int DependentYearOfBirth
-    {
-        get { return PublicYearOfBirth; }
-        set
+    class Person
+    {   //use the property to change the filed, inderect acess
+        private string name; // field
+        public string Name   // property
         {
-            if (value > 1900 || value < 3000)
-            { PublicYearOfBirth = value; }
+            get { return name; }
+            set { name = value; }
+        }
+        //Conditional set
+        public int yearOfBirth
+        {
+            get { return yearOfBirth; }
+            set
+            {
+                if (value > 1900 || value < 3000)
+                { yearOfBirth = value; }
+            }
         }
     }
 
-
-    public GetSetClass(int p1, int p2, int p3, int p4)
+    class Program
     {
-        this.PublicYearOfBirth = p1;
-        this.PrivateYearOfBirth = p2;
-        this.MixYearOfBirth = p3;
-        this.DependentYearOfBirth = p4;
+        static void Main(string[] args)
+        {   //call of getter/setter of the Property "Name" influences field "name"
+            Person myObj = new Person();
+            myObj.Name = "Liam";
+            Console.WriteLine(myObj.Name);
+            //Public field can be altered even later one
+            myObj.yearOfBirth = 420;
+            //Does not work because private
+            //Console.WriteLine(myObj.name);
+        }
     }
-
-}
-
-class execution
-{
-    public static void Main()
-    {
-        GetSetClass newGSClass = new GetSetClass(1, 2, 3, 2000);
-
-        //Public
-        newGSClass.PublicYearOfBirth = 69;
-        Console.WriteLine(newGSClass.PublicYearOfBirth);
-        Console.WriteLine(newGSClass.MixYearOfBirth);
-
-        //Private: can only be accessed within class (in this case constructor?)
-
-    }
-
-}
 
 //Inheritance
 class Vehicle  // base class (parent) 
