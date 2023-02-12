@@ -112,6 +112,7 @@ namespace ActualProgram
 //Methods
 //############################################################################
 //simple param
+//VOID = does not have a return
 static void ParamMethod(string param = "Default", int param2)
 {
     Console.WriteLine(param + param2);
@@ -228,7 +229,12 @@ class Vehicle  // base class (parent)
 class Car : Vehicle  // derived class (child)
 {
     public string modelName = "Mustang";  // Car field
-}
+    public override honk()
+        {
+            Console.WriteLine("Do NAT Tuut, tuut!");
+            base.honk(); //Uses the original honk version
+        }
+    }
 
 Car vroom = new Car();
 vroom.modelName;
@@ -316,4 +322,24 @@ string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
 foreach (string i in cars)
 {
     Console.WriteLine(i);
+}
+
+//############################################################################
+//Error Handling
+//############################################################################
+try
+{
+    //Dividing, not through 0
+    public int res;
+    res = 5 / 0;
+}
+catch
+{
+    Console.WriteLine("Can not Divide through 0")
+}
+finally
+{
+    //Optional, always executed after try or catch
+    Console.WriteLine("Prog Over")
+
 }
