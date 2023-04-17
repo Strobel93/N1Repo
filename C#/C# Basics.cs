@@ -12,6 +12,8 @@
                 --localVariables
                 --fieldName
     Execution:
+        -- Tripple /// above method/Class/... creates XML documentation    
+            --shows up when hovering over in tooltip
         -- every line of executing code must be inside a class
         -- ; at the end of codelines
         -- Main Method is the entry point, aka first method to be called
@@ -34,10 +36,13 @@ const string = "can not be altered";
 int x = 69, y = 70, z = 71;
 x = y = z = 70;
 x.GetType();
+///
 
 string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
 int[] myNum = { 10, 20, 30, 40 }; // myNum[0]
-
+List<int> NumbersList = new List<int>();
+NumbersList.Add(69);
+NumbersList[0];
 
 string UserInput = Console.ReadLine();
 
@@ -83,7 +88,7 @@ ImportedClass.ImportedMethod();
 ImportedNameSpace.ImportedClass.ImportedMethod();
 
 //############################################################################
-//Namespace = grouping code and make it calluable by referencing namespace
+//Namespace = grouping code and make it callable by referencing namespace
 //############################################################################
 namespace NamespaceName
 {
@@ -183,13 +188,11 @@ Base obj1 = new Base(69, 420);
 namespace SetupClass
 {
     class Person
-    {   //use the property to change the filed, inderect acess
+    {   //use the property to change the field, inderect access
         private string name; // field
-        public string Name   // property
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public string Name { get; set; }
+        public List<string> Hobbies{ get; set; } = new List<string>();
+
         //Conditional set
         public int yearOfBirth
         {
