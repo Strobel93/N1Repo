@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\C#"
+    "\\C#",
+    "\\C#\\Forms",
+    "\\C#\\Forms\\WindowsFormsApp1",
+    "\\C#\\Forms\\WindowsFormsApp1\\WindowsFormsApp1"
   ],
-  "SelectedNode": "\\C#\\C# Basics.cs",
+  "SelectedNode": "\\C#\\Forms\\WindowsFormsApp1\\WindowsFormsApp1\\Notes.cs",
   "PreviewInSolutionExplorer": false
 }
