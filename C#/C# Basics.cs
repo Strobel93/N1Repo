@@ -117,7 +117,7 @@ namespace ActualProgram
 //Methods
 //############################################################################
 //simple param
-//VOID = does not have a return
+//VOID = does not have a return (empty method)
 static void ParamMethod(string param = "Default", int param2)
 {
     Console.WriteLine(param + param2);

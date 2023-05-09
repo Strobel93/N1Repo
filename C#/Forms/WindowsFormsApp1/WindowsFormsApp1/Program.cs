@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,7 +14,12 @@ namespace WindowsFormsApp1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // RUN FORM FILE NAME
+
+
+            //Initialize Connection
+            SQLConnector con = new SQLConnector(); 
+
+            // RUN FORM 
             Application.Run(new WindowForm());
         }
     }
