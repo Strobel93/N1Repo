@@ -34,6 +34,9 @@ namespace WindowsFormsApp1
             // Call function and return the value to add a counter
             curr = ChangeText(curr);
 
+            //Using a button and form content to create a new class
+            //Append Class to List, Save Data somewhere, ....
+            DummyClass dc = new DummyClass(Int32.Parse(label1.Text), label2.Text);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -62,7 +65,5 @@ namespace WindowsFormsApp1
         {
 
         }
-
-
     }
 }

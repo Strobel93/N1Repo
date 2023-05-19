@@ -23,6 +23,9 @@
         -- "static" Keyword: 
             --can be called without instanciation of the object
             --faster than non static objects, due to internal pointer overhead
+        --Library Class/Project: 
+            --can be created and added in projectreferences 
+            --can be used with using LibraryNAmeXXX;
 */
 //############################################################################
 // Variables (int,long   float,double   char,string   bool)
@@ -86,6 +89,13 @@ using ImportedNameSpace;
 
 ImportedClass.ImportedMethod();
 ImportedNameSpace.ImportedClass.ImportedMethod();
+
+//using to create context/scope, use this/can use this for the code within {}
+//using calls dispose after {} block, which cleansup connections and stuff after
+using (Streamwriter, SqlConnection,....)
+{
+    //Do Stuff within the Stream,Connection,... context
+}
 
 //############################################################################
 //Namespace = grouping code and make it callable by referencing namespace
@@ -346,3 +356,31 @@ finally
     Console.WriteLine("Prog Over")
 
 }
+
+//############################################################################
+//SQL Connection
+//############################################################################
+using System.Data.SqlClient;
+
+string connetionString =  "Data Source=ServerName;Initial Catalog=DatabaseName;User ID=UserName;Password=Password"
+SqlConnection cnn = new SqlConnection(connetionString);
+SqlCommand myCommand = new SqlCommand("Select Name, Age from PeopleTable", cnn);
+
+
+try
+{
+    cnn.Open();
+    //Execute a Query
+    myCommand.ExecuteNonQuery();
+
+    //Retrieve Data from DB
+    using (SqlDataReader oReader = oCmd.ExecuteReader())
+    {
+        while (oReader.Read())
+        {
+            Console.Writeline(oReader["Name"].ToString());
+            Console.WriteLine(oReader["Age"].ToString());
+        }
+        cnn.Close();
+}
+

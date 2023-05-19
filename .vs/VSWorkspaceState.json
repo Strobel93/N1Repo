@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\C#"
+    "\\C#",
+    "\\C#\\Forms",
+    "\\C#\\Forms\\WindowsFormsApp1",
+    "\\C#\\Forms\\WindowsFormsApp1\\WindowsFormsApp1"
   ],
-  "SelectedNode": "\\Docu_GIT_GITHUB",
+  "SelectedNode": "\\C#\\Forms\\WindowsFormsApp1\\WindowsFormsApp1\\WindowForm.cs",
   "PreviewInSolutionExplorer": false
 }

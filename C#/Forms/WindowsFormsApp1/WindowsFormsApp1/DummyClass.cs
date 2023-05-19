@@ -8,7 +8,13 @@ namespace WindowsFormsApp1
 {
     internal class DummyClass
     {
-        public int outputInt {  get; set; }
-        public string stringOutput { get; set; }
+        public int intvalue {  get; set; }
+        public string stringvalue { get; set; }
+
+        public DummyClass(int intinput, string stringinput) 
+        { 
+            intvalue = intinput;
+            stringvalue = stringinput;
+        }
     }
 }

@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.CheckBoxButton = new System.Windows.Forms.Button();
             this.ChangeLabelButton = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -83,12 +86,31 @@
             this.ChangeLabelButton.UseVisualStyleBackColor = false;
             this.ChangeLabelButton.Click += new System.EventHandler(this.ChangeLabelButton_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label2.Font = new System.Drawing.Font("Bernard MT Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(483, 164);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 33);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "69";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // WindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(900, 506);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.ChangeLabelButton);
             this.Controls.Add(this.CheckBoxButton);
             this.Controls.Add(this.checkBox1);
@@ -108,6 +130,8 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button CheckBoxButton;
         private System.Windows.Forms.Button ChangeLabelButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
