@@ -98,6 +98,8 @@ print(df[(df['Year'] <= 2015)])
 print(df[df.Year <= 2015])
 print(df[df['Year'].notnull()])
 print(df[df.Year == 2015]['Rank'])
+print(df[['Team', 'Rank', 'Year']][df.Year>2015])
+print(df[['Team', 'Rank', 'Year']][(df['Year'] <= 2015)])
 print(df.loc[(df['Year'] <= 2015), ['Team', 'Rank', 'Year']])
 print(df.loc[(df.Year <= 2015), ['Team', 'Rank', 'Year']])
 
