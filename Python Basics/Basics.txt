@@ -89,13 +89,15 @@ func_handler(func2, 1, 2)
 #DynamischE Anzahl Parameter
 ####################################################################
 # Dynamic number of unnamed parameters, all packed into 1 tupple: *args
+# single * unpacks elements of list into individual objects/variables to be used as list of N* number of parameters
 def dyn1(*test):
 	print(test[0])
 	print(test[1])
 	for x in test:
 		print(x)
 
-# Dynamic number of named parameters / keyword arguments into 1 Dictionary: *kwargs
+# Dynamic number of named parameters / keyword arguments into 1 Dictionary: **kwargs
+# double * unpacks dicitionary, allows connecting of dictionary keys and parameters to map the dict values as parameters 
 def dyn2(**test):
 	print(test['a'])
 	print(test['b'])
