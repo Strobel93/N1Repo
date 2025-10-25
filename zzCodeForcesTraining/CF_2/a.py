@@ -1,0 +1,4 @@
+# https://codeforces.com/problemset/problem/2/A
+# Inputs:
+
+
